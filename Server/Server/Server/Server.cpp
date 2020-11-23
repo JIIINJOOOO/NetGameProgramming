@@ -72,21 +72,25 @@ void movePlayer(char keycode)
     switch (keycode)
     {
     case 'W':
+    case 'w':
         p1_info.PosY -= 1;
         std::cout << "w : °ª ¹Ù²ñ -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
 
         break;
-    case 'A':
+    case 'A' :
+    case 'a':
         p1_info.PosX -= 1;
         std::cout << "a : °ª ¹Ù²ñ -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
 
         break;
-    case 'S':
+    case 'S': 
+    case 's':
         p1_info.PosY += 1;
         std::cout << "s : °ª ¹Ù²ñ  -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
 
         break;
-    case 'D':
+    case 'D' :
+    case 'd':
         p1_info.PosX += 1;
         std::cout << "d : °ª ¹Ù²ñ -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
 
