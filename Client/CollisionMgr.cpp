@@ -149,6 +149,9 @@ void CCollisionMgr::CollisionRectWeapon(OBJLIST & dstLst, OBJLIST & srcLst)
 			if (IntersectRect(&rc, &dstRect, &srcRect))
 			{
 				pSrc->SetWeaponID(pDst->GetWeaponID());
+				// 201123 최대 총알 set 함수 추가
+				pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
+				pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());
 				pDst->IsDead();
 			}
 		}

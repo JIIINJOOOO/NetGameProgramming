@@ -33,7 +33,8 @@ HRESULT CWeapon::Initialize()
 	// 프레임 최적화
 	m_vecTexture = CTextureMgr::GetInstance()->GetTexVector(L"Weapon", L"Weapon");
 	SetWeaponID();
-
+	// 201123 무기별 최대 총알 설정
+	SetWeaponMaxBul();
 	return S_OK;
 }
 
@@ -113,6 +114,25 @@ void CWeapon::SetWeaponID()
 		break;
 	case 5:
 		m_eWeapon = WEAPONID::KNIFE;
+		break;
+	default:
+		break;
+	}
+}
+
+// 201123 무기별 최대총알 설정 함수
+void CWeapon::SetWeaponMaxBul()
+{
+	switch (m_eWeapon)
+	{
+	case RIFLE:
+		m_iMaxBulletNum = 5;
+		break;
+	case SMG:
+		m_iMaxBulletNum = 3;
+		break;
+	case SHOTGUN:
+		m_iMaxBulletNum = 2;
 		break;
 	default:
 		break;

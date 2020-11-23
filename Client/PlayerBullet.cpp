@@ -29,16 +29,19 @@ void CPlayerBullet::LateInit()
 	case WEAPONID::RIFLE:
 		m_wstrStateKey = L"Rifle";
 		m_fSpeed = 2.f;
+		m_iDmg = 10;
 		break;
 	case WEAPONID::SMG:
 		m_wstrStateKey = L"Smg";
 		m_fSpeed = 3.f;
 		m_fRange = 150.f;
+		m_iDmg = 8;
 		break;
 	case WEAPONID::SHOTGUN:
 		m_wstrStateKey = L"Shotgun";
 		m_fSpeed = 4.f;
 		m_fRange = 100.f;
+		m_iDmg = 15;
 		break;
 	default:
 		break;

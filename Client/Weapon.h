@@ -18,6 +18,7 @@ public:
 	virtual void Release() override;
 public:
 	void SetWeaponID();
-
+	// 201123 최대 총알 추가 함수
+	void SetWeaponMaxBul();
 };
 

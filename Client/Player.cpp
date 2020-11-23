@@ -17,6 +17,7 @@ CPlayer::~CPlayer()
 HRESULT CPlayer::Initialize()
 {
 	//m_tInfo.vPos = { 800.f, 800.f, 0.f };
+	// 플레이어 위치 지정
 	m_tInfo.vPos = { 400.f, 350.f, 0.f };
 
 
@@ -31,8 +32,7 @@ HRESULT CPlayer::Initialize()
 
 	m_fSpeed = 150.f;
 	m_fAngle = 0.f;
-
-	bIsInitFireRate = false;
+	//m_bIsSetMaxBul = false;
 
 	//m_pMouse = CObjMgr::GetInstance()->GetMouse();
 	// 프레임 최적화 -> 이거 하면 무기변경 애니메이션이 안됨
@@ -81,7 +81,6 @@ void CPlayer::LateUpdate()
 {
 	// 무기 먹으면 플레이어 이미지 바뀜
 	m_wstrObjKey = ChangeWeapon();
-	
 	// 애니메이션 재생 코드
 	if (m_eCurState != IDLE)
 	{
@@ -124,6 +123,7 @@ void CPlayer::Release()
 
 const TCHAR * CPlayer::ChangeWeapon()
 {
+	//m_iCurBulletNum = m_iMaxBulletNum;
 	// m_wstrObjKey를 바꿔서 무기 바뀐 애니메이션 재생 되게
 	switch (m_eWeapon)
 	{
@@ -131,12 +131,30 @@ const TCHAR * CPlayer::ChangeWeapon()
 		return L"PLAYER_UNARMED";
 		break;
 	case WEAPONID::RIFLE:
+		/*if (!m_bIsSetMaxBul)
+		{
+			m_iMaxBulletNum = 5;
+			m_iCurBulletNum = m_iMaxBulletNum;
+			m_bIsSetMaxBul = true;
+		}*/
 		return L"PLAYER_RIFLE";
 		break;
 	case WEAPONID::SMG:
+		//if (!m_bIsSetMaxBul)
+		//{
+		//	m_iMaxBulletNum = 3; // 201123 연발로 바꿀거 생각해서
+		//	m_iCurBulletNum = m_iMaxBulletNum;
+		//	m_bIsSetMaxBul = true;
+		//}
 		return L"PLAYER_SMG";
 		break; 
 	case WEAPONID::SHOTGUN:
+		/*if (!m_bIsSetMaxBul)
+		{
+			m_iMaxBulletNum = 2;
+			m_iCurBulletNum = m_iMaxBulletNum;
+			m_bIsSetMaxBul = true;
+		}*/
 		return L"PLAYER_SHOTGUN";
 		break;
 	case WEAPONID::BAT:
@@ -163,83 +181,90 @@ void CPlayer::KeyCheck()
 
 	if (CKeyMgr::GetInstance()->KeyDown(KEY_LBUTTON)) // 무기 별 총알 생성
 	{		
-		switch (m_eWeapon) 
+		/*--m_iCurBulletNum;
+		if (m_iCurBulletNum >= 0) */// 201123
+		--m_iCurBulletNum;
+		if (m_iCurBulletNum >= 0) 
 		{
-		case NO_WEAPON:
-			m_eCurState = STANCE::ATTACK;
-			m_wstrStateKey = L"Attack";
-			m_tFrame.fMax = 7.f;
-			CSoundMgr::GetInstance()->PlaySound(L"sndPunch.wav", CSoundMgr::EFFECT);
-			m_ePreState = m_eCurState;
-			break;
-		case RIFLE:
-			m_eCurState = STANCE::ATTACK;
-			m_wstrStateKey = L"Attack";
-			m_tFrame.fMax = 2.f;
-			m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, RIFLE));
-			CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
-			m_ePreState = m_eCurState;
-			break;
-		case SMG:
-			m_eCurState = STANCE::ATTACK;
-			m_wstrStateKey = L"Attack";
-			m_tFrame.fMax = 2.f;
-			m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, SMG));
-			CSoundMgr::GetInstance()->PlaySound(L"sndUzi.wav", CSoundMgr::EFFECT);
-			m_ePreState = m_eCurState;
-			break;
-		case SHOTGUN: // 샷건 여러발 나가는거 추가
-			m_eCurState = STANCE::ATTACK;
-			m_wstrStateKey = L"Attack";
-			m_tFrame.fMax = 12.f;
-			for (int j = -20; j < 20; j += 10)
+			switch (m_eWeapon)
 			{
-				D3DXMATRIX matRotZ;
-				D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle + j));
-				//m_tInfo.matWorld = matRotZ;
-				tInfo_sg.matWorld = matRotZ;
+			case NO_WEAPON:
+				m_eCurState = STANCE::ATTACK;
+				m_wstrStateKey = L"Attack";
+				m_tFrame.fMax = 7.f;
+				CSoundMgr::GetInstance()->PlaySound(L"sndPunch.wav", CSoundMgr::EFFECT);
+				m_ePreState = m_eCurState;
+				break;
+			case RIFLE:
+				m_eCurState = STANCE::ATTACK;
+				m_wstrStateKey = L"Attack";
+				m_tFrame.fMax = 2.f;
+				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, RIFLE));
+				CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
+				m_ePreState = m_eCurState;
+				break;
+			case SMG:
+				m_eCurState = STANCE::ATTACK;
+				m_wstrStateKey = L"Attack";
+				m_tFrame.fMax = 2.f;
+				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, SMG));
+				CSoundMgr::GetInstance()->PlaySound(L"sndUzi.wav", CSoundMgr::EFFECT);
+				m_ePreState = m_eCurState;
+				break;
+			case SHOTGUN: // 샷건 여러발 나가는거 추가
+				m_eCurState = STANCE::ATTACK;
+				m_wstrStateKey = L"Attack";
+				m_tFrame.fMax = 12.f;
+				for (int j = -20; j < 20; j += 10)
+				{
+					D3DXMATRIX matRotZ;
+					D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle + j));
+					//m_tInfo.matWorld = matRotZ;
+					tInfo_sg.matWorld = matRotZ;
 
-				/*회전 된 위치 마다 위치벡터, 방향벡터 갱신.*/
-				/*D3DXVec3TransformCoord(&m_tInfo.vPos, &m_tInfo.vLook, &m_tInfo.matWorld);
-				D3DXVec3TransformNormal(&m_tInfo.vDir, &m_tInfo.vLook, &m_tInfo.matWorld);*/
-				D3DXVec3TransformCoord(&tInfo_sg.vPos, &tInfo_sg.vLook, &tInfo_sg.matWorld);
-				D3DXVec3TransformNormal(&tInfo_sg.vDir, &tInfo_sg.vLook, &tInfo_sg.matWorld);
-				
-				//m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, SHOTGUN));
-				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, tInfo_sg.vDir, SHOTGUN));
+					/*회전 된 위치 마다 위치벡터, 방향벡터 갱신.*/
+					/*D3DXVec3TransformCoord(&m_tInfo.vPos, &m_tInfo.vLook, &m_tInfo.matWorld);
+					D3DXVec3TransformNormal(&m_tInfo.vDir, &m_tInfo.vLook, &m_tInfo.matWorld);*/
+					D3DXVec3TransformCoord(&tInfo_sg.vPos, &tInfo_sg.vLook, &tInfo_sg.matWorld);
+					D3DXVec3TransformNormal(&tInfo_sg.vDir, &tInfo_sg.vLook, &tInfo_sg.matWorld);
+
+					//m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, SHOTGUN));
+					m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, tInfo_sg.vDir, SHOTGUN));
+				}
+				CSoundMgr::GetInstance()->PlaySound(L"sndShotgun.wav", CSoundMgr::EFFECT);
+				m_ePreState = m_eCurState;
+				break;
+			case CLUB:
+				m_eCurState = STANCE::ATTACK;
+				m_wstrStateKey = L"Attack";
+				m_tFrame.fMax = 9.f;
+
+				CSoundMgr::GetInstance()->PlaySound(L"sndSwing2.wav", CSoundMgr::EFFECT);
+				m_ePreState = m_eCurState;
+				break;
+			case BAT:
+				m_eCurState = STANCE::ATTACK;
+				m_wstrStateKey = L"Attack";
+				m_tFrame.fMax = 9.f;
+
+				CSoundMgr::GetInstance()->PlaySound(L"sndSwing1.wav", CSoundMgr::EFFECT);
+				m_ePreState = m_eCurState;
+				break;
+			case KNIFE:
+				m_eCurState = STANCE::ATTACK;
+				m_wstrStateKey = L"Attack";
+				m_tFrame.fMax = 9.f;
+
+				CSoundMgr::GetInstance()->PlaySound(L"sndSwing1.wav", CSoundMgr::EFFECT);
+				m_ePreState = m_eCurState;
+				break;
+			case WEAPON_END:
+				break;
+			default:
+				break;
 			}
-			CSoundMgr::GetInstance()->PlaySound(L"sndShotgun.wav", CSoundMgr::EFFECT);
-			m_ePreState = m_eCurState;
-			break;
-		case CLUB:
-			m_eCurState = STANCE::ATTACK;
-			m_wstrStateKey = L"Attack";
-			m_tFrame.fMax = 9.f;
-
-			CSoundMgr::GetInstance()->PlaySound(L"sndSwing2.wav", CSoundMgr::EFFECT);
-			m_ePreState = m_eCurState;
-			break;
-		case BAT:
-			m_eCurState = STANCE::ATTACK;
-			m_wstrStateKey = L"Attack";
-			m_tFrame.fMax = 9.f;
-
-			CSoundMgr::GetInstance()->PlaySound(L"sndSwing1.wav", CSoundMgr::EFFECT);
-			m_ePreState = m_eCurState;
-			break;
-		case KNIFE:
-			m_eCurState = STANCE::ATTACK;
-			m_wstrStateKey = L"Attack";
-			m_tFrame.fMax = 9.f;
-
-			CSoundMgr::GetInstance()->PlaySound(L"sndSwing1.wav", CSoundMgr::EFFECT);
-			m_ePreState = m_eCurState;
-			break;
-		case WEAPON_END:
-			break;
-		default:
-			break;
 		}
+		
 		
 	}
 	if (CKeyMgr::GetInstance()->KeyPressing(KEY_RBUTTON))
@@ -277,5 +302,27 @@ void CPlayer::KeyCheck()
 		m_tInfo.vPos.x += m_fSpeed * fTime;
 	}
 
+	//201123 장전키 추가
+	if (CKeyMgr::GetInstance()->KeyDown(KEY_R))
+	{
+		//switch (m_eWeapon)
+		//{
+		//case WEAPONID::RIFLE:
+		//	m_iMaxBulletNum = 5;
+		//	m_iCurBulletNum = m_iMaxBulletNum;
+		//	break;
+		//case WEAPONID::SMG:
+		//	m_iMaxBulletNum = 3; // 201123 연발로 바꿀거 생각해서
+		//	m_iCurBulletNum = m_iMaxBulletNum;
+		//	break;
+		//case WEAPONID::SHOTGUN:
+		//	m_iMaxBulletNum = 2;
+		//	m_iCurBulletNum = m_iMaxBulletNum;
+		//	break;
+		//default:
+		//	break;
+		//}
+		m_iCurBulletNum = m_iMaxBulletNum;
+	}
 }
 

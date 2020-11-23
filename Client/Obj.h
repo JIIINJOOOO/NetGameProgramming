@@ -12,12 +12,17 @@ public:
 	const wstring& GetObjKey() { return m_wstrObjKey; }
 	const WEAPONID& GetWeaponID() { return m_eWeapon; } // 추가
 	//const vector<TEXINFO*>& GetVecTexture() const { return m_vecTexture; } // 추가 -> 충돌처리에 써보자
+	// 201123 최대/현재 총알 get
+	const int& GetWeaponMaxBul() { return m_iMaxBulletNum; } // 추가
+	const int& GetWeaponCurBul() { return m_iCurBulletNum; } // 추가
 
 public:
 	void SetPos(D3DXVECTOR3 vPos) { m_tInfo.vPos = vPos; } // 추가
 	void SetDir(D3DXVECTOR3 vDir) { m_tInfo.vDir = vDir; } // 추가
 	void SetWeaponID(WEAPONID eWeapon) { m_eWeapon = eWeapon; } // 추가
-
+	// 201123 최대/현재 총알 set -> 콜리젼매니저에서 호출
+	void SetWeaponMaxBul(int iMaxBulNum) { m_iMaxBulletNum = iMaxBulNum; }
+	void SetWeaponCurBul(int iMaxBulNum) { m_iCurBulletNum = iMaxBulNum; }
 public:
 	virtual HRESULT Initialize() PURE;
 	virtual void LateInit();
@@ -50,6 +55,10 @@ protected:
 	// 총 사거리
 	float	m_fRange;
 	int		m_iDmg;
+	// 총 최대 총알 / 현재 총알
+	int		m_iMaxBulletNum;
+	int		m_iCurBulletNum;
+
 	// 201117 플레이어 hp
 	int		m_iHP;
 
