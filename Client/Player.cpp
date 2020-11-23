@@ -39,6 +39,7 @@ HRESULT CPlayer::Initialize()
 	//m_vecTexture = CTextureMgr::GetInstance()->GetTexVector(m_wstrObjKey.c_str(), m_wstrStateKey.c_str());
 	m_pBulletLst = CObjMgr::GetInstance()->GetPlayerBulletLst();
 	m_iHP = 100;
+	m_iMoney = 1000;
 
 	return S_OK;
 }
@@ -267,6 +268,7 @@ void CPlayer::KeyCheck()
 		
 		
 	}
+
 	if (CKeyMgr::GetInstance()->KeyPressing(KEY_RBUTTON))
 	{
 		m_eCurState = STANCE::IDLE;
@@ -305,24 +307,16 @@ void CPlayer::KeyCheck()
 	//201123 장전키 추가
 	if (CKeyMgr::GetInstance()->KeyDown(KEY_R))
 	{
-		//switch (m_eWeapon)
-		//{
-		//case WEAPONID::RIFLE:
-		//	m_iMaxBulletNum = 5;
-		//	m_iCurBulletNum = m_iMaxBulletNum;
-		//	break;
-		//case WEAPONID::SMG:
-		//	m_iMaxBulletNum = 3; // 201123 연발로 바꿀거 생각해서
-		//	m_iCurBulletNum = m_iMaxBulletNum;
-		//	break;
-		//case WEAPONID::SHOTGUN:
-		//	m_iMaxBulletNum = 2;
-		//	m_iCurBulletNum = m_iMaxBulletNum;
-		//	break;
-		//default:
-		//	break;
-		//}
 		m_iCurBulletNum = m_iMaxBulletNum;
+	}
+	// 무기 구입키 추가
+	if (CKeyMgr::GetInstance()->KeyDown(KEY_E))
+	{
+		// 무기와 충돌중일때 키가 입력됐다면
+		if (m_bIsOverlap)
+		{
+			m_bIsPressedE = true;
+		}
 	}
 }
 

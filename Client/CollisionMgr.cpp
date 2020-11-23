@@ -148,11 +148,18 @@ void CCollisionMgr::CollisionRectWeapon(OBJLIST & dstLst, OBJLIST & srcLst)
 
 			if (IntersectRect(&rc, &dstRect, &srcRect))
 			{
-				pSrc->SetWeaponID(pDst->GetWeaponID());
+				//pSrc->SetWeaponID(pDst->GetWeaponID());
+				// 플레이어가 무기와 충돌중이다
+				pSrc->SetIsOverlap(true);
+				if (pSrc->GetIsPressedE() && (pSrc->GetMoney() >= pDst->GetMoney()))
+				{
+					pSrc->SetWeaponID(pDst->GetWeaponID());
+					pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
+					pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());
+					pSrc->SetMoney(pSrc->GetMoney() - pDst->GetMoney());
+				}
 				// 201123 최대 총알 set 함수 추가
-				pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
-				pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());
-				pDst->IsDead();
+				//pDst->IsDead();
 			}
 		}
 	}

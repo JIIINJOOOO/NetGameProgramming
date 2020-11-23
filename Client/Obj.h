@@ -15,6 +15,10 @@ public:
 	// 201123 최대/현재 총알 get
 	const int& GetWeaponMaxBul() { return m_iMaxBulletNum; } // 추가
 	const int& GetWeaponCurBul() { return m_iCurBulletNum; } // 추가
+	// 플레이어가 e를 눌렀는지 get
+	const bool& GetIsPressedE() { return m_bIsPressedE; } // 추가
+	// 총의 금액 get
+	const int& GetMoney() { return m_iMoney; } // 추가
 
 public:
 	void SetPos(D3DXVECTOR3 vPos) { m_tInfo.vPos = vPos; } // 추가
@@ -23,6 +27,12 @@ public:
 	// 201123 최대/현재 총알 set -> 콜리젼매니저에서 호출
 	void SetWeaponMaxBul(int iMaxBulNum) { m_iMaxBulletNum = iMaxBulNum; }
 	void SetWeaponCurBul(int iMaxBulNum) { m_iCurBulletNum = iMaxBulNum; }
+	// 플레이어가 무기와 충돌중인지 set
+	void SetIsOverlap(bool bIsOverlap) { m_bIsOverlap = bIsOverlap; }
+	// 플레이어의 소지금 set
+	void SetMoney(int iMoney) { m_iMoney = iMoney; }
+
+
 public:
 	virtual HRESULT Initialize() PURE;
 	virtual void LateInit();
@@ -61,6 +71,11 @@ protected:
 
 	// 201117 플레이어 hp
 	int		m_iHP;
+	// 201124 플레이어 소지금 / 총 가격
+	int		m_iMoney;
+	// 무기와 플레이어가 충돌하고 있을 때 e를 누르면 구입
+	bool	m_bIsOverlap; // 충돌중일때
+	bool	m_bIsPressedE; // e가 눌렸는지
 
 	bool	m_bIsInit;
 	bool	m_bIsDead;

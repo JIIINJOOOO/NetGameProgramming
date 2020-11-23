@@ -18,7 +18,7 @@ HRESULT CPlayerBullet::Initialize()
 	m_wstrStateKey = L"Rifle";
 	m_tFrame.fFrame = 0.f;
 	m_tFrame.fMax = 0.f;
-	m_fRange = 200.f;
+	m_fRange =150.f; // smg »ç°Å¸®(Á© ½ÑÃÑ)
 	return S_OK;
 }
 
@@ -29,13 +29,13 @@ void CPlayerBullet::LateInit()
 	case WEAPONID::RIFLE:
 		m_wstrStateKey = L"Rifle";
 		m_fSpeed = 2.f;
+		m_fRange = 230.f;
 		m_iDmg = 10;
 		break;
 	case WEAPONID::SMG:
 		m_wstrStateKey = L"Smg";
 		m_fSpeed = 3.f;
-		m_fRange = 150.f;
-		m_iDmg = 8;
+		m_iDmg = 3;
 		break;
 	case WEAPONID::SHOTGUN:
 		m_wstrStateKey = L"Shotgun";

@@ -32,6 +32,8 @@ void CKeyMgr::KeyCheck()
 		m_dwKey |= KEY_D; // 0001 |= 0010
 	if (GetAsyncKeyState('R') & 0x8000)
 		m_dwKey |= KEY_R;
+	if (GetAsyncKeyState('E') & 0x8000)
+		m_dwKey |= KEY_E;
 
 	// m_dwKey = 0011
 }
