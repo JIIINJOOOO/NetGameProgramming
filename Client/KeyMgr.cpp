@@ -52,8 +52,14 @@ void CKeyMgr::KeyCheck()
 
 	}
 	if (GetAsyncKeyState('R') & 0x8000)
+<<<<<<< Updated upstream
 	{
 		key.keycode = 'R';
+=======
+		m_dwKey |= KEY_R;
+	if (GetAsyncKeyState('E') & 0x8000)
+		m_dwKey |= KEY_E;
+>>>>>>> Stashed changes
 
 	}
 	if (GetAsyncKeyState('E') & 0x8000)

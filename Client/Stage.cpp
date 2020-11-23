@@ -63,6 +63,9 @@ HRESULT CStage::Initialize()
 	CObj* pPlayer = nullptr;
 	if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer)))
 		return E_FAIL;	
+	CObj* pPlayer2 = nullptr;
+	if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer2)))
+		return E_FAIL;
 
 	/*CObj* pEnemy1 = nullptr;
 	if (FAILED(CAbstractFactory<CEnemy>::CreateObj(pEnemy1, D3DXVECTOR3({ 500.f, 600.f, 0.f }), WEAPONID::RIFLE)));
@@ -70,6 +73,9 @@ HRESULT CStage::Initialize()
 
 	CObjMgr::GetInstance()->AddObject(pTerrain, OBJ_TERRAIN);
 	CObjMgr::GetInstance()->AddObject(pPlayer, OBJ_PLAYER);
+	// 클라에 플레이어 2명 다른 위치에 띄워보기
+	//CObjMgr::GetInstance()->AddObject(pPlayer2, OBJ_PLAYER);
+
 	
 	// 적 추가
 	// 중앙 복도

@@ -40,6 +40,21 @@ HRESULT CWeapon::Initialize()
 
 void CWeapon::LateInit()
 {
+	// 201124 무기 별 금액 설정
+	switch (m_eWeapon)
+	{
+	case RIFLE:
+		m_iMoney = 1000;
+		break;
+	case SMG:
+		m_iMoney = 500;
+		break;
+	case SHOTGUN:
+		m_iMoney = 1500;
+		break;
+	default:
+		break;
+	}
 }
 
 int CWeapon::Update()
@@ -129,7 +144,7 @@ void CWeapon::SetWeaponMaxBul()
 		m_iMaxBulletNum = 5;
 		break;
 	case SMG:
-		m_iMaxBulletNum = 3;
+		m_iMaxBulletNum = 10;
 		break;
 	case SHOTGUN:
 		m_iMaxBulletNum = 2;
