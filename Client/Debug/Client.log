@@ -1,4 +1,33 @@
-﻿  Player.cpp
+﻿  stdafx.cpp
+  Client.cpp
+  CollisionMgr.cpp
+C:\Users\bong1\OneDrive\바탕 화면\게임엔진 텀프\NetGameProgramming\Client\CollisionMgr.cpp(163,16): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Deco.cpp
+  Device.cpp
+  Door.cpp
+  KeyMgr.cpp
+  Maingame.cpp
+  MapMgr.cpp
+  Mouse.cpp
+  MultiTexture.cpp
+  Obj.cpp
+  ObjMgr.cpp
+  Player.cpp
+  PlayerBullet.cpp
+  Scene.cpp
+  SceneMgr.cpp
+  ScrollMgr.cpp
+  SingleTexture.cpp
+  SoundMgr.cpp
   Stage.cpp
   코드를 생성하고 있습니다...
-  Client.vcxproj -> E:\KPU\2020-2\3-2 넷겜플\TermProject\NetGameProgramming\Debug\Client.exe
+  컴파일하고 있습니다...
+  Terrain.cpp
+  Texture.cpp
+  TextureMgr.cpp
+  TimeMgr.cpp
+  Wall.cpp
+  Weapon.cpp
+C:\Users\bong1\OneDrive\바탕 화면\게임엔진 텀프\NetGameProgramming\Client\Weapon.cpp(23,20): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  Client.vcxproj -> C:\Users\bong1\OneDrive\바탕 화면\게임엔진 텀프\NetGameProgramming\Debug\Client.exe

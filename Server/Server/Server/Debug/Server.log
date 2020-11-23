@@ -1,0 +1,4 @@
+﻿  Server.cpp
+C:\Users\bong1\OneDrive\바탕 화면\게임엔진 텀프\NetGameProgramming\Server\Server\Server\Server.cpp(91,10): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+C:\Users\bong1\OneDrive\바탕 화면\게임엔진 텀프\NetGameProgramming\Server\Server\Server\Server.cpp(155,10): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+  Server.vcxproj -> C:\Users\bong1\OneDrive\바탕 화면\게임엔진 텀프\NetGameProgramming\Server\Server\Debug\Server.exe
