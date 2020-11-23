@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="00.MainFrm">
+      <UniqueIdentifier>{5f83148a-0778-45a8-86a9-41bf68f7ba3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Document">
+      <UniqueIdentifier>{56772630-f42f-40b5-8c41-ae38f856f649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.View">
+      <UniqueIdentifier>{e56dc931-bf15-4191-a8f6-8c23e1cb88d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{7eedc381-1e6e-4a68-9fc8-2d03dc6182ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Device">
+      <UniqueIdentifier>{b6319c8e-c8da-46d9-a400-dbc0549e6556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.FormView">
+      <UniqueIdentifier>{e8b7ae8a-bcff-479d-8581-2b2bafefe466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.FormView\00.MyForm">
+      <UniqueIdentifier>{688db1ed-33b3-4d75-9668-6a004b38ac67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.View\00.MiniView">
+      <UniqueIdentifier>{87ed3692-a13d-4dc3-9cf5-3f5b634480c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Dialog">
+      <UniqueIdentifier>{fb74f827-b6f7-42dc-b39e-deb41f3012d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Dialog\00.UnitTool">
+      <UniqueIdentifier>{f2e59633-1d53-4557-9825-8c336da01c7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Dialog\01.MapTool">
+      <UniqueIdentifier>{492541de-9474-4f65-b961-6042b40fa256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Resources">
+      <UniqueIdentifier>{5ea0b422-ea0e-409e-944d-9785d8f71e3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Resources\00.TextureMgr">
+      <UniqueIdentifier>{0f368dde-9852-4091-b976-08ecb7daccfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Resources\00.TextureMgr\00.Texture">
+      <UniqueIdentifier>{dcdb34b4-7e16-4220-a4b3-1348a20c3354}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Resources\00.TextureMgr\00.Texture\00.SingleTexture">
+      <UniqueIdentifier>{4db245d0-a431-4e4c-ba40-41346846afba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Resources\00.TextureMgr\00.Texture\01.MultiTexture">
+      <UniqueIdentifier>{3becf4a5-b593-4850-bf49-bab6f9d72a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. FileInfo">
+      <UniqueIdentifier>{69e93ea1-d0cb-4bdb-8b88-a5239cd86ed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Dialog\02.PopUpWnd">
+      <UniqueIdentifier>{39279c4d-773c-4e8e-9e65-f415cf53eaf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Dialog\02.PopUpWnd\00.MySheet">
+      <UniqueIdentifier>{1f2df4bf-d00b-4595-8d02-dadd402cd289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Dialog\02.PopUpWnd\00.MySheet\00.MyPage1">
+      <UniqueIdentifier>{15e855ea-4d43-4937-b6f3-e34943881778}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Dialog\02.PopUpWnd\00.MySheet\01.MyPage2">
+      <UniqueIdentifier>{4131676d-6866-4958-91f6-b7150e6aecf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Dialog\03.PathFind">
+      <UniqueIdentifier>{390bb12b-7754-40e9-ba40-6a341534f496}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Map">
+      <UniqueIdentifier>{15a14b09-150a-41cd-92be-3b6da8064a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Map\00.Floor">
+      <UniqueIdentifier>{81a921cb-8f61-494e-8d5c-6b1e2ff1e0be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Dialog\00.EnemyTool">
+      <UniqueIdentifier>{45dfbe1f-40a5-4ab5-b8f7-fb8c85e2e9d3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainFrm.h">
+      <Filter>00.MainFrm</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolDoc.h">
+      <Filter>01.Document</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolView.h">
+      <Filter>02.View</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>98.Device</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleTexture.h">
+      <Filter>97.Resources\00.TextureMgr\00.Texture\00.SingleTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>97.Resources\00.TextureMgr\00.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureMgr.h">
+      <Filter>97.Resources\00.TextureMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiTexture.h">
+      <Filter>97.Resources\00.TextureMgr\00.Texture\01.MultiTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="MyForm.h">
+      <Filter>03.FormView\00.MyForm</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniView.h">
+      <Filter>02.View\00.MiniView</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTool.h">
+      <Filter>04.Dialog\00.UnitTool</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTool.h">
+      <Filter>04.Dialog\01.MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="FileInfo.h">
+      <Filter>06. FileInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="PopupWnd.h">
+      <Filter>04.Dialog\02.PopUpWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="MySheet.h">
+      <Filter>04.Dialog\02.PopUpWnd\00.MySheet</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPage1.h">
+      <Filter>04.Dialog\02.PopUpWnd\00.MySheet\00.MyPage1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPage2.h">
+      <Filter>04.Dialog\02.PopUpWnd\00.MySheet\01.MyPage2</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFind.h">
+      <Filter>04.Dialog\03.PathFind</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>05.Map\00.Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTool.h">
+      <Filter>04.Dialog\00.EnemyTool</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>00.MainFrm</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolDoc.cpp">
+      <Filter>01.Document</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolView.cpp">
+      <Filter>02.View</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>98.Device</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleTexture.cpp">
+      <Filter>97.Resources\00.TextureMgr\00.Texture\00.SingleTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>97.Resources\00.TextureMgr\00.Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureMgr.cpp">
+      <Filter>97.Resources\00.TextureMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiTexture.cpp">
+      <Filter>97.Resources\00.TextureMgr\00.Texture\01.MultiTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="MyForm.cpp">
+      <Filter>03.FormView\00.MyForm</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniView.cpp">
+      <Filter>02.View\00.MiniView</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTool.cpp">
+      <Filter>04.Dialog\00.UnitTool</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTool.cpp">
+      <Filter>04.Dialog\01.MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInfo.cpp">
+      <Filter>06. FileInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupWnd.cpp">
+      <Filter>04.Dialog\02.PopUpWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="MySheet.cpp">
+      <Filter>04.Dialog\02.PopUpWnd\00.MySheet</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPage1.cpp">
+      <Filter>04.Dialog\02.PopUpWnd\00.MySheet\00.MyPage1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPage2.cpp">
+      <Filter>04.Dialog\02.PopUpWnd\00.MySheet\01.MyPage2</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFind.cpp">
+      <Filter>04.Dialog\03.PathFind</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>05.Map\00.Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTool.cpp">
+      <Filter>04.Dialog\00.EnemyTool</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Tool.ico">
+      <Filter>99.Default</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>99.Default</Filter>
+    </Image>
+    <Image Include="res\ToolDoc.ico">
+      <Filter>99.Default</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tool.rc">
+      <Filter>99.Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Tool.rc2">
+      <Filter>99.Default</Filter>
+    </None>
+  </ItemGroup>
+</Project>
