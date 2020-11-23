@@ -16,6 +16,17 @@ struct Key
     char ckey;
 };
 Key key;
+
+typedef struct PlayerInfo
+{
+    int PosX;
+    int PosY;
+    int playerID;
+    int HP;
+    int money;
+};
+PlayerInfo p1_info;
+
 // 소켓 함수 오류 출력 후 종료
 void err_quit(const char* msg)
 {
@@ -43,19 +54,52 @@ void err_display(const char* msg)
     LocalFree(lpMsgBuf);
 }
 
-typedef struct Files {
-    char filename[256];
-    unsigned int byte;
-}Files;
 
-DWORD WINAPI ProcessClient(LPVOID arg);
+DWORD WINAPI RecvFromClient(LPVOID arg);
+DWORD WINAPI SendToClient(LPVOID arg);
+
+void initPlayerInfo(PlayerInfo* pInfo)
+{
+    pInfo->PosX = 400;
+    pInfo->PosY = 350;
+    pInfo->HP = 100;
+    pInfo->money = 1000;
+}
+
+
+void movePlayer(char keycode) 
+{
+    switch (keycode)
+    {
+    case 'W':
+        p1_info.PosY -= 1;
+        std::cout << "w : 값 바뀜 -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
+
+        break;
+    case 'A':
+        p1_info.PosX -= 1;
+        std::cout << "a : 값 바뀜 -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
+
+        break;
+    case 'S':
+        p1_info.PosY += 1;
+        std::cout << "s : 값 바뀜  -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
+
+        break;
+    case 'D':
+        p1_info.PosX += 1;
+        std::cout << "d : 값 바뀜 -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
+
+        break;
+    default:
+        break;
+    }
+}
 
 int recvn(SOCKET s, char* buf, int len, int flags);
 
 
 // 사용자 정의 데이터 수신 함수
-
-
 
 int main(int argc, char* argv[])
 {
@@ -82,14 +126,17 @@ int main(int argc, char* argv[])
     // listen()
     retval = listen(listen_sock, SOMAXCONN);
     if (retval == SOCKET_ERROR) err_quit("listen()");
-    int acceptCount = 0;
     // 데이터 통신에 사용할 변수
     SOCKET client_sock;
 
     SOCKADDR_IN clientaddr;
     int addrlen;
     char buf[BUFSIZE];
-    HANDLE hThread;
+    HANDLE recvThread;
+    HANDLE sendThread;
+
+    initPlayerInfo(&p1_info);
+    p1_info.playerID = 1;
 
     printf("서버 열림\n");
     while (1) {
@@ -103,18 +150,13 @@ int main(int argc, char* argv[])
         }
 
 
-        hThread = CreateThread(NULL, 0, ProcessClient, (LPVOID)client_sock, 0, &threadId[acceptCount]);
-        acceptCount = (acceptCount + 1) % 2;
-        if (hThread == NULL) { closesocket(client_sock); }
-        else { CloseHandle(hThread); }
+        recvThread = CreateThread(NULL, 0, RecvFromClient, (LPVOID)client_sock, 0,NULL);
+        
+        if (recvThread == NULL) { closesocket(client_sock); }
+        else { CloseHandle(recvThread); }
 
 
-
-
-
-
-
-
+     
     }
 
 
@@ -146,7 +188,7 @@ int recvn(SOCKET s, char* buf, int len, int flags)
     return (len - left);
 }
 
-DWORD WINAPI ProcessClient(LPVOID arg)
+DWORD WINAPI RecvFromClient(LPVOID arg)
 {
     SOCKET client_sock = (SOCKET)arg;
     int retval;
@@ -170,8 +212,20 @@ DWORD WINAPI ProcessClient(LPVOID arg)
             return 0;
         }
 
-        std::cout << key.ckey << std::endl;
+        //std::cout << key.ckey << std::endl;
+        movePlayer(key.ckey);
 
+        //std::cout << p1_info.PosX << "," << p1_info.PosY << std::endl;
+
+        retval = send(client_sock, (char*)&p1_info, sizeof(PlayerInfo), 0);
+        if (retval == SOCKET_ERROR) {
+            err_display("send()");
+            return 0;
+        }
+        else if (retval == 0)
+        {
+            return 0;
+        }
     }
 
 ;
@@ -182,4 +236,5 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
     return 0;
 }
+
 

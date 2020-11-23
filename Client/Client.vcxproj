@@ -164,6 +164,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="ScrollMgr.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="SingleTexture.h" />
     <ClInclude Include="SoundMgr.h" />
     <ClInclude Include="Stage.h" />

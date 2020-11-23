@@ -97,3 +97,17 @@ typedef struct tagFrame
 	float fMax;	// 최대 재생 길이.
 
 }FRAME;
+
+typedef struct PlayerInfo
+{
+	int PosX;
+	int PosY;
+	int playerID;
+	int HP;
+	int money;
+};
+
+typedef struct KeyInput 
+{
+	char keycode;
+};

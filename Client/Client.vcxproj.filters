@@ -189,6 +189,9 @@
     <ClInclude Include="PlayerBullet.h">
       <Filter>01.Object\05.Bullet\01.PlayerBullet</Filter>
     </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

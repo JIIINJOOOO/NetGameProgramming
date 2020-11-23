@@ -2,7 +2,15 @@
 #include "Player.h"
 #include "Mouse.h"
 #include "PlayerBullet.h"
-
+#include "Struct.h"
+#include <iostream>
+//네트워크통신을 위한 전역변수
+extern int retval;
+extern WSADATA wsa;
+extern SOCKET sock;
+extern SOCKADDR_IN serveraddr;
+extern void err_display(char* msg);
+extern void err_quit(char* msg);
 
 CPlayer::CPlayer()
 {
@@ -51,6 +59,7 @@ void CPlayer::LateInit()
 int CPlayer::Update()
 {
 	CObj::LateInit();
+	PlayerInfo playerinfo;
 
 	KeyCheck();
 
@@ -61,6 +70,13 @@ int CPlayer::Update()
 
 	m_fAngle = -180.f * atan2(CMouse::GetMousePos().y - m_tInfo.vDir.y - vPos.y, CMouse::GetMousePos().x - m_tInfo.vDir.x - vPos.x) / D3DX_PI;
 
+	retval = recv(sock, (char*)&playerinfo, sizeof(PlayerInfo), 0);
+	if (retval == SOCKET_ERROR) {
+		err_display("recv()");
+	}
+	std::cout << playerinfo.PosX << "," << playerinfo.PosY << endl;
+	vPos.x = playerinfo.PosX;
+	vPos.y = playerinfo.PosY;
 
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
 	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));

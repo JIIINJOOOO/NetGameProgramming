@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "KeyMgr.h"
-
 IMPLEMENT_SINGLETON(CKeyMgr)
 
 CKeyMgr::CKeyMgr()
@@ -13,27 +12,60 @@ CKeyMgr::~CKeyMgr()
 {
 }
 
+
+extern int retval;
+extern WSADATA wsa;
+extern SOCKET sock;
+extern SOCKADDR_IN serveraddr;
+extern void err_display(char* msg);
+extern void err_quit(char* msg);
 // 매 프레임마다 호출하여 눌린 키를 조사한다.
 void CKeyMgr::KeyCheck()
 {
-	m_dwKey = 0;	// 0000
+	KeyInput key;
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-		m_dwKey |= KEY_LBUTTON;	// 0000 |= 0001
+	{
+		key.keycode = 'L';
+	}
 	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
-		m_dwKey |= KEY_RBUTTON; // 0001 |= 0010
+	{
+		key.keycode = 'R';
+	}
 	if (GetAsyncKeyState('W') & 0x8000)
-		m_dwKey |= KEY_W;
-	if (GetAsyncKeyState('S') & 0x8000)
-		m_dwKey |= KEY_S;
-	if (GetAsyncKeyState('A') & 0x8000)
-		m_dwKey |= KEY_A;
-	if (GetAsyncKeyState('D') & 0x8000)
-		m_dwKey |= KEY_D; // 0001 |= 0010
-	if (GetAsyncKeyState('R') & 0x8000)
-		m_dwKey |= KEY_R;
+	{
+		key.keycode = 'W';
 
-	// m_dwKey = 0011
+	}
+	if (GetAsyncKeyState('S') & 0x8000)
+	{
+		key.keycode = 'S';
+	}
+	if (GetAsyncKeyState('A') & 0x8000)
+	{
+		key.keycode = 'A';
+
+	}
+	if (GetAsyncKeyState('D') & 0x8000)
+	{
+		key.keycode = 'D';
+
+	}
+	if (GetAsyncKeyState('R') & 0x8000)
+	{
+		key.keycode = 'R';
+
+	}
+	if (GetAsyncKeyState('E') & 0x8000)
+	{
+		key.keycode = 'E';
+
+	}
+	retval = send(sock, (char *)&key, sizeof(KeyInput), 0);
+	if (retval == SOCKET_ERROR) {
+		err_display("send()");
+		return;
+	}
 }
 
 bool CKeyMgr::KeyUp(DWORD dwKey)

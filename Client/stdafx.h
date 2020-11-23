@@ -28,7 +28,6 @@
 #include <string>
 
 
-
 using namespace std;
 
 // d3d9: 장치(GPU)를 제어하기 위한 자료형이나 함수를 제공한다.
@@ -70,3 +69,11 @@ using namespace std;
 #include "AstarMgr.h"
 #include "SoundMgr.h"
 
+//네트워크 헤더
+#define _WINSOCK_DEPRECATED_NO_WARNINGS // 최신 VC++ 컴파일 시 경고 방지
+#pragma comment(lib, "ws2_32")
+#include <winsock2.h>
+#define SERVERIP   "127.0.0.1"
+#define SERVERPORT 9000
+
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")//콘솔창출력
