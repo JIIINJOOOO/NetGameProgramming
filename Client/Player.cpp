@@ -76,8 +76,8 @@ int CPlayer::Update()
 		err_display("recv()");
 	}
 	std::cout << playerinfo.PosX << "," << playerinfo.PosY << endl;
-	vPos.x = playerinfo.PosX;
-	vPos.y = playerinfo.PosY;
+	/*vPos.x = playerinfo.PosX;
+	vPos.y = playerinfo.PosY;*/
 
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
 	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));
