@@ -1,6 +1,1 @@
-﻿  KeyMgr.cpp
-  Player.cpp
-C:\Users\bong1\OneDrive\바탕 화면\게임엔진 텀프\NetGameProgramming\Client\Player.cpp(80,21): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\bong1\OneDrive\바탕 화면\게임엔진 텀프\NetGameProgramming\Client\Player.cpp(81,21): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
-  Client.vcxproj -> C:\Users\bong1\OneDrive\바탕 화면\게임엔진 텀프\NetGameProgramming\Debug\Client.exe
+﻿  Client.vcxproj -> F:\KPU\3-2 NetworkGameProgramming\TermProject\Debug\Client.exe
