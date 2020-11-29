@@ -37,9 +37,6 @@
     <Filter Include="98.Managers\03.SceneMgr\00.Scene">
       <UniqueIdentifier>{d065d7d7-37e0-4f59-a109-9e32486a3cd3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="98.Managers\03.SceneMgr\00.Scene\00.Logo">
-      <UniqueIdentifier>{8bfa7a1c-0340-4b34-87e8-82ede5977a1c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98.Managers\03.SceneMgr\00.Scene\01.Menu">
       <UniqueIdentifier>{f0df402a-4f4c-4af4-8e5c-812da8279600}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,9 @@
     </Filter>
     <Filter Include="01.Object\05.Bullet\01.PlayerBullet">
       <UniqueIdentifier>{bb7fcb00-d9dd-4075-bcaa-a121cf9a4491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers\03.SceneMgr\00.Scene\00.Logo">
+      <UniqueIdentifier>{8bfa7a1c-0340-4b34-87e8-82ede5977a1c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

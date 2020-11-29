@@ -110,4 +110,12 @@ typedef struct PlayerInfo
 typedef struct KeyInput 
 {
 	char keycode;
+	int playerID;
+
+};
+
+typedef struct PlayerNumCheck 
+{
+	int enterPlayerNum;
+	int playerID;
 };

@@ -5,15 +5,19 @@
 #include <stdio.h>
 #include <iostream>
 
-
+using namespace std;
 #define SERVERPORT 9000
 #define BUFSIZE    5
 
-static DWORD threadId[2];
+CRITICAL_SECTION cs;
 
+
+static DWORD threadId[2];
+int acceptCount = 0;
 struct Key
 {
     char ckey;
+    int playerID;
 };
 Key key;
 
@@ -26,6 +30,18 @@ typedef struct PlayerInfo
     int money;
 };
 PlayerInfo p1_info;
+PlayerInfo p2_info;
+
+
+HANDLE waitPlayerEnterEvent;
+
+typedef struct PlayerNumCheck //로그인 인원수 체크
+{
+    int enterPlayerNum;
+    int playerID;
+};
+
+PlayerNumCheck playernum;
 
 // 소켓 함수 오류 출력 후 종료
 void err_quit(const char* msg)
@@ -36,7 +52,7 @@ void err_quit(const char* msg)
         NULL, WSAGetLastError(),
         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
         (LPTSTR)&lpMsgBuf, 0, NULL);
-    MessageBox(NULL, (LPCTSTR)lpMsgBuf, (LPCWSTR)msg, MB_ICONERROR);
+    MessageBox(NULL, (LPCTSTR)lpMsgBuf, msg, MB_ICONERROR);
     LocalFree(lpMsgBuf);
     exit(1);
 }
@@ -56,43 +72,70 @@ void err_display(const char* msg)
 
 
 DWORD WINAPI RecvFromClient(LPVOID arg);
-DWORD WINAPI SendToClient(LPVOID arg);
 
-void initPlayerInfo(PlayerInfo* pInfo)
+
+void initPlayerInfo(PlayerInfo* pInfo, int playerNum)
 {
-    pInfo->PosX = 400;
-    pInfo->PosY = 350;
+    if (playerNum == 1)
+    {
+        pInfo->playerID = 1;
+        pInfo->PosX = 200;
+        pInfo->PosY = 350;
+    }
+    else 
+    {
+        pInfo->playerID = 2;
+        pInfo->PosX = 850;
+        pInfo->PosY = 350;
+    }
+
     pInfo->HP = 100;
     pInfo->money = 1000;
 }
 
 
-void movePlayer(char keycode) 
+void movePlayer(char keycode, int playerID) 
 {
     switch (keycode)
     {
     case 'W':
     case 'w':
-        p1_info.PosY -= 1;
-        std::cout << "w : 값 바뀜 -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
+        if (playerID == 1)
+        {
+            p1_info.PosY -= 1;
+        }
+        else if (playerID == 2) 
+        {
+            p2_info.PosY -= 1;
+        }
+        cout << playerID << endl;
 
         break;
     case 'A' :
     case 'a':
-        p1_info.PosX -= 1;
-        std::cout << "a : 값 바뀜 -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
+        if (playerID == 1)
+            p1_info.PosX -= 1;
+        else if (playerID == 2)
+            p2_info.PosX -= 1;
+        cout << playerID << endl;
 
         break;
     case 'S': 
     case 's':
-        p1_info.PosY += 1;
-        std::cout << "s : 값 바뀜  -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
+        if (playerID == 1)
+            p1_info.PosY += 1;
+        else if (playerID == 2)
+            p2_info.PosY += 1;
+        cout << playerID << endl;
 
         break;
     case 'D' :
     case 'd':
-        p1_info.PosX += 1;
-        std::cout << "d : 값 바뀜 -> " << p1_info.PosX << "," << p1_info.PosY << std::endl;
+        if (playerID == 1)
+            p1_info.PosX += 1;
+        else if (playerID == 2)
+            p2_info.PosX += 1;
+        cout << playerID << endl;
 
         break;
     default:
@@ -107,8 +150,15 @@ int recvn(SOCKET s, char* buf, int len, int flags);
 
 int main(int argc, char* argv[])
 {
-    int retval;
 
+    InitializeCriticalSection(&cs); // 임계영역 초기화
+
+    int retval;
+    playernum.enterPlayerNum = 0;//플레이어 인원수 초기화
+    waitPlayerEnterEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+    if (waitPlayerEnterEvent == NULL) return 1;
+   /* waitSendPlayerEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+    if (waitSendPlayerEvent == NULL) return 1;*/
     // 윈속 초기화
     WSADATA wsa;
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -137,10 +187,9 @@ int main(int argc, char* argv[])
     int addrlen;
     char buf[BUFSIZE];
     HANDLE recvThread;
-    HANDLE sendThread;
 
-    initPlayerInfo(&p1_info);
-    p1_info.playerID = 1;
+    initPlayerInfo(&p1_info,1);
+    initPlayerInfo(&p2_info,2);
 
     printf("서버 열림\n");
     while (1) {
@@ -154,8 +203,9 @@ int main(int argc, char* argv[])
         }
 
 
-        recvThread = CreateThread(NULL, 0, RecvFromClient, (LPVOID)client_sock, 0,NULL);
-        
+        recvThread = CreateThread(NULL, 0, RecvFromClient, (LPVOID)client_sock, 0, &threadId[acceptCount]);
+        acceptCount = (acceptCount + 1) % 2;
+
         if (recvThread == NULL) { closesocket(client_sock); }
         else { CloseHandle(recvThread); }
 
@@ -164,9 +214,15 @@ int main(int argc, char* argv[])
     }
 
 
+    CloseHandle(waitPlayerEnterEvent);
+   // CloseHandle(waitSendPlayerEvent);
+
+    DeleteCriticalSection(&cs);
 
     // closesocket()
     closesocket(listen_sock);
+
+
 
     // 윈속 종료
     WSACleanup();
@@ -199,16 +255,17 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
     SOCKADDR_IN clientaddr;
     int addrlen;
     char buf[3];
-    
-
+    DWORD currentThreadId = GetCurrentThreadId();
     // 클라이언트 정보 얻기
     addrlen = sizeof(clientaddr);
     getpeername(client_sock, (SOCKADDR*)&clientaddr, &addrlen);
-
-    while (true) {
-        retval = recv(client_sock, (char*)&key, sizeof(Key), 0);
+    
+    playernum.enterPlayerNum++;
+    if (currentThreadId == threadId[0]) {
+        std::cout << playernum.enterPlayerNum << std::endl;
+        retval = send(client_sock, (char*)&playernum, sizeof(PlayerNumCheck), 0);
         if (retval == SOCKET_ERROR) {
-            err_display("recv()");
+            err_display("send()");
             return 0;
         }
         else if (retval == 0)
@@ -216,12 +273,11 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
             return 0;
         }
 
-        //std::cout << key.ckey << std::endl;
-        movePlayer(key.ckey);
+        WaitForSingleObject(waitPlayerEnterEvent, INFINITE);
 
-        //std::cout << p1_info.PosX << "," << p1_info.PosY << std::endl;
-
-        retval = send(client_sock, (char*)&p1_info, sizeof(PlayerInfo), 0);
+        playernum.playerID = 1;
+        std::cout << playernum.enterPlayerNum << std::endl;
+        retval = send(client_sock, (char*)&playernum, sizeof(PlayerNumCheck), 0);
         if (retval == SOCKET_ERROR) {
             err_display("send()");
             return 0;
@@ -232,7 +288,72 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
         }
     }
 
-;
+	if (currentThreadId == threadId[1]) {
+        playernum.playerID = 2;
+		std::cout << playernum.enterPlayerNum << std::endl;
+		retval = send(client_sock, (char*)&playernum, sizeof(PlayerNumCheck), 0);
+		if (retval == SOCKET_ERROR) {
+			err_display("send()");
+			return 0;
+		}
+		else if (retval == 0)
+		{
+			return 0;
+		}
+
+        SetEvent(waitPlayerEnterEvent);
+	}
+
+    
+
+	while (true) {
+
+        if (playernum.enterPlayerNum > 1) {
+            
+            retval = recv(client_sock, (char*)&key, sizeof(Key), 0);
+            if (retval == SOCKET_ERROR) {
+                err_display("recv()");
+                return 0;
+            }
+            else if (retval == 0)
+            {
+                return 0;
+            }
+
+            //std::cout << key.ckey << std::endl;
+            
+            movePlayer(key.ckey, key.playerID);
+           
+
+          
+            //std::cout << p1_info.PosX << "," << p1_info.PosY << std::endl;
+           
+            retval = send(client_sock, (char*)&p1_info, sizeof(PlayerInfo), 0);
+            if (retval == SOCKET_ERROR) {
+                err_display("send()");
+                return 0;
+            }
+            else if (retval == 0)
+            {
+                return 0;
+            }
+            retval = send(client_sock, (char*)&p2_info, sizeof(PlayerInfo), 0);
+            if (retval == SOCKET_ERROR) {
+                err_display("send()");
+                return 0;
+            }
+            else if (retval == 0)
+            {
+                return 0;
+            }
+
+           
+
+        }
+
+	}
+    
+
 
     // closesocket()
     closesocket(client_sock);

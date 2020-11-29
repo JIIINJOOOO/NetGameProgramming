@@ -35,7 +35,8 @@ public:
 	void SetMoney(int iMoney) { m_iMoney = iMoney; }
 	// 201129 플레이어의 ID set
 	void SetPlayerID(int iID) { m_iPlayerID = iID; }
-
+	// 201130 플레이어구조체 set
+	void SetPlayerInfo(PlayerInfo pInfo);
 
 
 public:
@@ -94,5 +95,8 @@ protected:
 
 	// 프레임 최적화
 	vector<TEXINFO*> m_vecTexture;
+
+	PlayerInfo playerInfo_1;
+	PlayerInfo playerInfo_2;
 };
 

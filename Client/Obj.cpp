@@ -26,6 +26,18 @@ CObj::~CObj()
 {
 }
 
+void CObj::SetPlayerInfo(PlayerInfo pInfo)
+{
+	if (pInfo.playerID == 1) 
+	{
+		playerInfo_1 = pInfo;
+	}
+	if (pInfo.playerID == 2) 
+	{
+		playerInfo_2 = pInfo;
+	}
+}
+
 void CObj::LateInit()
 {
 	if (!m_bIsInit)

@@ -4,6 +4,16 @@
 #include "Player.h"
 #include "Mouse.h"
 #include "Enemy.h"
+#include <iostream>
+
+extern int retval;
+extern WSADATA wsa;
+extern SOCKET sock;
+extern SOCKADDR_IN serveraddr;
+extern void err_display(char* msg);
+extern void err_quit(char* msg);
+
+PlayerNumCheck playercheck;
 
 
 CStage::CStage()
@@ -60,21 +70,13 @@ HRESULT CStage::Initialize()
 	CObjMgr::GetInstance()->AddObject(pMouse, OBJ_MOUSE);
 
 
-	CObj* pPlayer = nullptr;
-	if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer,1)))
-		return E_FAIL;	
-	CObj* pPlayer2 = nullptr;
-	if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer2,2)))
-		return E_FAIL;
-
+	
 	/*CObj* pEnemy1 = nullptr;
 	if (FAILED(CAbstractFactory<CEnemy>::CreateObj(pEnemy1, D3DXVECTOR3({ 500.f, 600.f, 0.f }), WEAPONID::RIFLE)));
 		return E_FAIL;*/
 
 	CObjMgr::GetInstance()->AddObject(pTerrain, OBJ_TERRAIN);
-	CObjMgr::GetInstance()->AddObject(pPlayer, OBJ_PLAYER);
-	// 클라에 플레이어 2명 다른 위치에 띄워보기
-	CObjMgr::GetInstance()->AddObject(pPlayer2, OBJ_PLAYER);
+	
 
 	
 	// 적 추가
@@ -104,7 +106,7 @@ HRESULT CStage::Initialize()
 	//CObjMgr::GetInstance()->AddObject(CAbstractFactory<CEnemy>::CreateObj(D3DXVECTOR3({ 1100.f,600.f,0.f }), WEAPONID::KNIFE), OBJ_ENEMY);
 
 	CSoundMgr::GetInstance()->PlayBGM(L"InnerAnimal.mp3");
-
+	playercheck.enterPlayerNum =0;
 
 	return S_OK;
 }
@@ -112,6 +114,36 @@ HRESULT CStage::Initialize()
 void CStage::Update()
 {
 	CObjMgr::GetInstance()->Update();
+
+	if (playercheck.enterPlayerNum < 2) {
+		retval = recv(sock, (char*)&playercheck, sizeof(PlayerNumCheck), 0);
+		if (retval == SOCKET_ERROR) {
+			err_display("recv()");
+		}
+	}
+
+	if (playercheck.enterPlayerNum == 2) {
+		CObj* pPlayer = nullptr;
+		CObj* pPlayer2 = nullptr;
+		cout << playercheck.playerID << endl;
+
+		if (playercheck.playerID == 1) {
+			if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer, playercheck.playerID))) { std::cout << "error"; }
+
+			if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer2, 2))) { std::cout << "error"; }
+		}
+		if (playercheck.playerID == 2) {
+			if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer, playercheck.playerID))) { std::cout << "error"; }
+
+			if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer2, 2))) { std::cout << "error"; }
+		}
+
+		CObjMgr::GetInstance()->AddObject(pPlayer, OBJ_PLAYER);
+		// 클라에 플레이어 2명 다른 위치에 띄워보기
+		CObjMgr::GetInstance()->AddObject(pPlayer2, OBJ_PLAYER);
+
+		playercheck.enterPlayerNum++;
+	}
 }
 
 void CStage::LateUpdate()

@@ -4,13 +4,10 @@
 #include "PlayerBullet.h"
 #include "Struct.h"
 #include <iostream>
-//네트워크통신을 위한 전역변수
-extern int retval;
-extern WSADATA wsa;
-extern SOCKET sock;
-extern SOCKADDR_IN serveraddr;
-extern void err_display(char* msg);
-extern void err_quit(char* msg);
+
+
+extern PlayerNumCheck playercheck;
+
 
 CPlayer::CPlayer()
 {
@@ -24,14 +21,18 @@ CPlayer::~CPlayer()
 
 HRESULT CPlayer::Initialize()
 {
-	//m_tInfo.vPos = { 800.f, 800.f, 0.f };
-	// 플레이어 위치 지정
-	if(m_iPlayerID == 1)
-		m_tInfo.vPos = { 400.f, 350.f, 0.f };
+	
+
+	if (m_iPlayerID == 1) 
+	{
+		m_tInfo.vPos.x = 200.f;
+		m_tInfo.vPos.y = 350.f;
+	}
 	if (m_iPlayerID == 2)
-		m_tInfo.vPos = { 800.f, 350.f, 0.f };
-
-
+	{
+		m_tInfo.vPos.x = 850.f;
+		m_tInfo.vPos.y = 350.f;
+	}
 	//m_tInfo.vSize = { 20.f, 40.f, 0.f };
 
 	m_wstrObjKey = L"PLAYER_UNARMED";
@@ -74,24 +75,38 @@ int CPlayer::Update()
 
 	m_fAngle = -180.f * atan2(CMouse::GetMousePos().y - m_tInfo.vDir.y - vPos.y, CMouse::GetMousePos().x - m_tInfo.vDir.x - vPos.x) / D3DX_PI;
 
-	 //201129 플레이어 id에 따라 recv를 두번 받아야할 것 같다?
-	if (m_iPlayerID == 1)
+	
+
+	
+	if (m_iPlayerID == 1) 
 	{
-		retval = recv(sock, (char*)&playerinfo, sizeof(PlayerInfo), 0);
-		if (retval == SOCKET_ERROR) {
-			err_display("recv()");
-		}
-		std::cout << playerinfo.PosX << "," << playerinfo.PosY << endl;
+		if(m_iPlayerID == playercheck.playerID)
+			std::cout << playerInfo_1.PosX << "," << playerInfo_1.PosY << endl;
 		// 원본 서버 움직임 변경
 		/*vPos.x = playerinfo.PosX;
 		vPos.y = playerinfo.PosY;*/
 		// 201129 수정한 서버 움직임 변경
-		m_tInfo.vPos.x = playerinfo.PosX;
-		m_tInfo.vPos.y = playerinfo.PosY;
+		m_tInfo.vPos.x = playerInfo_1.PosX;
+		m_tInfo.vPos.y = playerInfo_1.PosY;
+		
+
 
 	}
-	
-	
+
+	if (m_iPlayerID == 2)
+	{
+		if (m_iPlayerID == playercheck.playerID)
+			std::cout << playerInfo_2.PosX << "," << playerInfo_2.PosY << endl;
+		// 원본 서버 움직임 변경
+		/*vPos.x = playerinfo.PosX;
+		vPos.y = playerinfo.PosY;*/
+		// 201129 수정한 서버 움직임 변경
+		m_tInfo.vPos.x = playerInfo_2.PosX;
+		m_tInfo.vPos.y = playerInfo_2.PosY;
+
+		
+
+	}
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
 	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));
 	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, 0.f);

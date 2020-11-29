@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "KeyMgr.h"
+#include <iostream>
 IMPLEMENT_SINGLETON(CKeyMgr)
 
 CKeyMgr::CKeyMgr()
@@ -19,12 +20,16 @@ extern SOCKET sock;
 extern SOCKADDR_IN serveraddr;
 extern void err_display(char* msg);
 extern void err_quit(char* msg);
+extern PlayerNumCheck playercheck;
+
+
 // 매 프레임마다 호출하여 눌린 키를 조사한다.
 void CKeyMgr::KeyCheck()
 {
 	m_dwKey = 0;	// 0000
 	KeyInput key;
-
+	key.playerID = playercheck.playerID;
+	key.keycode = '\0';
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
 		m_dwKey |= KEY_LBUTTON;	// 0000 |= 0001
