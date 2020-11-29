@@ -22,50 +22,51 @@ extern void err_quit(char* msg);
 // 매 프레임마다 호출하여 눌린 키를 조사한다.
 void CKeyMgr::KeyCheck()
 {
+	m_dwKey = 0;	// 0000
 	KeyInput key;
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
-		//m_dwKey |= KEY_LBUTTON;	// 0000 |= 0001
+		m_dwKey |= KEY_LBUTTON;	// 0000 |= 0001
 		key.keycode = 'L';
 	}
 	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
 	{
-		//m_dwKey |= KEY_RBUTTON; // 0001 |= 0010
+		m_dwKey |= KEY_RBUTTON; // 0001 |= 0010
 		key.keycode = 'R';
 	}
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
-		//m_dwKey |= KEY_W;
+		m_dwKey |= KEY_W;
 		key.keycode = 'W';
 
 	}
 	if (GetAsyncKeyState('S') & 0x8000)
 	{
-		//m_dwKey |= KEY_S;
+		m_dwKey |= KEY_S;
 		key.keycode = 'S';
 	}
 	if (GetAsyncKeyState('A') & 0x8000)
 	{
-		//m_dwKey |= KEY_A;
+		m_dwKey |= KEY_A;
 		key.keycode = 'A';
 
 	}
 	if (GetAsyncKeyState('D') & 0x8000)
 	{
-		//m_dwKey |= KEY_D; // 0001 |= 0010
+		m_dwKey |= KEY_D; // 0001 |= 0010
 		key.keycode = 'D';
 
 	}
 	if (GetAsyncKeyState('R') & 0x8000)
 	{
-		//m_dwKey |= KEY_R;
+		m_dwKey |= KEY_R;
 		key.keycode = 'R';
 
 	}
 	if (GetAsyncKeyState('E') & 0x8000)
 	{
-		//m_dwKey |= KEY_E;
+		m_dwKey |= KEY_E;
 		key.keycode = 'E';
 
 	}

@@ -76,6 +76,9 @@ protected:
 	// 무기와 플레이어가 충돌하고 있을 때 e를 누르면 구입
 	bool	m_bIsOverlap; // 충돌중일때
 	bool	m_bIsPressedE; // e가 눌렸는지
+	// 플레이어 ID
+	int m_iPlayerID;
+
 
 	bool	m_bIsInit;
 	bool	m_bIsDead;
@@ -86,7 +89,5 @@ protected:
 
 	// 프레임 최적화
 	vector<TEXINFO*> m_vecTexture;
-
-
 };
 

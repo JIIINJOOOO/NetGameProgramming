@@ -1,0 +1,9 @@
+﻿  Server.cpp
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(27): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerInfo' 왼쪽은 무시됩니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(138): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(140): warning C4101: 'sendThread' :참조되지 않은 지역 변수입니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(201): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+  코드를 생성하고 있습니다.
+  All 19 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  Server.vcxproj -> F:\KPU\3-2 NetworkGameProgramming\TermProject\Server\Server\x64\Release\Server.exe
