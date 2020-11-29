@@ -61,10 +61,10 @@ HRESULT CStage::Initialize()
 
 
 	CObj* pPlayer = nullptr;
-	if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer)))
+	if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer,1)))
 		return E_FAIL;	
 	CObj* pPlayer2 = nullptr;
-	if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer2)))
+	if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer2,2)))
 		return E_FAIL;
 
 	/*CObj* pEnemy1 = nullptr;
@@ -74,7 +74,7 @@ HRESULT CStage::Initialize()
 	CObjMgr::GetInstance()->AddObject(pTerrain, OBJ_TERRAIN);
 	CObjMgr::GetInstance()->AddObject(pPlayer, OBJ_PLAYER);
 	// 클라에 플레이어 2명 다른 위치에 띄워보기
-	//CObjMgr::GetInstance()->AddObject(pPlayer2, OBJ_PLAYER);
+	CObjMgr::GetInstance()->AddObject(pPlayer2, OBJ_PLAYER);
 
 	
 	// 적 추가

@@ -37,5 +37,8 @@ private:
 
 
 	//CObj*	m_pMouse; // 마우스 객체 -> 아마 안 필요 할지두?
+	
+	PlayerInfo playerinfo;
+
 };
 

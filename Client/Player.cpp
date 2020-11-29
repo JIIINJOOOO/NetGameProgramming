@@ -26,7 +26,10 @@ HRESULT CPlayer::Initialize()
 {
 	//m_tInfo.vPos = { 800.f, 800.f, 0.f };
 	// 플레이어 위치 지정
-	m_tInfo.vPos = { 400.f, 350.f, 0.f };
+	if(m_iPlayerID == 1)
+		m_tInfo.vPos = { 400.f, 350.f, 0.f };
+	if (m_iPlayerID == 2)
+		m_tInfo.vPos = { 800.f, 350.f, 0.f };
 
 
 	//m_tInfo.vSize = { 20.f, 40.f, 0.f };
@@ -60,7 +63,7 @@ void CPlayer::LateInit()
 int CPlayer::Update()
 {
 	CObj::LateInit();
-	PlayerInfo playerinfo;
+	//PlayerInfo playerinfo;
 
 	KeyCheck();
 
@@ -71,15 +74,23 @@ int CPlayer::Update()
 
 	m_fAngle = -180.f * atan2(CMouse::GetMousePos().y - m_tInfo.vDir.y - vPos.y, CMouse::GetMousePos().x - m_tInfo.vDir.x - vPos.x) / D3DX_PI;
 
-	retval = recv(sock, (char*)&playerinfo, sizeof(PlayerInfo), 0);
-	if (retval == SOCKET_ERROR) {
-		err_display("recv()");
+	 //201129 플레이어 id에 따라 recv를 두번 받아야할 것 같다?
+	if (m_iPlayerID == 1)
+	{
+		retval = recv(sock, (char*)&playerinfo, sizeof(PlayerInfo), 0);
+		if (retval == SOCKET_ERROR) {
+			err_display("recv()");
+		}
+		std::cout << playerinfo.PosX << "," << playerinfo.PosY << endl;
+		// 원본 서버 움직임 변경
+		/*vPos.x = playerinfo.PosX;
+		vPos.y = playerinfo.PosY;*/
+		// 201129 수정한 서버 움직임 변경
+		m_tInfo.vPos.x = playerinfo.PosX;
+		m_tInfo.vPos.y = playerinfo.PosY;
+
 	}
-	std::cout << playerinfo.PosX << "," << playerinfo.PosY << endl;
-	//서버 움직임 변경
-	vPos.x = playerinfo.PosX;
-	vPos.y = playerinfo.PosY;
-	//
+	
 	
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
 	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));
@@ -134,6 +145,8 @@ void CPlayer::Render()
 	CDevice::GetInstance()->GetSprite()->SetTransform(&m_tInfo.matWorld);
 	CDevice::GetInstance()->GetSprite()->Draw(pTexInfo->pTexture, nullptr,
 		&D3DXVECTOR3(fCenterX, fCenterY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+	// 201129 텍스트 출력
+	//CDevice::GetInstance()->GetFont()->DrawText();
 }
 
 void CPlayer::Release()
@@ -198,6 +211,7 @@ void CPlayer::KeyCheck()
 {
 	float fTime = CTimeMgr::GetInstance()->GetTime();
 	INFO tInfo_sg = m_tInfo;
+	
 
 	if (CKeyMgr::GetInstance()->KeyDown(KEY_LBUTTON)) // 무기 별 총알 생성
 	{		

@@ -67,7 +67,7 @@ HRESULT CDevice::InitDevice()
 		ERR_MSG(L"Device Create Failed!!");
 		return E_FAIL;
 	}
-
+	
 	// 스프라이트 Com객체 생성
 	if (FAILED(D3DXCreateSprite(m_pDevice, &m_pSprite)))
 	{

@@ -19,6 +19,8 @@ public:
 	const bool& GetIsPressedE() { return m_bIsPressedE; } // 추가
 	// 총의 금액 get
 	const int& GetMoney() { return m_iMoney; } // 추가
+	// 201129 플레이어의 id get
+	const int& GetPlayerID() { return m_iPlayerID; } // 추가
 
 public:
 	void SetPos(D3DXVECTOR3 vPos) { m_tInfo.vPos = vPos; } // 추가
@@ -31,6 +33,9 @@ public:
 	void SetIsOverlap(bool bIsOverlap) { m_bIsOverlap = bIsOverlap; }
 	// 플레이어의 소지금 set
 	void SetMoney(int iMoney) { m_iMoney = iMoney; }
+	// 201129 플레이어의 ID set
+	void SetPlayerID(int iID) { m_iPlayerID = iID; }
+
 
 
 public:
