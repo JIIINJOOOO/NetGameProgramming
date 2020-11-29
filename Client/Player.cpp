@@ -161,7 +161,14 @@ void CPlayer::Render()
 	CDevice::GetInstance()->GetSprite()->Draw(pTexInfo->pTexture, nullptr,
 		&D3DXVECTOR3(fCenterX, fCenterY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 	// 201129 텍스트 출력
-	//CDevice::GetInstance()->GetFont()->DrawText();
+	RECT rect;
+	SetRect(&rect, 0, 0, 800, 600); // 위치
+	wchar_t strState[256];
+	/*if (m_iCurBulletNum < 0)
+	   m_iUIBulletNum = 0;*/
+	wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n", m_iHP, m_iCurBulletNum);
+
+	CDevice::GetInstance()->GetFont()->DrawText(NULL, strState, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 }
 
 void CPlayer::Release()
