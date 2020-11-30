@@ -31,9 +31,6 @@
 *.map
 *.exp
 
-# Precompiled Headers
-*.gch
-*.pch
 
 # Executables
 *.exe
