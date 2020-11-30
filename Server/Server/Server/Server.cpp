@@ -6,6 +6,7 @@
 #define SERVERPORT 9000
 #define BUFSIZE    5
 #define OBJ_NUM 1113
+#define WEAPON_NUM 3
 
 #include <winsock2.h>
 #include <stdlib.h>
@@ -62,9 +63,9 @@ typedef struct CollisionObj
 	float PosX;
 	float PosY;
 }COLOBJ;
-COLOBJ objarr[OBJ_NUM]{};
+COLOBJ objarr[OBJ_NUM];
 COLOBJ p_cols[2];
-
+COLOBJ weaponarr[WEAPON_NUM];
 
 struct myVector2D
 {
@@ -115,50 +116,76 @@ void UpdatePlayerRect(COLOBJ& rect, PlayerInfo p_info)
 //		}
 //	}
 //}
-//
-//
-//// 서버 내 벽 충돌 알고리즘
-//void CollisionRectEx(COLOBJ objArr[]/*장애물 배열*/, COLOBJ playerArr[]/*플레이어 위치 배열*/)
-//{
-//	// 밀려날 거리
-//	float fMoveX = 0.f, fMoveY = 0.f;
-//
-//	for (int i = 0; i < OBJ_NUM; ++i)
-//	{
-//		for (int j = 0; j < 2; ++j)
-//		{
-//			if (CheckRect(objArr[i], playerArr[j], &fMoveX, &fMoveY))
-//			{
-//				// 파고든 깊이가 짧은 쪽으로 pSrc를 밀어내자!
-//				if (fMoveX > fMoveY) // y축으로 밀어냄
-//				{
-//					float fX = playerArr[j].PosX;
-//					float fY = playerArr[j].PosY;
-//
-//					if (objArr[j].PosY > fY)
-//						fMoveY *= -1.f;
-//
-//					p_Info[j].PosX = fX;
-//					p_Info[j].PosX = fY + fMoveY;
-//				}
-//				else // x축으로 밀어냄
-//				{
-//					float fX = playerArr[j].PosX;
-//					float fY = playerArr[j].PosY;
-//
-//					if (objArr[j].PosX > fX)
-//						fMoveX *= -1.f;
-//
-//					p_Info[j].PosX = fX + fMoveX;
-//					p_Info[j].PosX = fY;
-//				}
-//			}
-//		}
-//	}
-//}
-//
-//// 무기- 플레이어 충돌처리
-//void CollisionRectWeapon(COLOBJ & dstLst, COLOBJ & srcLst)
+
+bool CheckRect(COLOBJ pDst, COLOBJ pSrc, float * pMoveX, float * pMoveY)
+{
+	// 두 사각형의 가로, 세로 축 반지름의 합을 구한다.
+	float fSumRadX = ((pDst.right - pDst.left) + (pSrc.right - pSrc.left)) * 0.5f;
+	float fSumRadY = ((pDst.bottom - pDst.top) + (pSrc.bottom - pSrc.top)) * 0.5f;
+
+	// 두 사각형의 가로, 세로 중점의 거리를 구한다.
+	// fabs(X): X의 절대 값을 구하는 함수. <cmath>에서 제공. 
+	float fDistX = fabs(pDst.PosX - pSrc.PosX);
+	float fDistY = fabs(pDst.PosY - pSrc.PosY);
+	//const float fDist = D3DXVec3Length(&(pDst->GetInfo().vPos - pSrc->GetInfo().vPos));
+
+
+	// 가로 축 반지름 합이 가로 축 거리보다 클 때와
+	// 세로 축 반지름 합이 세로 축 거리보다 클 때
+	if (fSumRadX > fDistX && fSumRadY > fDistY)
+	{
+		// 두 사각형이 겹쳤을 때 파고든 길이도 구한다.
+		*pMoveX = fSumRadX - fDistX;
+		*pMoveY = fSumRadY - fDistY;
+
+		return true;
+	}
+
+	return false;
+}
+
+// 서버 내 벽 충돌 알고리즘
+void CollisionRectEx(COLOBJ objArr[]/*장애물 배열*/, COLOBJ playerArr[]/*플레이어 위치 배열*/)
+{
+	// 밀려날 거리
+	float fMoveX = 0.f, fMoveY = 0.f;
+
+	for (int i = 0; i < OBJ_NUM; ++i)
+	{
+		for (int j = 0; j < 2; ++j)
+		{
+			if (CheckRect(objArr[i], playerArr[j], &fMoveX, &fMoveY))
+			{
+				// 파고든 깊이가 짧은 쪽으로 pSrc를 밀어내자!
+				if (fMoveX > fMoveY) // y축으로 밀어냄
+				{
+					float fX = playerArr[j].PosX;
+					float fY = playerArr[j].PosY;
+
+					if (objArr[j].PosY > fY)
+						fMoveY *= -1.f;
+
+					p_Info[j].PosX = fX;
+					p_Info[j].PosX = fY + fMoveY;
+				}
+				else // x축으로 밀어냄
+				{
+					float fX = playerArr[j].PosX;
+					float fY = playerArr[j].PosY;
+
+					if (objArr[j].PosX > fX)
+						fMoveX *= -1.f;
+
+					p_Info[j].PosX = fX + fMoveX;
+					p_Info[j].PosX = fY;
+				}
+			}
+		}
+	}
+}
+
+// 무기- 플레이어 충돌처리
+//void CollisionRectWeapon(COLOBJ dstLst, COLOBJ & srcLst)
 //{
 //	for (CObj* pDst : dstLst)
 //	{
@@ -187,33 +214,7 @@ void UpdatePlayerRect(COLOBJ& rect, PlayerInfo p_info)
 //		}
 //	}
 //}
-//
-//bool CheckRect(COLOBJ pDst, COLOBJ pSrc, float * pMoveX, float * pMoveY)
-//{
-//	// 두 사각형의 가로, 세로 축 반지름의 합을 구한다.
-//	float fSumRadX = ((pDst.right - pDst.left) + (pSrc.right - pSrc.left)) * 0.5f;
-//	float fSumRadY = ((pDst.bottom - pDst.top) + (pSrc.bottom - pSrc.top)) * 0.5f;
-//
-//	// 두 사각형의 가로, 세로 중점의 거리를 구한다.
-//	// fabs(X): X의 절대 값을 구하는 함수. <cmath>에서 제공. 
-//	float fDistX = fabs(pDst.PosX - pSrc.PosX);
-//	float fDistY = fabs(pDst.PosY - pSrc.PosY);
-//	//const float fDist = D3DXVec3Length(&(pDst->GetInfo().vPos - pSrc->GetInfo().vPos));
-//
-//
-//	// 가로 축 반지름 합이 가로 축 거리보다 클 때와
-//	// 세로 축 반지름 합이 세로 축 거리보다 클 때
-//	if (fSumRadX > fDistX && fSumRadY > fDistY)
-//	{
-//		// 두 사각형이 겹쳤을 때 파고든 길이도 구한다.
-//		*pMoveX = fSumRadX - fDistX;
-//		*pMoveY = fSumRadY - fDistY;
-//
-//		return true;
-//	}
-//
-//	return false;
-//}
+
 
 
 
@@ -346,9 +347,12 @@ int recvn(SOCKET s, char* buf, int len, int flags);
 
 int main(int argc, char* argv[])
 {
+	ZeroMemory(&objarr, sizeof(objarr));
+	ZeroMemory(&weaponarr, sizeof(weaponarr));
 
     InitializeCriticalSection(&cs); // 임계영역 초기화
 
+	// objarr 받아옴
 	FILE* f;
 	f = fopen("objdata.txt", "r");
 	for (int i = 0; i < 1113; ++i)
@@ -357,15 +361,29 @@ int main(int argc, char* argv[])
 	}
 	fclose(f);
 
-	for (int i = 0; i < 1113; ++i)
+	/*for (int i = 0; i < 1113; ++i)
 	{
-		if(objarr[i].objID == 1)
-			printf("rifle : %d %ld %ld %ld %ld %f %f", &objarr[i].objID, &objarr[i].bottom, &objarr[i].left, &objarr[i].top, &objarr[i].right, &objarr[i].PosX, &objarr[i].PosY);
+		printf("%d %ld %ld %ld %ld %f %f\n", objarr[i].objID, objarr[i].bottom, objarr[i].left, objarr[i].top, objarr[i].right, objarr[i].PosX, objarr[i].PosY);
+	}*/
+
+	FILE* fp;
+	fp = fopen("weapondata.txt", "r");
+	for (int i = 0; i < WEAPON_NUM; ++i)
+	{
+		fscanf(fp, "%d %ld %ld %ld %ld %f %f", &weaponarr[i].objID, &weaponarr[i].bottom, &weaponarr[i].left, &weaponarr[i].top, &weaponarr[i].right,
+			&weaponarr[i].PosX, &weaponarr[i].PosY);
 	}
+	fclose(fp);
+	/*for (int i = 0; i < WEAPON_NUM; ++i)
+	{
+		if(weaponarr[i].objID == 1)
+			printf("rifle : %d %ld %ld %ld %ld %f %f\n", weaponarr[i].objID, weaponarr[i].bottom, weaponarr[i].left, weaponarr[i].top, 
+				weaponarr[i].right, weaponarr[i].PosX, weaponarr[i].PosY);
+	}*/
 
     int retval;
     playernum.enterPlayerNum = 0;//플레이어 인원수 초기화
-	ZeroMemory(p_cols,0);
+	ZeroMemory(&p_cols,sizeof(p_cols));
 
 
     waitPlayerEnterEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -546,6 +564,8 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 				UpdatePlayerRect(p_cols[1], p_Info[1]);
 			}
           
+			CollisionRectEx(objarr, p_cols);
+
             //std::cout << p_Info[0].PosX << "," << p_Info[0].PosY << std::endl;
            
             retval = send(client_sock, (char*)&p_Info[0], sizeof(PlayerInfo), 0);

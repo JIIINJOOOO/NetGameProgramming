@@ -42,26 +42,26 @@ HRESULT CStage::Initialize()
 	// 벽 로드 코드가 프레임 저하 원인! -> 1000개 넘게 불러와진다
 	// -> 프레임 최적화 코드로 해결은 했는데 1000개 불러와지는거 좀 이상하다
 	// -> 나중에 해결해보자! (아마 툴쪽 배열에서 문제있을거 같다. 데코 배열이랑 월 배열이랑 비교해보자)
-	if (FAILED(CMapMgr::GetInstance()->LoadWall(L"../Data/Stage1-MapData5.dat")))
+	if (FAILED(CMapMgr::GetInstance()->LoadWall(L"../Data/Stage1-MapData6.dat")))
 	{
 		ERR_MSG(L"Stage1 Wall Load Fail");
 		return E_FAIL;
 	}
 
-	if (FAILED(CMapMgr::GetInstance()->LoadDoor(L"../Data/Stage1-MapData5.dat")))
+	if (FAILED(CMapMgr::GetInstance()->LoadDoor(L"../Data/Stage1-MapData6.dat")))
 	{
 		ERR_MSG(L"Stage1 Door Load Fail");
 		return E_FAIL;
 	}
 
 
-	if (FAILED(CMapMgr::GetInstance()->LoadDeco(L"../Data/Stage1-MapData5.dat")))
+	if (FAILED(CMapMgr::GetInstance()->LoadDeco(L"../Data/Stage1-MapData6.dat")))
 	{
 		ERR_MSG(L"Stage1 Deco Load Fail");
 		return E_FAIL;
 	}
 
-	if (FAILED(CMapMgr::GetInstance()->LoadWeapon(L"../Data/Stage1-MapData5.dat")))
+	if (FAILED(CMapMgr::GetInstance()->LoadWeapon(L"../Data/Stage1-MapData6.dat")))
 	{
 		ERR_MSG(L"Stage1 Weapon Load Fail");
 		return E_FAIL;
@@ -160,106 +160,119 @@ void CStage::Render()
 	//CMapMgr::GetInstance()->Render(); -> 맵매니저에서 렌더 안해줘도 오브젝트 매니저에서 렌더 해줌. 맵매니저 있어야 할지? 수정 필요
 	CObjMgr::GetInstance()->Render();
 
-	if (!bIsSetObjArr && playercheck.enterPlayerNum > 2
-		/*&&playercheck.playerID == 2*/)
-	{
-		// 201201 장애물 리스트 가져오기
-		//OBJLIST* ObstacleLst = CObjMgr::GetInstance()->GetObstacleLst();
-		//int objnum = CObjMgr::GetInstance()->GetObstacleLst()->size();
-		//COLOBJ objarr[OBJ_NUM]{};
-		//
-		//int i = 0;
-		//OBJITER iter_begin = ObstacleLst->begin();
-		//OBJITER iter_end = ObstacleLst->end();
-		//for (iter_begin; iter_begin != iter_end; ++iter_begin)
-		//{
-		//	RECT rc = {};
-		//	rc = (*iter_begin)->GetCollRect();
-		//	/*if ((*iter_begin)->GetInfo().eMapID == MAPID::WEAPON)
-		//	{
-		//		if ((*iter_begin)->GetWeaponID() == WEAPONID::RIFLE)
-		//		{
-		//			objarr[i].objID = 1;
-		//		}
-		//		else if ((*iter_begin)->GetWeaponID() == WEAPONID::SMG)
-		//		{
-		//			objarr[i].objID = 2;
-		//		}
-		//		else if ((*iter_begin)->GetWeaponID() == WEAPONID::SHOTGUN)
-		//		{
-		//			objarr[i].objID = 3;
-		//		}
-		//	}
-		//	else
-		//	{
-		//		objarr[i].objID = 0;
-		//	}*/
-		//	
-		//	objarr[i].bottom = rc.bottom;
-		//	objarr[i].left = rc.left;
-		//	objarr[i].top = rc.top;
-		//	objarr[i].right = rc.right;
-		//	objarr[i].PosX = (*iter_begin)->GetInfo().vPos.x;
-		//	objarr[i].PosY = (*iter_begin)->GetInfo().vPos.y;
-		//	if (i != OBJ_NUM)
-		//		++i;
-		//}
+	//if (!bIsSetObjArr && playercheck.enterPlayerNum > 2
+	//	/*&&playercheck.playerID == 2*/)
+	//{
+	//	// 201201 장애물 리스트 가져오기
+	//	//OBJLIST* ObstacleLst = CObjMgr::GetInstance()->GetObstacleLst();
+	//	//int objnum = CObjMgr::GetInstance()->GetObstacleLst()->size();
+	//	//COLOBJ objarr[OBJ_NUM]{};
+	//	//
+	//	//int i = 0;
+	//	//OBJITER iter_begin = ObstacleLst->begin();
+	//	//OBJITER iter_end = ObstacleLst->end();
+	//	//for (iter_begin; iter_begin != iter_end; ++iter_begin)
+	//	//{
+	//	//	RECT rc = {};
+	//	//	rc = (*iter_begin)->GetCollRect();
+	//	//	/*if ((*iter_begin)->GetInfo().eMapID == MAPID::WEAPON)
+	//	//	{
+	//	//		if ((*iter_begin)->GetWeaponID() == WEAPONID::RIFLE)
+	//	//		{
+	//	//			objarr[i].objID = 1;
+	//	//		}
+	//	//		else if ((*iter_begin)->GetWeaponID() == WEAPONID::SMG)
+	//	//		{
+	//	//			objarr[i].objID = 2;
+	//	//		}
+	//	//		else if ((*iter_begin)->GetWeaponID() == WEAPONID::SHOTGUN)
+	//	//		{
+	//	//			objarr[i].objID = 3;
+	//	//		}
+	//	//	}
+	//	//	else
+	//	//	{
+	//	//		objarr[i].objID = 0;
+	//	//	}*/
+	//	//	
+	//	//	objarr[i].bottom = rc.bottom;
+	//	//	objarr[i].left = rc.left;
+	//	//	objarr[i].top = rc.top;
+	//	//	objarr[i].right = rc.right;
+	//	//	objarr[i].PosX = (*iter_begin)->GetInfo().vPos.x;
+	//	//	objarr[i].PosY = (*iter_begin)->GetInfo().vPos.y;
+	//	//	if (i != OBJ_NUM)
+	//	//		++i;
+	//	//}
+	//	// 201201 mapdata.txt 저장코드
+	//	/*FILE* f;
+	//	f = fopen("objdata.txt", "w");
 
-		// 201201 무기 리스트 가져오기
-		OBJLIST* WeaponLst = CObjMgr::GetInstance()->GetWeaponLst();
-		int objnum = CObjMgr::GetInstance()->GetWeaponLst()->size();
-		cout << objnum;
-		//COLOBJ objarr[OBJ_NUM]{};
+	//	for (int i = 0; i < 1113; ++i)
+	//	{
+	//		fprintf(f, "%d %ld %ld %ld %ld %f %f\n", objarr[i].objID, objarr[i].bottom, objarr[i].left, objarr[i].top, objarr[i].right, objarr[i].PosX, objarr[i].PosY);
+	//	}
+	//	fclose(f);*/
 
-		//int i = 0;
-		//OBJITER iter_begin = WeaponLst->begin();
-		//OBJITER iter_end = WeaponLst->end();
-		//for (iter_begin; iter_begin != iter_end; ++iter_begin)
-		//{
-		//	RECT rc = {};
-		//	rc = (*iter_begin)->GetCollRect();
-		//	/*if ((*iter_begin)->GetInfo().eMapID == MAPID::WEAPON)
-		//	{
-		//		if ((*iter_begin)->GetWeaponID() == WEAPONID::RIFLE)
-		//		{
-		//			objarr[i].objID = 1;
-		//		}
-		//		else if ((*iter_begin)->GetWeaponID() == WEAPONID::SMG)
-		//		{
-		//			objarr[i].objID = 2;
-		//		}
-		//		else if ((*iter_begin)->GetWeaponID() == WEAPONID::SHOTGUN)
-		//		{
-		//			objarr[i].objID = 3;
-		//		}
-		//	}
-		//	else
-		//	{
-		//		objarr[i].objID = 0;
-		//	}*/
+	//	// 201201 무기 리스트 가져오기
+	//	//OBJLIST* WeaponLst = CObjMgr::GetInstance()->GetWeaponLst();
+	//	//int objnum = CObjMgr::GetInstance()->GetWeaponLst()->size();
+	//	//
+	//	//COLOBJ objarr[4]{};
 
-		//	objarr[i].bottom = rc.bottom;
-		//	objarr[i].left = rc.left;
-		//	objarr[i].top = rc.top;
-		//	objarr[i].right = rc.right;
-		//	objarr[i].PosX = (*iter_begin)->GetInfo().vPos.x;
-		//	objarr[i].PosY = (*iter_begin)->GetInfo().vPos.y;
-		//	if (i != OBJ_NUM)
-		//		++i;
-		//}
-		//// 201201 mapdata.txt 저장코드
-		//FILE* f;
-		//f = fopen("objdata.txt", "w");
+	//	//int i = 0;
+	//	//OBJITER iter_begin = WeaponLst->begin();
+	//	//OBJITER iter_end = WeaponLst->end();
+	//	//for (iter_begin; iter_begin != iter_end; ++iter_begin)
+	//	//{
+	//	//	RECT rc = {};
+	//	//	rc = (*iter_begin)->GetCollRect();
+	//	//	if ((*iter_begin)->GetInfo().eMapID == MAPID::WEAPON)
+	//	//	{
+	//	//		if ((*iter_begin)->GetWeaponID() == WEAPONID::RIFLE)
+	//	//		{
+	//	//			objarr[i].objID = 1;
+	//	//		}
+	//	//		else if ((*iter_begin)->GetWeaponID() == WEAPONID::SMG)
+	//	//		{
+	//	//			objarr[i].objID = 2;
+	//	//		}
+	//	//		else if ((*iter_begin)->GetWeaponID() == WEAPONID::SHOTGUN)
+	//	//		{
+	//	//			objarr[i].objID = 3;
+	//	//		}
+	//	//		else
+	//	//		{
+	//	//			objarr[i].objID = 0; // 주먹?
+	//	//		}
+	//	//	}
+	//	//	else
+	//	//	{
+	//	//		objarr[i].objID = 0;
+	//	//	}
 
-		//for (int i = 0; i < 1113; ++i)
-		//{
-		//	fprintf(f, "%d %ld %ld %ld %ld %f %f\n", objarr[i].objID, objarr[i].bottom, objarr[i].left, objarr[i].top, objarr[i].right, objarr[i].PosX, objarr[i].PosY);
-		//}
-		//fclose(f);
+	//	//	objarr[i].bottom = rc.bottom;
+	//	//	objarr[i].left = rc.left;
+	//	//	objarr[i].top = rc.top;
+	//	//	objarr[i].right = rc.right;
+	//	//	objarr[i].PosX = (*iter_begin)->GetInfo().vPos.x;
+	//	//	objarr[i].PosY = (*iter_begin)->GetInfo().vPos.y;
+	//	//	if (i != 4)
+	//	//		++i;
+	//	//}
+	//	//// 무기 저장
+	//	//FILE* f;
+	//	//f = fopen("weapondata.txt", "w");
 
-		
-		bIsSetObjArr = true;
-	}
+	//	//for (int i = 0; i < 3; ++i)
+	//	//{
+	//	//	fprintf(f, "%d %ld %ld %ld %ld %f %f\n", objarr[i].objID, objarr[i].bottom, objarr[i].left, objarr[i].top, objarr[i].right, objarr[i].PosX, objarr[i].PosY);
+	//	//}
+	//	//fclose(f);
+
+	//	
+	//	bIsSetObjArr = true;
+	//}
 }
 
 void CStage::Release()
