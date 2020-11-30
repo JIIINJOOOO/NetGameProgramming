@@ -22,7 +22,14 @@ static DWORD threadId[2];
 int acceptCount = 0;
 struct Key
 {
-    char ckey;
+    bool key_W_Press;
+    bool key_A_Press;
+    bool key_S_Press;
+    bool key_D_Press;
+    bool key_R_Press;
+    bool key_E_Press;
+    bool Mouse_R_Press;
+    bool Mouse_L_Press;
     int playerID;
     float mouseX;
     float mouseY;
@@ -124,53 +131,61 @@ void RotatePlayer(float mouseX, float mouseY, int playerID)
 }
 
 
-void MovePlayer(char keycode, int playerID) 
+void MovePlayer(Key keycode) 
 {
-    switch (keycode)
+    
+    if (keycode.key_W_Press)
     {
-    case 'W':
-    case 'w':
-        if (playerID == 1)
+        if (keycode.playerID == 1)
         {
             p1_info.PosY -= 1;
         }
-        else if (playerID == 2) 
+        else if (keycode.playerID == 2)
         {
             p2_info.PosY -= 1;
         }
-        cout << playerID << endl;
-
-        break;
-    case 'A' :
-    case 'a':
-        if (playerID == 1)
-            p1_info.PosX -= 1;
-        else if (playerID == 2)
-            p2_info.PosX -= 1;
-        cout << playerID << endl;
-
-        break;
-    case 'S': 
-    case 's':
-        if (playerID == 1)
-            p1_info.PosY += 1;
-        else if (playerID == 2)
-            p2_info.PosY += 1;
-        cout << playerID << endl;
-
-        break;
-    case 'D' :
-    case 'd':
-        if (playerID == 1)
-            p1_info.PosX += 1;
-        else if (playerID == 2)
-            p2_info.PosX += 1;
-        cout << playerID << endl;
-
-        break;
-    default:
-        break;
+       
     }
+        
+    if (keycode.key_A_Press)
+    {
+        if (keycode.playerID == 1) 
+        {
+            p1_info.PosX -= 1;
+        }
+        else if (keycode.playerID == 2) 
+        {
+            p2_info.PosX -= 1;
+        }
+    }
+
+    if (keycode.key_S_Press) 
+    {
+        if (keycode.playerID == 1)
+            p1_info.PosY += 1;
+        else if (keycode.playerID == 2)
+            p2_info.PosY += 1;
+    }
+
+       
+    if (keycode.key_D_Press) {
+
+        if (keycode.playerID == 1)
+        {
+            p1_info.PosX += 1;
+         
+        }
+
+        else if (keycode.playerID == 2)
+        {
+            p2_info.PosX += 1;
+        }
+
+
+    }
+
+
+    
 }
 
 int recvn(SOCKET s, char* buf, int len, int flags);
@@ -351,10 +366,10 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
             }
 
             //std::cout << key.ckey << std::endl;
-            
-            MovePlayer(key.ckey, key.playerID);
+            EnterCriticalSection(&cs);
+            MovePlayer(key);
             RotatePlayer(key.mouseX, key.mouseY, key.playerID);
-
+            LeaveCriticalSection(&cs);
           
             //std::cout << p1_info.PosX << "," << p1_info.PosY << std::endl;
            

@@ -79,8 +79,8 @@ int CPlayer::Update()
 	
 	if (m_iPlayerID == 1) 
 	{
-		if(m_iPlayerID == playercheck.playerID)
-			//std::cout << playerInfo_1.PosX << "," << playerInfo_1.PosY << endl;
+		/*if(m_iPlayerID == playercheck.playerID)
+			std::cout << playerInfo_1.PosX << "," << playerInfo_1.PosY << endl;*/
 		// 원본 서버 움직임 변경
 		/*vPos.x = playerinfo.PosX;
 		vPos.y = playerinfo.PosY;*/
@@ -94,8 +94,8 @@ int CPlayer::Update()
 
 	if (m_iPlayerID == 2)
 	{
-		if (m_iPlayerID == playercheck.playerID)
-			//std::cout << playerInfo_2.PosX << "," << playerInfo_2.PosY << endl;
+		/*if (m_iPlayerID == playercheck.playerID)
+			std::cout << playerInfo_2.PosX << "," << playerInfo_2.PosY << endl;*/
 		// 원본 서버 움직임 변경
 		/*vPos.x = playerinfo.PosX;
 		vPos.y = playerinfo.PosY;*/

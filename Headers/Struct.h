@@ -110,7 +110,14 @@ typedef struct PlayerInfo
 
 typedef struct KeyInput 
 {
-	char keycode;
+	bool key_W_Press;
+	bool key_A_Press;
+	bool key_S_Press;
+	bool key_D_Press;
+	bool key_R_Press;
+	bool key_E_Press;
+	bool Mouse_R_Press;
+	bool Mouse_L_Press;
 	int playerID;
 	float mouseX;
 	float mouseY;

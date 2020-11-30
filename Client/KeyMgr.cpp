@@ -29,58 +29,55 @@ extern PlayerNumCheck playercheck;
 void CKeyMgr::KeyCheck()
 {
 	m_dwKey = 0;	// 0000
-	KeyInput key;
-	key.playerID = playercheck.playerID;
-	key.keycode = '\0';
-	key.mouseX = CMouse::GetMousePos().x;
-	key.mouseY = CMouse::GetMousePos().y;
+	KeyInput key = {false, false,false,false,false,false,false,false,playercheck.playerID ,CMouse::GetMousePos().x , CMouse::GetMousePos().y };
+	
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
 		m_dwKey |= KEY_LBUTTON;	// 0000 |= 0001
-		key.keycode = 'L';
+		key.Mouse_L_Press = true;
 	}
 	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
 	{
 		m_dwKey |= KEY_RBUTTON; // 0001 |= 0010
-		key.keycode = 'R';
+		key.Mouse_R_Press = true;
 	}
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		m_dwKey |= KEY_W;
-		key.keycode = 'W';
+		key.key_W_Press = true;
 
 	}
 	if (GetAsyncKeyState('S') & 0x8000)
 	{
 		m_dwKey |= KEY_S;
-		key.keycode = 'S';
+		key.key_S_Press = true;
 	}
 	if (GetAsyncKeyState('A') & 0x8000)
 	{
 		m_dwKey |= KEY_A;
-		key.keycode = 'A';
+		key.key_A_Press = true;
 
 	}
 	if (GetAsyncKeyState('D') & 0x8000)
 	{
 		m_dwKey |= KEY_D; // 0001 |= 0010
-		key.keycode = 'D';
+		key.key_D_Press = true;
 
 	}
 	if (GetAsyncKeyState('R') & 0x8000)
 	{
 		m_dwKey |= KEY_R;
-		key.keycode = 'R';
+		key.key_R_Press = true;
 
 	}
 	if (GetAsyncKeyState('E') & 0x8000)
 	{
 		m_dwKey |= KEY_E;
-		key.keycode = 'E';
+		key.key_E_Press = true;
 
 	}
-	cout << key.keycode << endl;
+	
 	retval = send(sock, (char *)&key, sizeof(KeyInput), 0);
 	if (retval == SOCKET_ERROR) {
 		err_display("send()");
