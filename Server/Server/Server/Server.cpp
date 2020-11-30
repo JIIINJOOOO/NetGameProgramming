@@ -262,7 +262,7 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
     
     playernum.enterPlayerNum++;
     if (currentThreadId == threadId[0]) {
-        std::cout << playernum.enterPlayerNum << std::endl;
+        //std::cout << playernum.enterPlayerNum << std::endl;
         retval = send(client_sock, (char*)&playernum, sizeof(PlayerNumCheck), 0);
         if (retval == SOCKET_ERROR) {
             err_display("send()");
@@ -276,7 +276,7 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
         WaitForSingleObject(waitPlayerEnterEvent, INFINITE);
 
         playernum.playerID = 1;
-        std::cout << playernum.enterPlayerNum << std::endl;
+        //std::cout << playernum.enterPlayerNum << std::endl;
         retval = send(client_sock, (char*)&playernum, sizeof(PlayerNumCheck), 0);
         if (retval == SOCKET_ERROR) {
             err_display("send()");
@@ -290,7 +290,7 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 
 	if (currentThreadId == threadId[1]) {
         playernum.playerID = 2;
-		std::cout << playernum.enterPlayerNum << std::endl;
+		//std::cout << playernum.enterPlayerNum << std::endl;
 		retval = send(client_sock, (char*)&playernum, sizeof(PlayerNumCheck), 0);
 		if (retval == SOCKET_ERROR) {
 			err_display("send()");

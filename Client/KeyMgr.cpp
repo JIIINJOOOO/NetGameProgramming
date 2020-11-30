@@ -75,6 +75,7 @@ void CKeyMgr::KeyCheck()
 		key.keycode = 'E';
 
 	}
+	cout << key.keycode << endl;
 	retval = send(sock, (char *)&key, sizeof(KeyInput), 0);
 	if (retval == SOCKET_ERROR) {
 		err_display("send()");

@@ -133,9 +133,9 @@ void CStage::Update()
 			if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer2, 2))) { std::cout << "error"; }
 		}
 		if (playercheck.playerID == 2) {
-			if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer, playercheck.playerID))) { std::cout << "error"; }
+			if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer,1))) { std::cout << "error"; }
 
-			if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer2, 2))) { std::cout << "error"; }
+			if (FAILED(CAbstractFactory<CPlayer>::CreateObj(pPlayer2, playercheck.playerID))) { std::cout << "error"; }
 		}
 
 		CObjMgr::GetInstance()->AddObject(pPlayer, OBJ_PLAYER);

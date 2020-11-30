@@ -73,7 +73,6 @@ int CPlayer::Update()
 	D3DXVECTOR2 vPos = m_tInfo.vPos /*+ CScrollMgr::GetScroll()*/;
 	//m_fAngle = -180.f * atan2(m_pMouse->GetInfo().vPos.y - m_tInfo.vDir.y - vScroll.y, m_pMouse->GetInfo().vPos.x - m_tInfo.vDir.x - vScroll.x) / D3DX_PI;
 
-	m_fAngle = -180.f * atan2(CMouse::GetMousePos().y - m_tInfo.vDir.y - vPos.y, CMouse::GetMousePos().x - m_tInfo.vDir.x - vPos.x) / D3DX_PI;
 
 	
 
@@ -81,44 +80,46 @@ int CPlayer::Update()
 	if (m_iPlayerID == 1) 
 	{
 		if(m_iPlayerID == playercheck.playerID)
-			std::cout << playerInfo_1.PosX << "," << playerInfo_1.PosY << endl;
+			//std::cout << playerInfo_1.PosX << "," << playerInfo_1.PosY << endl;
 		// 원본 서버 움직임 변경
 		/*vPos.x = playerinfo.PosX;
 		vPos.y = playerinfo.PosY;*/
 		// 201129 수정한 서버 움직임 변경
-		m_tInfo.vPos.x = playerInfo_1.PosX;
-		m_tInfo.vPos.y = playerInfo_1.PosY;
+		vPos.x = playerInfo_1.PosX;
+		vPos.y = playerInfo_1.PosY;
 		
-
 
 	}
 
 	if (m_iPlayerID == 2)
 	{
 		if (m_iPlayerID == playercheck.playerID)
-			std::cout << playerInfo_2.PosX << "," << playerInfo_2.PosY << endl;
+			//std::cout << playerInfo_2.PosX << "," << playerInfo_2.PosY << endl;
 		// 원본 서버 움직임 변경
 		/*vPos.x = playerinfo.PosX;
 		vPos.y = playerinfo.PosY;*/
 		// 201129 수정한 서버 움직임 변경
-		m_tInfo.vPos.x = playerInfo_2.PosX;
-		m_tInfo.vPos.y = playerInfo_2.PosY;
-
-		
+		vPos.x = playerInfo_2.PosX;
+		vPos.y = playerInfo_2.PosY;
 
 	}
-	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
-	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));
-	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, 0.f);
+	
+	m_fAngle = -180.f * atan2(CMouse::GetMousePos().y - m_tInfo.vDir.y - vPos.y, CMouse::GetMousePos().x - m_tInfo.vDir.x - vPos.x) / D3DX_PI;
+		D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
+		D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));
+		D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, 0.f);
 
 
-	// 스 자 이 공 부 
-	m_tInfo.matWorld = matScale * matRotZ * matTrans ;
+		// 스 자 이 공 부 
+		m_tInfo.matWorld = matScale * matRotZ * matTrans;
 
-	/*플레이어 위치벡터*/
-	//D3DXVec3TransformCoord(&m_tInfo.vPos, &m_tInfo.vLook, &m_tInfo.matWorld);
-	/*플레이어 방향벡터*/
-	D3DXVec3TransformNormal(&m_tInfo.vDir, &m_tInfo.vLook, &m_tInfo.matWorld);
+		/*플레이어 위치벡터*/
+		//D3DXVec3TransformCoord(&m_tInfo.vPos, &m_tInfo.vLook, &m_tInfo.matWorld);
+		/*플레이어 방향벡터*/
+		D3DXVec3TransformNormal(&m_tInfo.vDir, &m_tInfo.vLook, &m_tInfo.matWorld);
+
+
+	
 
 	return NO_EVENT;
 }
@@ -328,28 +329,28 @@ void CPlayer::KeyCheck()
 		m_eCurState = STANCE::WALK;
 		m_ePreState = m_eCurState;
 		//m_tInfo.vPos += m_tInfo.vDir * m_fSpeed; // 마우스 따라가게 하는 코드
-		m_tInfo.vPos.y -= m_fSpeed * fTime;
+		//m_tInfo.vPos.y -= m_fSpeed * fTime;
 	}
 	if (CKeyMgr::GetInstance()->KeyPressing(KEY_S))
 	{
 		m_eCurState = STANCE::WALK;
 		m_ePreState = m_eCurState;
 		//m_tInfo.vPos += m_tInfo.vDir * -m_fSpeed; // 마우스 따라가게 하는 코드
-		m_tInfo.vPos.y += m_fSpeed  * fTime;
+		//m_tInfo.vPos.y += m_fSpeed  * fTime;
 	}
 	if (CKeyMgr::GetInstance()->KeyPressing(KEY_A))
 	{
 		m_eCurState = STANCE::WALK;
 		m_ePreState = m_eCurState;
 		m_fAngle += 5.f;
-		m_tInfo.vPos.x -= m_fSpeed * fTime;
+		//m_tInfo.vPos.x -= m_fSpeed * fTime;
 	}
 	if (CKeyMgr::GetInstance()->KeyPressing(KEY_D))
 	{
 		m_eCurState = STANCE::WALK;
 		m_ePreState = m_eCurState;
 		m_fAngle -= 5.f;
-		m_tInfo.vPos.x += m_fSpeed * fTime;
+		//m_tInfo.vPos.x += m_fSpeed * fTime;
 	}
 
 	//201123 장전키 추가
