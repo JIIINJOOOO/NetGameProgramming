@@ -1,7 +1,11 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS // 최신 VC++ 컴파일 시 경고 방지
 #pragma comment(lib, "ws2_32")
 #define PIE ((FLOAT) 3.141592654f)
-
+#define PLAYERRECTWIDTH 13
+#define	PLAYERRECTHEIGHT 24
+#define SERVERPORT 9000
+#define BUFSIZE    5
+#define OBJ_NUM 1113
 
 #include <winsock2.h>
 #include <stdlib.h>
@@ -12,8 +16,7 @@
 
 
 using namespace std;
-#define SERVERPORT 9000
-#define BUFSIZE    5
+
 
 CRITICAL_SECTION cs;
 
@@ -45,8 +48,23 @@ typedef struct PlayerInfo
     int money;
     float angle;
 };
-PlayerInfo p1_info;
-PlayerInfo p2_info;
+PlayerInfo p_Info[2];
+
+
+
+typedef struct CollisionObj
+{
+	int objID;
+	long left;
+	long top;
+	long right;
+	long bottom;
+	float PosX;
+	float PosY;
+}COLOBJ;
+COLOBJ objarr[OBJ_NUM]{};
+COLOBJ p_cols[2];
+
 
 struct myVector2D
 {
@@ -65,6 +83,139 @@ typedef struct PlayerNumCheck //로그인 인원수 체크
 };
 
 PlayerNumCheck playernum;
+
+void UpdatePlayerRect(COLOBJ& rect, PlayerInfo p_info)
+{
+	rect.PosX = p_info.PosX;
+	rect.PosY = p_info.PosY;
+	rect.left = LONG(p_info.PosX - PLAYERRECTWIDTH * 0.5f);
+	rect.top = LONG(p_info.PosY - PLAYERRECTHEIGHT * 0.5f);
+	rect.right = LONG(p_info.PosX + PLAYERRECTWIDTH * 0.5f);
+	rect.bottom = LONG(p_info.PosY + PLAYERRECTHEIGHT * 0.5f);
+
+}
+
+// 서버 내 충돌 처리 코드
+//void CollisionRect(COLOBJ dstArr[]/*장애물 배열*/, COLOBJ & srcLst/*총알구조체 배열*/)
+//{
+//	for (int i = 0; i < OBJ_NUM; ++i)
+//	{
+//		for (COLOBJ* pSrc : srcLst)
+//		{
+//			RECT rc = {};
+//
+//			const RECT dstRect = pDst->GetCollRect();
+//			const RECT srcRect = pSrc->GetCollRect();
+//
+//			if (IntersectRect(&rc, &dstRect, &srcRect))
+//			{
+//				pDst->IsDead();
+//				pSrc->IsDead();
+//			}
+//		}
+//	}
+//}
+//
+//
+//// 서버 내 벽 충돌 알고리즘
+//void CollisionRectEx(COLOBJ objArr[]/*장애물 배열*/, COLOBJ playerArr[]/*플레이어 위치 배열*/)
+//{
+//	// 밀려날 거리
+//	float fMoveX = 0.f, fMoveY = 0.f;
+//
+//	for (int i = 0; i < OBJ_NUM; ++i)
+//	{
+//		for (int j = 0; j < 2; ++j)
+//		{
+//			if (CheckRect(objArr[i], playerArr[j], &fMoveX, &fMoveY))
+//			{
+//				// 파고든 깊이가 짧은 쪽으로 pSrc를 밀어내자!
+//				if (fMoveX > fMoveY) // y축으로 밀어냄
+//				{
+//					float fX = playerArr[j].PosX;
+//					float fY = playerArr[j].PosY;
+//
+//					if (objArr[j].PosY > fY)
+//						fMoveY *= -1.f;
+//
+//					p_Info[j].PosX = fX;
+//					p_Info[j].PosX = fY + fMoveY;
+//				}
+//				else // x축으로 밀어냄
+//				{
+//					float fX = playerArr[j].PosX;
+//					float fY = playerArr[j].PosY;
+//
+//					if (objArr[j].PosX > fX)
+//						fMoveX *= -1.f;
+//
+//					p_Info[j].PosX = fX + fMoveX;
+//					p_Info[j].PosX = fY;
+//				}
+//			}
+//		}
+//	}
+//}
+//
+//// 무기- 플레이어 충돌처리
+//void CollisionRectWeapon(COLOBJ & dstLst, COLOBJ & srcLst)
+//{
+//	for (CObj* pDst : dstLst)
+//	{
+//		for (CObj* pSrc : srcLst)
+//		{
+//			RECT rc = {};
+//
+//			const RECT dstRect = pDst->GetCollRect();
+//			const RECT srcRect = pSrc->GetCollRect();
+//
+//			if (IntersectRect(&rc, &dstRect, &srcRect))
+//			{
+//				//pSrc->SetWeaponID(pDst->GetWeaponID());
+//				// 플레이어가 무기와 충돌중이다
+//				pSrc->SetIsOverlap(true);
+//				if (pSrc->GetIsPressedE() && (pSrc->GetMoney() >= pDst->GetMoney()))
+//				{
+//					pSrc->SetWeaponID(pDst->GetWeaponID());
+//					pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
+//					pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());
+//					pSrc->SetMoney(pSrc->GetMoney() - pDst->GetMoney());
+//				}
+//				// 201123 최대 총알 set 함수 추가
+//				//pDst->IsDead();
+//			}
+//		}
+//	}
+//}
+//
+//bool CheckRect(COLOBJ pDst, COLOBJ pSrc, float * pMoveX, float * pMoveY)
+//{
+//	// 두 사각형의 가로, 세로 축 반지름의 합을 구한다.
+//	float fSumRadX = ((pDst.right - pDst.left) + (pSrc.right - pSrc.left)) * 0.5f;
+//	float fSumRadY = ((pDst.bottom - pDst.top) + (pSrc.bottom - pSrc.top)) * 0.5f;
+//
+//	// 두 사각형의 가로, 세로 중점의 거리를 구한다.
+//	// fabs(X): X의 절대 값을 구하는 함수. <cmath>에서 제공. 
+//	float fDistX = fabs(pDst.PosX - pSrc.PosX);
+//	float fDistY = fabs(pDst.PosY - pSrc.PosY);
+//	//const float fDist = D3DXVec3Length(&(pDst->GetInfo().vPos - pSrc->GetInfo().vPos));
+//
+//
+//	// 가로 축 반지름 합이 가로 축 거리보다 클 때와
+//	// 세로 축 반지름 합이 세로 축 거리보다 클 때
+//	if (fSumRadX > fDistX && fSumRadY > fDistY)
+//	{
+//		// 두 사각형이 겹쳤을 때 파고든 길이도 구한다.
+//		*pMoveX = fSumRadX - fDistX;
+//		*pMoveY = fSumRadY - fDistY;
+//
+//		return true;
+//	}
+//
+//	return false;
+//}
+
+
 
 // 소켓 함수 오류 출력 후 종료
 void err_quit(const char* msg)
@@ -121,11 +272,11 @@ void RotatePlayer(float mouseX, float mouseY, int playerID)
 {
     if (playerID == 1) 
     {
-        p1_info.angle = -180.f * atan2(mouseY - vDir.y - p1_info.PosY, mouseX - vDir.x - p1_info.PosX) / PIE;
+        p_Info[0].angle = -180.f * atan2(mouseY - vDir.y - p_Info[0].PosY, mouseX - vDir.x - p_Info[0].PosX) / PIE;
     }
     else if (playerID == 2) 
     {
-        p2_info.angle = -180.f * atan2(mouseY - vDir.y - p2_info.PosY, mouseX - vDir.x - p2_info.PosX) / PIE;
+        p_Info[1].angle = -180.f * atan2(mouseY - vDir.y - p_Info[1].PosY, mouseX - vDir.x - p_Info[1].PosX) / PIE;
     }
 
 }
@@ -138,11 +289,11 @@ void MovePlayer(Key keycode)
     {
         if (keycode.playerID == 1)
         {
-            p1_info.PosY -= 1;
+            p_Info[0].PosY -= 1;
         }
         else if (keycode.playerID == 2)
         {
-            p2_info.PosY -= 1;
+            p_Info[1].PosY -= 1;
         }
        
     }
@@ -151,20 +302,20 @@ void MovePlayer(Key keycode)
     {
         if (keycode.playerID == 1) 
         {
-            p1_info.PosX -= 1;
+            p_Info[0].PosX -= 1;
         }
         else if (keycode.playerID == 2) 
         {
-            p2_info.PosX -= 1;
+            p_Info[1].PosX -= 1;
         }
     }
 
     if (keycode.key_S_Press) 
     {
         if (keycode.playerID == 1)
-            p1_info.PosY += 1;
+            p_Info[0].PosY += 1;
         else if (keycode.playerID == 2)
-            p2_info.PosY += 1;
+            p_Info[1].PosY += 1;
     }
 
        
@@ -172,13 +323,13 @@ void MovePlayer(Key keycode)
 
         if (keycode.playerID == 1)
         {
-            p1_info.PosX += 1;
+            p_Info[0].PosX += 1;
          
         }
 
         else if (keycode.playerID == 2)
         {
-            p2_info.PosX += 1;
+            p_Info[1].PosX += 1;
         }
 
 
@@ -198,8 +349,25 @@ int main(int argc, char* argv[])
 
     InitializeCriticalSection(&cs); // 임계영역 초기화
 
+	FILE* f;
+	f = fopen("objdata.txt", "r");
+	for (int i = 0; i < 1113; ++i)
+	{
+		fscanf(f, "%d %ld %ld %ld %ld %f %f", &objarr[i].objID, &objarr[i].bottom, &objarr[i].left, &objarr[i].top, &objarr[i].right, &objarr[i].PosX, &objarr[i].PosY);
+	}
+	fclose(f);
+
+	for (int i = 0; i < 1113; ++i)
+	{
+		if(objarr[i].objID == 1)
+			printf("rifle : %d %ld %ld %ld %ld %f %f", &objarr[i].objID, &objarr[i].bottom, &objarr[i].left, &objarr[i].top, &objarr[i].right, &objarr[i].PosX, &objarr[i].PosY);
+	}
+
     int retval;
     playernum.enterPlayerNum = 0;//플레이어 인원수 초기화
+	ZeroMemory(p_cols,0);
+
+
     waitPlayerEnterEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (waitPlayerEnterEvent == NULL) return 1;
    /* waitSendPlayerEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -233,8 +401,8 @@ int main(int argc, char* argv[])
     char buf[BUFSIZE];
     HANDLE recvThread;
 
-    initPlayerInfo(&p1_info,1);
-    initPlayerInfo(&p2_info,2);
+    initPlayerInfo(&p_Info[0],1);
+    initPlayerInfo(&p_Info[1],2);
 
     printf("서버 열림\n");
     while (1) {
@@ -348,8 +516,7 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 
         SetEvent(waitPlayerEnterEvent);
 	}
-
-    
+	
 
 	while (true) {
 
@@ -370,10 +537,18 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
             MovePlayer(key);
             RotatePlayer(key.mouseX, key.mouseY, key.playerID);
             LeaveCriticalSection(&cs);
+			if (currentThreadId == threadId[0]) 
+			{
+				UpdatePlayerRect(p_cols[0], p_Info[0]);
+			}
+			else if (currentThreadId == threadId[1])
+			{
+				UpdatePlayerRect(p_cols[1], p_Info[1]);
+			}
           
-            //std::cout << p1_info.PosX << "," << p1_info.PosY << std::endl;
+            //std::cout << p_Info[0].PosX << "," << p_Info[0].PosY << std::endl;
            
-            retval = send(client_sock, (char*)&p1_info, sizeof(PlayerInfo), 0);
+            retval = send(client_sock, (char*)&p_Info[0], sizeof(PlayerInfo), 0);
             if (retval == SOCKET_ERROR) {
                 err_display("send()");
                 return 0;
@@ -382,7 +557,7 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
             {
                 return 0;
             }
-            retval = send(client_sock, (char*)&p2_info, sizeof(PlayerInfo), 0);
+            retval = send(client_sock, (char*)&p_Info[1], sizeof(PlayerInfo), 0);
             if (retval == SOCKET_ERROR) {
                 err_display("send()");
                 return 0;

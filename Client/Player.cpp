@@ -154,6 +154,7 @@ void CPlayer::Render()
 
 	NULL_CHECK(pTexInfo);
 
+
 	// 충돌박스 생성 추가
 	CObj::UpdateCollRect(pTexInfo);
 

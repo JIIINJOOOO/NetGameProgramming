@@ -128,3 +128,19 @@ typedef struct PlayerNumCheck
 	int enterPlayerNum;
 	int playerID;
 };
+
+typedef struct CollisionObj
+{
+	int objID;
+	long left;
+	long top;
+	long right;
+	long bottom;
+	float PosX;
+	float PosY;
+}COLOBJ;
+
+typedef struct CollisionObjArray
+{
+	COLOBJ m_objarr[1113];
+}COLOBJARR;

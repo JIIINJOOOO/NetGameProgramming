@@ -4,6 +4,8 @@
 #include "Door.h"
 #include "Deco.h"
 #include "Weapon.h"
+#include <iostream>
+using namespace std;
 
 IMPLEMENT_SINGLETON(CMapMgr)
 
@@ -88,7 +90,6 @@ HRESULT CMapMgr::LoadWall(const TCHAR * szFilePath)
 			CObj* pWall = new CWall(tInfo);
 			pWall->Initialize();
 			m_vecWall.push_back(pWall);
-
 
 			CObjMgr::GetInstance()->AddObject(pWall, OBJID::OBJ_OBSTACLE);
 		}

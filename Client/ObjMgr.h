@@ -18,7 +18,10 @@ public:
 	CObj* GetPlayer() { return m_ObjLst[OBJ_PLAYER].front(); }
 	// 201129 player 1개 더 추가하면서 만든 GetPlayerLst
 	OBJLIST* GetPlayerLst() { return &m_ObjLst[OBJ_PLAYER]; }
-
+	// 201201 장애물 리스트 가져오기
+	OBJLIST* GetObstacleLst() { return &m_ObjLst[OBJ_OBSTACLE]; }
+	// 201201 무기 리스트 가져오기
+	OBJLIST* GetWeaponLst() { return &m_ObjLst[OBJ_WEAPON]; }
 
 public:
 	void AddObject(CObj* pObject, OBJID eID);
