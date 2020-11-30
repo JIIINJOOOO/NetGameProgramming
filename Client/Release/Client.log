@@ -1,11 +1,12 @@
-﻿  Device.cpp
-  Player.cpp
+﻿  Player.cpp
 f:\kpu\3-2 networkgameprogramming\termproject\client\player.cpp(89): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 f:\kpu\3-2 networkgameprogramming\termproject\client\player.cpp(90): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+f:\kpu\3-2 networkgameprogramming\termproject\client\player.cpp(104): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+f:\kpu\3-2 networkgameprogramming\termproject\client\player.cpp(105): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 LINK : warning LNK4075: '/INCREMENTAL'이(가) '/LTCG' 사양으로 인해 무시됩니다.
   코드를 생성하고 있습니다.
-  2 of 1353 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  2 of 1375 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    12 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   Client.vcxproj -> F:\KPU\3-2 NetworkGameProgramming\TermProject\Release\Client.exe

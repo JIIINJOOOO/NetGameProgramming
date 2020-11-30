@@ -1,9 +1,11 @@
 ﻿  Server.cpp
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(27): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerInfo' 왼쪽은 무시됩니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(138): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(140): warning C4101: 'sendThread' :참조되지 않은 지역 변수입니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(201): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(31): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerInfo' 왼쪽은 무시됩니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(42): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerNumCheck' 왼쪽은 무시됩니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(188): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(257): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
   코드를 생성하고 있습니다.
-  All 19 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  6 of 10 functions (60.0%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   Server.vcxproj -> F:\KPU\3-2 NetworkGameProgramming\TermProject\Server\Server\x64\Release\Server.exe
