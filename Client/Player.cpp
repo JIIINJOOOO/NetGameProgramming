@@ -88,6 +88,7 @@ int CPlayer::Update()
 		vPos.x = playerInfo_1.PosX;
 		vPos.y = playerInfo_1.PosY;
 		
+		m_fAngle = playerInfo_1.angle;
 
 	}
 
@@ -102,12 +103,13 @@ int CPlayer::Update()
 		vPos.x = playerInfo_2.PosX;
 		vPos.y = playerInfo_2.PosY;
 
+		m_fAngle = playerInfo_2.angle;
+
 	}
 	
-	m_fAngle = -180.f * atan2(CMouse::GetMousePos().y - m_tInfo.vDir.y - vPos.y, CMouse::GetMousePos().x - m_tInfo.vDir.x - vPos.x) / D3DX_PI;
-		D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
-		D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));
-		D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, 0.f);
+	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
+	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));
+	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, 0.f);
 
 
 		// 스 자 이 공 부 

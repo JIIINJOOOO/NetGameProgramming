@@ -105,13 +105,15 @@ typedef struct PlayerInfo
 	int playerID;
 	int HP;
 	int money;
+	float angle;
 };
 
 typedef struct KeyInput 
 {
 	char keycode;
 	int playerID;
-
+	float mouseX;
+	float mouseY;
 };
 
 typedef struct PlayerNumCheck 

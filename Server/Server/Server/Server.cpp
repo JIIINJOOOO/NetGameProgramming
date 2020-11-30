@@ -1,9 +1,15 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS // 최신 VC++ 컴파일 시 경고 방지
 #pragma comment(lib, "ws2_32")
+#define PIE ((FLOAT) 3.141592654f)
+
+
 #include <winsock2.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include <math.h>
+
+
 
 using namespace std;
 #define SERVERPORT 9000
@@ -18,6 +24,8 @@ struct Key
 {
     char ckey;
     int playerID;
+    float mouseX;
+    float mouseY;
 };
 Key key;
 
@@ -28,11 +36,19 @@ typedef struct PlayerInfo
     int playerID;
     int HP;
     int money;
+    float angle;
 };
 PlayerInfo p1_info;
 PlayerInfo p2_info;
 
+struct myVector2D
+{
+    float x;
+    float y;
+};
 
+myVector2D vDir = { 1.0f, 0.0f };
+myVector2D vLook = { 1.0f, 0.0f };
 HANDLE waitPlayerEnterEvent;
 
 typedef struct PlayerNumCheck //로그인 인원수 체크
@@ -91,10 +107,24 @@ void initPlayerInfo(PlayerInfo* pInfo, int playerNum)
 
     pInfo->HP = 100;
     pInfo->money = 1000;
+    pInfo->angle = 0.0f;
+}
+
+void RotatePlayer(float mouseX, float mouseY, int playerID) 
+{
+    if (playerID == 1) 
+    {
+        p1_info.angle = -180.f * atan2(mouseY - vDir.y - p1_info.PosY, mouseX - vDir.x - p1_info.PosX) / PIE;
+    }
+    else if (playerID == 2) 
+    {
+        p2_info.angle = -180.f * atan2(mouseY - vDir.y - p2_info.PosY, mouseX - vDir.x - p2_info.PosX) / PIE;
+    }
+
 }
 
 
-void movePlayer(char keycode, int playerID) 
+void MovePlayer(char keycode, int playerID) 
 {
     switch (keycode)
     {
@@ -322,8 +352,8 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 
             //std::cout << key.ckey << std::endl;
             
-            movePlayer(key.ckey, key.playerID);
-           
+            MovePlayer(key.ckey, key.playerID);
+            RotatePlayer(key.mouseX, key.mouseY, key.playerID);
 
           
             //std::cout << p1_info.PosX << "," << p1_info.PosY << std::endl;

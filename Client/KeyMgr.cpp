@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "KeyMgr.h"
 #include <iostream>
+#include "Mouse.h"
+
 IMPLEMENT_SINGLETON(CKeyMgr)
 
 CKeyMgr::CKeyMgr()
@@ -30,6 +32,9 @@ void CKeyMgr::KeyCheck()
 	KeyInput key;
 	key.playerID = playercheck.playerID;
 	key.keycode = '\0';
+	key.mouseX = CMouse::GetMousePos().x;
+	key.mouseY = CMouse::GetMousePos().y;
+
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
 		m_dwKey |= KEY_LBUTTON;	// 0000 |= 0001

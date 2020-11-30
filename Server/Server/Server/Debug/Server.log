@@ -1,1 +1,6 @@
-﻿  Server.vcxproj -> C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Debug\Server.exe
+﻿  Server.cpp
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(40,2): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerInfo' 왼쪽은 무시됩니다.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(58,2): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerNumCheck' 왼쪽은 무시됩니다.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(218,10): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(287,10): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+  Server.vcxproj -> C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Debug\Server.exe
