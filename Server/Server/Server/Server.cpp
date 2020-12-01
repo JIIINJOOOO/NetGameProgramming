@@ -433,7 +433,7 @@ int main(int argc, char* argv[])
             break;
         }
 
-
+		printf("플레이어 %d 입장\n", acceptCount);
         recvThread = CreateThread(NULL, 0, RecvFromClient, (LPVOID)client_sock, 0, &threadId[acceptCount]);
         acceptCount = (acceptCount + 1) % 2;
 

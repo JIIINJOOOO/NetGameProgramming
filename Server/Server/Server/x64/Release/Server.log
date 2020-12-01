@@ -18,8 +18,8 @@ f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(37
 f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(419): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
 f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(488): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
   코드를 생성하고 있습니다.
-  0 of 19 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+  1 of 19 functions ( 5.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   Server.vcxproj -> F:\KPU\3-2 NetworkGameProgramming\TermProject\Server\Server\x64\Release\Server.exe

@@ -1,3 +1,8 @@
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
 # Prerequisites
 *.d
 
@@ -56,9 +61,9 @@ Mkfile.old
 dkms.conf
 
 
-*.suo
 *.log
 *.tlog
 *.iobj
 *.ipdb
 *.lastbuildstate
+*.db
