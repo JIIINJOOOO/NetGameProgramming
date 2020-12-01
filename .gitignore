@@ -60,7 +60,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-
+.vs/
 *.log
 *.tlog
 *.iobj
