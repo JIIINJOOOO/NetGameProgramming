@@ -97,7 +97,7 @@ void UpdatePlayerRect(COLOBJ& rect, PlayerInfo p_info)
 }
 
 // 서버 내 충돌 처리 코드
-//void CollisionRect(COLOBJ dstArr[]/*장애물 배열*/, COLOBJ & srcLst/*총알구조체 배열*/)
+//void CollisionRect(COLOBJ objArr[]/*장애물 배열*/, COLOBJ bulArr[]/*총알구조체 배열*/)
 //{
 //	for (int i = 0; i < OBJ_NUM; ++i)
 //	{
@@ -162,22 +162,22 @@ void CollisionRectEx(COLOBJ objArr[]/*장애물 배열*/, COLOBJ playerArr[]/*플레이�
 					float fX = playerArr[j].PosX;
 					float fY = playerArr[j].PosY;
 
-					if (objArr[j].PosY > fY)
+					if (objArr[i].PosY > fY)
 						fMoveY *= -1.f;
 
 					p_Info[j].PosX = fX;
-					p_Info[j].PosX = fY + fMoveY;
+					p_Info[j].PosY = fY + fMoveY;
 				}
 				else // x축으로 밀어냄
 				{
 					float fX = playerArr[j].PosX;
 					float fY = playerArr[j].PosY;
 
-					if (objArr[j].PosX > fX)
+					if (objArr[i].PosX > fX)
 						fMoveX *= -1.f;
 
 					p_Info[j].PosX = fX + fMoveX;
-					p_Info[j].PosX = fY;
+					p_Info[j].PosY = fY;
 				}
 			}
 		}
@@ -185,35 +185,37 @@ void CollisionRectEx(COLOBJ objArr[]/*장애물 배열*/, COLOBJ playerArr[]/*플레이�
 }
 
 // 무기- 플레이어 충돌처리
-//void CollisionRectWeapon(COLOBJ dstLst, COLOBJ & srcLst)
-//{
-//	for (CObj* pDst : dstLst)
-//	{
-//		for (CObj* pSrc : srcLst)
-//		{
-//			RECT rc = {};
-//
-//			const RECT dstRect = pDst->GetCollRect();
-//			const RECT srcRect = pSrc->GetCollRect();
-//
-//			if (IntersectRect(&rc, &dstRect, &srcRect))
-//			{
-//				//pSrc->SetWeaponID(pDst->GetWeaponID());
-//				// 플레이어가 무기와 충돌중이다
-//				pSrc->SetIsOverlap(true);
-//				if (pSrc->GetIsPressedE() && (pSrc->GetMoney() >= pDst->GetMoney()))
-//				{
-//					pSrc->SetWeaponID(pDst->GetWeaponID());
-//					pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
-//					pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());
-//					pSrc->SetMoney(pSrc->GetMoney() - pDst->GetMoney());
-//				}
-//				// 201123 최대 총알 set 함수 추가
-//				//pDst->IsDead();
-//			}
-//		}
-//	}
-//}
+void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*플레이어 배열*/)
+{
+	for (int i = 0; i < WEAPON_NUM; ++i)
+	{
+		for (int j = 0; j < 2; ++j)
+		{
+			RECT rc = {};
+
+			const RECT weaponRect = { weaponArr[i].left,weaponArr[i].top,weaponArr[i].right,weaponArr[i].bottom };
+			const RECT playerRect = { playerArr[j].left,playerArr[i].top,playerArr[i].right,playerArr[i].bottom };
+
+			if (IntersectRect(&rc, &weaponRect, &playerRect))
+			{
+				//pSrc->SetWeaponID(pDst->GetWeaponID());
+				// 플레이어가 무기와 충돌중이다
+				//pSrc->SetIsOverlap(true);
+				// 201201 여기서 스레드로 플레이어 아이디 1,2 e눌렸는지 얻어와야 할듯?
+				// 그리고 총의 money(가격)도 받아와야함... 구조체 어케 할지?
+				if (key.key_E_Press && (pSrc->GetMoney() >= pDst->GetMoney()))
+				{
+					pSrc->SetWeaponID(pDst->GetWeaponID());
+					pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
+					pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());
+					pSrc->SetMoney(pSrc->GetMoney() - pDst->GetMoney());
+				}
+				// 201123 최대 총알 set 함수 추가
+				//pDst->IsDead();
+			}
+		}
+	}
+}
 
 
 

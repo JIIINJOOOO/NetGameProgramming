@@ -67,3 +67,6 @@ dkms.conf
 *.ipdb
 *.lastbuildstate
 *.db
+.vs/FrameworkHLM1/v15/.suo
+*.db
+*.ipch
