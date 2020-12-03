@@ -101,7 +101,8 @@ int CPlayer::Update()
 		if (playerInfo_1.weaponID == 3) {
 			m_eWeapon = WEAPONID::SHOTGUN;
 		}
-
+		m_iMaxBulletNum = playerInfo_1.MaxBulletNum;
+		m_iCurBulletNum = playerInfo_1.CurBulletNum;
 	}
 
 	if (m_iPlayerID == 2)
@@ -129,8 +130,8 @@ int CPlayer::Update()
 		if (playerInfo_2.weaponID == 3) {
 			m_eWeapon = WEAPONID::SHOTGUN;
 		}
-		
-
+		m_iMaxBulletNum = playerInfo_2.MaxBulletNum;
+		m_iCurBulletNum = playerInfo_2.CurBulletNum;
 	}
 	
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);

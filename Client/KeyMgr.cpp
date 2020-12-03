@@ -35,7 +35,8 @@ void CKeyMgr::KeyCheck()
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
 		m_dwKey |= KEY_LBUTTON;	// 0000 |= 0001
-		key.Mouse_L_Press = true;
+		if(KeyDown(KEY_LBUTTON))
+			key.Mouse_L_Press = true;
 	}
 	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
 	{

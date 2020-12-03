@@ -10,7 +10,10 @@
 #define RIFLE_PRICE 1000
 #define SMG_PRICE 500
 #define SHOTGUN_PRICE 1500
-
+#define RIFLE_BULLET 5
+#define SMG_BULLET 10
+#define SHOTGUN_BULLET 2
+#define FPS 1000
 
 #include <winsock2.h>
 #include <stdlib.h>
@@ -18,8 +21,9 @@
 #include <iostream>
 #include <math.h>
 
+float fTimer = 0.f;
 
-
+float timer = 0;//
 using namespace std;
 
 
@@ -28,6 +32,7 @@ CRITICAL_SECTION cs;
 
 static DWORD threadId[2];
 int acceptCount = 0;
+#pragma pack(push,1)
 struct Key
 {
     bool key_W_Press;
@@ -42,23 +47,29 @@ struct Key
     float mouseX;
     float mouseY;
 };
+#pragma pack(pop)
+
 Key key;
 
-
+#pragma pack(push,1)
 typedef struct PlayerInfo
 {
     int PosX;
     int PosY;
     int playerID;
 	int weaponID;
+	int CurBulletNum;
+	int MaxBulletNum;
     int HP;
     int money;
     float angle;
 }PINFO;
+#pragma pack(pop)
+
 PlayerInfo p_Info[2];
 
 
-
+#pragma pack(push,1)
 typedef struct CollisionObj
 {
 	int objID;
@@ -69,27 +80,31 @@ typedef struct CollisionObj
 	float PosX;
 	float PosY;
 }COLOBJ;
+#pragma pack(pop)
+
 COLOBJ objarr[OBJ_NUM];
 COLOBJ p_cols[2];
 COLOBJ weaponarr[WEAPON_NUM];
 
-struct myVector2D
-{
-    float x;
-    float y;
-};
 
-myVector2D vDir = { 1.0f, 0.0f };
-myVector2D vLook = { 1.0f, 0.0f };
-HANDLE waitPlayerEnterEvent;
-
+#pragma pack(push,1)
 typedef struct PlayerNumCheck //로그인 인원수 체크
 {
     int enterPlayerNum;
     int playerID;
 };
-
+#pragma pack(pop)
 PlayerNumCheck playernum;
+
+struct myVector2D
+{
+	float x;
+	float y;
+};
+
+myVector2D vDir = { 1.0f, 0.0f };
+myVector2D vLook = { 1.0f, 0.0f };
+HANDLE waitPlayerEnterEvent;
 
 void UpdatePlayerRect(COLOBJ& rect, PlayerInfo p_info)
 {
@@ -215,29 +230,34 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 				// 그리고 총의 money(가격)도 받아와야함... 구조체 어케 할지?
 				int iPrice = 0;
 				int iWeaponType = 0;
+				int iMaxBulletNum = 0;
 				if (weaponArr[i].objID == 1)
 				{
 					iWeaponType = 1;
 					iPrice = RIFLE_PRICE;
+					iMaxBulletNum = RIFLE_BULLET;
 				}
 				else if (weaponArr[i].objID == 2)
 				{
 					iWeaponType = 2;
 					iPrice = SMG_PRICE;
+					iMaxBulletNum = SMG_BULLET;
 				}
 				else if (weaponArr[i].objID == 3)
 				{
 					iWeaponType = 3;
 					iPrice = SHOTGUN_PRICE;
+					iMaxBulletNum = SHOTGUN_BULLET;
 				}
 				if (bIsEpressed && (p_Info[j].money >= iPrice))
 				{
-                    cout << j << "buy Weapon" <<i << endl;
+                    //cout << j << "buy Weapon" <<i << endl;
 					//pSrc->SetWeaponID(pDst->GetWeaponID());
 					p_Info[j].weaponID = iWeaponType;
 					/*pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
 					pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());*/
-					
+					p_Info[j].MaxBulletNum = iMaxBulletNum;
+					p_Info[j].CurBulletNum = iMaxBulletNum;
 					p_Info[j].money -= iPrice;
 				}
 				// 201123 최대 총알 set 함수 추가
@@ -364,12 +384,29 @@ void MovePlayer(Key keycode)
         {
             p_Info[1].PosX += 1;
         }
-
-
     }
+   
+}
 
-
-    
+void PlayerShoot(Key keycode)
+{
+	if (keycode.Mouse_L_Press)
+	{
+		if (keycode.playerID == 1)
+		{
+			if (p_Info[0].CurBulletNum > 0)
+			{
+				p_Info[0].CurBulletNum -= 1;
+			}
+		}
+		else if (keycode.playerID == 2)
+		{
+			if (p_Info[1].CurBulletNum > 0)
+			{
+				p_Info[1].CurBulletNum -= 1;
+			}
+		}
+	}
 }
 
 int recvn(SOCKET s, char* buf, int len, int flags);
@@ -572,6 +609,13 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 
         if (playernum.enterPlayerNum > 1) {
             
+			EnterCriticalSection(&cs);
+			fTimer++;
+			cout << "frame : "<<fTimer/FPS << endl;
+			if (fTimer > FPS) {
+				fTimer =0;
+			}
+			LeaveCriticalSection(&cs);
             retval = recv(client_sock, (char*)&key, sizeof(Key), 0);
             if (retval == SOCKET_ERROR) {
                 err_display("recv()");
@@ -586,6 +630,7 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
             EnterCriticalSection(&cs);
             MovePlayer(key);
             RotatePlayer(key.mouseX, key.mouseY, key.playerID);
+			PlayerShoot(key);
 			if (currentThreadId == threadId[0]) 
 			{
 				UpdatePlayerRect(p_cols[0], p_Info[0]);

@@ -98,17 +98,22 @@ typedef struct tagFrame
 
 }FRAME;
 
+#pragma pack(push,1)
 typedef struct PlayerInfo
 {
 	int PosX;
 	int PosY;
 	int playerID;
 	int weaponID;
+	int CurBulletNum;
+	int MaxBulletNum;
 	int HP;
 	int money;
 	float angle;
 };
+#pragma pack(pop)
 
+#pragma pack(push,1)
 typedef struct KeyInput 
 {
 	bool key_W_Press;
@@ -123,13 +128,17 @@ typedef struct KeyInput
 	float mouseX;
 	float mouseY;
 };
+#pragma pack(pop)
 
+#pragma pack(push,1)
 typedef struct PlayerNumCheck 
 {
 	int enterPlayerNum;
 	int playerID;
 };
+#pragma pack(pop)
 
+#pragma pack(push,1)
 typedef struct CollisionObj
 {
 	int objID;
@@ -140,8 +149,4 @@ typedef struct CollisionObj
 	float PosX;
 	float PosY;
 }COLOBJ;
-
-typedef struct CollisionObjArray
-{
-	COLOBJ m_objarr[1113];
-}COLOBJARR;
+#pragma pack(pop)
