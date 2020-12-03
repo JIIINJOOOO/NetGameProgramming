@@ -112,13 +112,13 @@ int CPlayer::Update()
 	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, 0.f);
 
 
-		// 스 자 이 공 부 
-		m_tInfo.matWorld = matScale * matRotZ * matTrans;
+	// 스 자 이 공 부 
+	m_tInfo.matWorld = matScale * matRotZ * matTrans;
 
-		/*플레이어 위치벡터*/
-		//D3DXVec3TransformCoord(&m_tInfo.vPos, &m_tInfo.vLook, &m_tInfo.matWorld);
-		/*플레이어 방향벡터*/
-		D3DXVec3TransformNormal(&m_tInfo.vDir, &m_tInfo.vLook, &m_tInfo.matWorld);
+	/*플레이어 위치벡터*/
+	//D3DXVec3TransformCoord(&m_tInfo.vPos, &m_tInfo.vLook, &m_tInfo.matWorld);
+	/*플레이어 방향벡터*/
+	D3DXVec3TransformNormal(&m_tInfo.vDir, &m_tInfo.vLook, &m_tInfo.matWorld);
 
 
 	
@@ -375,6 +375,36 @@ void CPlayer::KeyCheck()
 		if (m_bIsOverlap)
 		{
 			m_bIsPressedE = true;
+		}
+		if (m_iPlayerID == 1)
+		{
+			if (playerInfo_1.weaponID == 1)
+			{
+				m_eWeapon = WEAPONID::RIFLE;
+			}
+			else if (playerInfo_1.weaponID == 2)
+			{
+				m_eWeapon = WEAPONID::SMG;
+			}
+			else if (playerInfo_1.weaponID == 3)
+			{
+				m_eWeapon = WEAPONID::SHOTGUN;
+			}
+		}
+		else if (m_iPlayerID == 2)
+		{
+			if (playerInfo_2.weaponID == 1)
+			{
+				m_eWeapon = WEAPONID::RIFLE;
+			}
+			else if (playerInfo_2.weaponID == 2)
+			{
+				m_eWeapon = WEAPONID::SMG;
+			}
+			else if (playerInfo_2.weaponID == 3)
+			{
+				m_eWeapon = WEAPONID::SHOTGUN;
+			}
 		}
 	}
 }

@@ -1,25 +1,24 @@
 ﻿  Server.cpp
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(51): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerInfo' 왼쪽은 무시됩니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(84): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerNumCheck' 왼쪽은 무시됩니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(90): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(91): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(168): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(169): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(179): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(180): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(357): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(90): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerNumCheck' 왼쪽은 무시됩니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(96): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(97): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(173): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(174): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(184): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(185): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(383): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 'fopen' 선언을 참조하십시오.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(360): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(386): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: 'fscanf' 선언을 참조하십시오.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(370): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(396): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 'fopen' 선언을 참조하십시오.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(373): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(399): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: 'fscanf' 선언을 참조하십시오.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(419): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
-f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(488): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(445): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+f:\kpu\3-2 networkgameprogramming\termproject\server\server\server\server.cpp(514): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
   코드를 생성하고 있습니다.
-  2 of 19 functions (10.5%) were compiled, the rest were copied from previous compilation.
+  2 of 20 functions (10.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   Server.vcxproj -> F:\KPU\3-2 NetworkGameProgramming\TermProject\Server\Server\x64\Release\Server.exe

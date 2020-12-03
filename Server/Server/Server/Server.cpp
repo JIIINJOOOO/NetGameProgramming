@@ -7,6 +7,10 @@
 #define BUFSIZE    5
 #define OBJ_NUM 1113
 #define WEAPON_NUM 3
+#define RIFLE_PRICE 1000
+#define SMG_PRICE 500
+#define SHOTGUN_PRICE 1500
+
 
 #include <winsock2.h>
 #include <stdlib.h>
@@ -40,15 +44,17 @@ struct Key
 };
 Key key;
 
+
 typedef struct PlayerInfo
 {
     int PosX;
     int PosY;
     int playerID;
+	int weaponID;
     int HP;
     int money;
     float angle;
-};
+}PINFO;
 PlayerInfo p_Info[2];
 
 
@@ -93,7 +99,6 @@ void UpdatePlayerRect(COLOBJ& rect, PlayerInfo p_info)
 	rect.top = LONG(p_info.PosY - PLAYERRECTHEIGHT * 0.5f);
 	rect.right = LONG(p_info.PosX + PLAYERRECTWIDTH * 0.5f);
 	rect.bottom = LONG(p_info.PosY + PLAYERRECTHEIGHT * 0.5f);
-
 }
 
 // 서버 내 충돌 처리 코드
@@ -185,7 +190,7 @@ void CollisionRectEx(COLOBJ objArr[]/*장애물 배열*/, COLOBJ playerArr[]/*플레이�
 }
 
 // 무기- 플레이어 충돌처리
-void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*플레이어 배열*/)
+void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*플레이어 배열*/,bool bIsEpressed)
 {
 	for (int i = 0; i < WEAPON_NUM; ++i)
 	{
@@ -203,12 +208,31 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 				//pSrc->SetIsOverlap(true);
 				// 201201 여기서 스레드로 플레이어 아이디 1,2 e눌렸는지 얻어와야 할듯?
 				// 그리고 총의 money(가격)도 받아와야함... 구조체 어케 할지?
-				if (key.key_E_Press && (pSrc->GetMoney() >= pDst->GetMoney()))
+				int iPrice = 0;
+				int iWeaponType = 0;
+				if (weaponArr[i].objID == 1)
 				{
-					pSrc->SetWeaponID(pDst->GetWeaponID());
-					pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
-					pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());
-					pSrc->SetMoney(pSrc->GetMoney() - pDst->GetMoney());
+					iWeaponType = 1;
+					iPrice = RIFLE_PRICE;
+				}
+				else if (weaponArr[i].objID == 2)
+				{
+					iWeaponType = 2;
+					iPrice = SMG_PRICE;
+				}
+				else if (weaponArr[i].objID == 3)
+				{
+					iWeaponType = 3;
+					iPrice = SHOTGUN_PRICE;
+				}
+				if (bIsEpressed && (p_Info[j].money >= iPrice))
+				{
+					//pSrc->SetWeaponID(pDst->GetWeaponID());
+					p_Info[j].weaponID = iWeaponType;
+					/*pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
+					pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());*/
+					//pSrc->SetMoney(pSrc->GetMoney() - pDst->GetMoney());
+					p_Info[j].money -= iPrice;
 				}
 				// 201123 최대 총알 set 함수 추가
 				//pDst->IsDead();
@@ -556,7 +580,6 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
             EnterCriticalSection(&cs);
             MovePlayer(key);
             RotatePlayer(key.mouseX, key.mouseY, key.playerID);
-            LeaveCriticalSection(&cs);
 			if (currentThreadId == threadId[0]) 
 			{
 				UpdatePlayerRect(p_cols[0], p_Info[0]);
@@ -567,6 +590,8 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 			}
           
 			CollisionRectEx(objarr, p_cols);
+			CollisionRectWeapon(weaponarr, p_cols, key.key_E_Press);
+			LeaveCriticalSection(&cs);
 
             //std::cout << p_Info[0].PosX << "," << p_Info[0].PosY << std::endl;
            

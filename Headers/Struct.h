@@ -103,6 +103,7 @@ typedef struct PlayerInfo
 	int PosX;
 	int PosY;
 	int playerID;
+	int weaponID;
 	int HP;
 	int money;
 	float angle;
