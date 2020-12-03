@@ -192,17 +192,22 @@ void CollisionRectEx(COLOBJ objArr[]/*장애물 배열*/, COLOBJ playerArr[]/*플레이�
 // 무기- 플레이어 충돌처리
 void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*플레이어 배열*/,bool bIsEpressed)
 {
+
+    float fMoveX = 0.f, fMoveY = 0.f;
+
 	for (int i = 0; i < WEAPON_NUM; ++i)
 	{
 		for (int j = 0; j < 2; ++j)
 		{
-			RECT rc = {};
+			//RECT rc = {};
 
-			const RECT weaponRect = { weaponArr[i].left,weaponArr[i].top,weaponArr[i].right,weaponArr[i].bottom };
-			const RECT playerRect = { playerArr[j].left,playerArr[i].top,playerArr[i].right,playerArr[i].bottom };
+			/*const RECT weaponRect = { weaponArr[i].left,weaponArr[i].top,weaponArr[i].right,weaponArr[i].bottom };
+			const RECT playerRect = { playerArr[j].left,playerArr[i].top,playerArr[i].right,playerArr[i].bottom };*/
 
-			if (IntersectRect(&rc, &weaponRect, &playerRect))
+			//if (IntersectRect(&rc, &weaponRect, &playerRect))
+            if(CheckRect(weaponArr[i],playerArr[j],&fMoveX,&fMoveY))
 			{
+               
 				//pSrc->SetWeaponID(pDst->GetWeaponID());
 				// 플레이어가 무기와 충돌중이다
 				//pSrc->SetIsOverlap(true);
@@ -227,11 +232,12 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 				}
 				if (bIsEpressed && (p_Info[j].money >= iPrice))
 				{
+                    cout << j << "buy Weapon" <<i << endl;
 					//pSrc->SetWeaponID(pDst->GetWeaponID());
 					p_Info[j].weaponID = iWeaponType;
 					/*pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
 					pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());*/
-					//pSrc->SetMoney(pSrc->GetMoney() - pDst->GetMoney());
+					
 					p_Info[j].money -= iPrice;
 				}
 				// 201123 최대 총알 set 함수 추가

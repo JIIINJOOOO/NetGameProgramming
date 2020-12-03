@@ -90,6 +90,18 @@ int CPlayer::Update()
 		
 		m_fAngle = playerInfo_1.angle;
 
+		if (playerInfo_1.weaponID == 1)
+		{
+			m_eWeapon = WEAPONID::RIFLE;
+		}
+		if (playerInfo_1.weaponID == 2)
+		{
+			m_eWeapon = WEAPONID::SMG;
+		}
+		if (playerInfo_1.weaponID == 3) {
+			m_eWeapon = WEAPONID::SHOTGUN;
+		}
+
 	}
 
 	if (m_iPlayerID == 2)
@@ -104,6 +116,20 @@ int CPlayer::Update()
 		vPos.y = playerInfo_2.PosY;
 
 		m_fAngle = playerInfo_2.angle;
+
+		//cout << playerInfo_2.weaponID << endl;
+		if (playerInfo_2.weaponID == 1)
+		{
+			m_eWeapon = WEAPONID::RIFLE;
+		}
+		if (playerInfo_2.weaponID == 2)
+		{
+			m_eWeapon = WEAPONID::SMG;
+		}
+		if (playerInfo_2.weaponID == 3) {
+			m_eWeapon = WEAPONID::SHOTGUN;
+		}
+		
 
 	}
 	
@@ -352,14 +378,14 @@ void CPlayer::KeyCheck()
 	{
 		m_eCurState = STANCE::WALK;
 		m_ePreState = m_eCurState;
-		m_fAngle += 5.f;
+		//m_fAngle += 5.f;
 		//m_tInfo.vPos.x -= m_fSpeed * fTime;
 	}
 	if (CKeyMgr::GetInstance()->KeyPressing(KEY_D))
 	{
 		m_eCurState = STANCE::WALK;
 		m_ePreState = m_eCurState;
-		m_fAngle -= 5.f;
+		//m_fAngle -= 5.f;
 		//m_tInfo.vPos.x += m_fSpeed * fTime;
 	}
 
