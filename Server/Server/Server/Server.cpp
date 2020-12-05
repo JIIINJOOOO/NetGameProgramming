@@ -13,7 +13,7 @@
 #define RIFLE_BULLET 5
 #define SMG_BULLET 10
 #define SHOTGUN_BULLET 2
-#define FPS 1000
+#define FPS 30
 
 #include <winsock2.h>
 #include <stdlib.h>
@@ -52,10 +52,20 @@ struct Key
 Key key;
 
 #pragma pack(push,1)
+typedef struct BulletInfo
+{
+	float PosX;
+	float PosY;
+	float speed;
+	float range;
+};
+#pragma pack(pop)
+
+#pragma pack(push,1)
 typedef struct PlayerInfo
 {
-    int PosX;
-    int PosY;
+	float PosX;
+	float PosY;
     int playerID;
 	int weaponID;
 	int CurBulletNum;
@@ -63,6 +73,8 @@ typedef struct PlayerInfo
     int HP;
     int money;
     float angle;
+	BulletInfo bullets[10];
+
 }PINFO;
 #pragma pack(pop)
 
@@ -85,6 +97,7 @@ typedef struct CollisionObj
 COLOBJ objarr[OBJ_NUM];
 COLOBJ p_cols[2];
 COLOBJ weaponarr[WEAPON_NUM];
+
 
 
 #pragma pack(push,1)
@@ -267,7 +280,10 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 	}
 }
 
+void UpdateBullet()
+{
 
+}
 
 
 // 소켓 함수 오류 출력 후 종료
@@ -337,16 +353,16 @@ void RotatePlayer(float mouseX, float mouseY, int playerID)
 
 void MovePlayer(Key keycode) 
 {
-    
+	float fSpeed = 0.1f;
     if (keycode.key_W_Press)
     {
         if (keycode.playerID == 1)
         {
-            p_Info[0].PosY -= 1;
+            p_Info[0].PosY -= fSpeed * fTimer;
         }
         else if (keycode.playerID == 2)
         {
-            p_Info[1].PosY -= 1;
+            p_Info[1].PosY -= fSpeed *fTimer;
         }
        
     }
@@ -355,20 +371,20 @@ void MovePlayer(Key keycode)
     {
         if (keycode.playerID == 1) 
         {
-            p_Info[0].PosX -= 1;
+            p_Info[0].PosX -= fSpeed *fTimer;
         }
         else if (keycode.playerID == 2) 
         {
-            p_Info[1].PosX -= 1;
+            p_Info[1].PosX -= fSpeed *fTimer;
         }
     }
 
     if (keycode.key_S_Press) 
     {
         if (keycode.playerID == 1)
-            p_Info[0].PosY += 1;
+            p_Info[0].PosY += fSpeed * fTimer;
         else if (keycode.playerID == 2)
-            p_Info[1].PosY += 1;
+            p_Info[1].PosY += fSpeed * fTimer;
     }
 
        
@@ -376,13 +392,13 @@ void MovePlayer(Key keycode)
 
         if (keycode.playerID == 1)
         {
-            p_Info[0].PosX += 1;
+            p_Info[0].PosX += fSpeed * fTimer;
          
         }
 
         else if (keycode.playerID == 2)
         {
-            p_Info[1].PosX += 1;
+            p_Info[1].PosX += fSpeed * fTimer;
         }
     }
    
@@ -398,6 +414,9 @@ void PlayerShoot(Key keycode)
 			{
 				p_Info[0].CurBulletNum -= 1;
 			}
+			p_Info[0].PosX;//등으로 불렛 구조체의 위치를 초기화해줌
+			//위치가 나오면 range를 계산
+			
 		}
 		else if (keycode.playerID == 2)
 		{
@@ -630,7 +649,8 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
             EnterCriticalSection(&cs);
             MovePlayer(key);
             RotatePlayer(key.mouseX, key.mouseY, key.playerID);
-			PlayerShoot(key);
+			PlayerShoot(key);//불릿 초기화를 여기서 진행
+
 			if (currentThreadId == threadId[0]) 
 			{
 				UpdatePlayerRect(p_cols[0], p_Info[0]);

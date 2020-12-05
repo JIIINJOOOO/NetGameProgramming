@@ -101,8 +101,8 @@ typedef struct tagFrame
 #pragma pack(push,1)
 typedef struct PlayerInfo
 {
-	int PosX;
-	int PosY;
+	float PosX;
+	float PosY;
 	int playerID;
 	int weaponID;
 	int CurBulletNum;
@@ -110,6 +110,7 @@ typedef struct PlayerInfo
 	int HP;
 	int money;
 	float angle;
+	BulletInfo bullets[10];
 };
 #pragma pack(pop)
 
@@ -149,4 +150,15 @@ typedef struct CollisionObj
 	float PosX;
 	float PosY;
 }COLOBJ;
+#pragma pack(pop)
+
+
+#pragma pack(push,1)
+typedef struct BulletInfo
+{
+	float PosX;
+	float PosY;
+	float speed;
+	float range;
+};
 #pragma pack(pop)
