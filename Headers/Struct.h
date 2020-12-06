@@ -102,10 +102,14 @@ typedef struct tagFrame
 #pragma pack(push,1)
 typedef struct BulletInfo
 {
+	bool IsDead;
 	float PosX;
 	float PosY;
+	float DirX;
+	float DirY;
 	float speed;
 	float range;
+	int damage;
 };
 #pragma pack(pop)
 
@@ -114,6 +118,8 @@ typedef struct PlayerInfo
 {
 	float PosX;
 	float PosY;
+	float DirX;
+	float DirY;
 	int playerID;
 	int weaponID;
 	int CurBulletNum;

@@ -14,6 +14,7 @@
 #define SMG_BULLET 10
 #define SHOTGUN_BULLET 2
 #define FPS 30
+#define MAX_BULLETS 10
 
 #include <winsock2.h>
 #include <stdlib.h>
@@ -54,10 +55,14 @@ Key tempKey;
 #pragma pack(push,1)
 typedef struct BulletInfo
 {
+	bool IsDead;
 	float PosX;
 	float PosY;
+	float DirX;
+	float DirY;
 	float speed;
 	float range;
+	int damage;
 };
 #pragma pack(pop)
 
@@ -66,6 +71,8 @@ typedef struct PlayerInfo
 {
 	float PosX;
 	float PosY;
+	float DirX;
+	float DirY;
     int playerID;
 	int weaponID;
 	int CurBulletNum;
@@ -73,7 +80,7 @@ typedef struct PlayerInfo
     int HP;
     int money;
     float angle;
-	BulletInfo bullets[10];
+	BulletInfo bullets[MAX_BULLETS];
 
 }PINFO;
 #pragma pack(pop)
@@ -115,9 +122,24 @@ struct myVector2D
 	float y;
 };
 
-myVector2D vDir = { 1.0f, 0.0f };
-myVector2D vLook = { 1.0f, 0.0f };
+myVector2D vDir[2] = { {1.0f, 0.0f},{1.0f, 0.0f} };
+//myVector2D vLook = { 1.0f, 0.0f };
 HANDLE waitPlayerEnterEvent;
+
+
+void CalcDirVec(int playerID, float p_posX, float p_posY, float m_posX, float m_posY) 
+{
+	double dirX = m_posX - p_posX;
+	double dirY = m_posY - p_posY;
+
+	double dist = sqrt( pow(dirX, 2.0) + pow(dirY, 2.0));
+
+	p_Info[playerID].DirX = dirX / dist;
+	p_Info[playerID].DirY = dirY / dist;
+
+
+}
+
 
 void UpdatePlayerRect(COLOBJ& rect, PlayerInfo p_info)
 {
@@ -272,6 +294,7 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 					p_Info[j].MaxBulletNum = iMaxBulletNum;
 					p_Info[j].CurBulletNum = iMaxBulletNum;
 					p_Info[j].money -= iPrice;
+					
 				}
 				// 201123 최대 총알 set 함수 추가
 				//pDst->IsDead();
@@ -280,10 +303,20 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 	}
 }
 
-void UpdateBullet()
+void UpdateBullet(BulletInfo bullets[])
 {
+	for (int i = 0; i < MAX_BULLETS; ++i)
+	{
+		if (!bullets[i].IsDead)
+		{
+			bullets[i].PosX += bullets[i].DirX*bullets[i].speed;
+			bullets[i].PosY += bullets[i].DirY*bullets[i].speed;
 
+		}
+		
+	}
 }
+
 
 
 // 소켓 함수 오류 출력 후 종료
@@ -335,17 +368,23 @@ void initPlayerInfo(PlayerInfo* pInfo, int playerNum)
     pInfo->HP = 100;
     pInfo->money = 1000;
     pInfo->angle = 0.0f;
+	pInfo->CurBulletNum = 0;
+	pInfo->MaxBulletNum = 0;
+	for (int i = 0; i < MAX_BULLETS; ++i)
+	{
+		pInfo->bullets[i].IsDead = true;
+	}
 }
 
 void RotatePlayer(float mouseX, float mouseY, int playerID) 
 {
     if (playerID == 1) 
     {
-        p_Info[0].angle = -180.f * atan2(mouseY - vDir.y - p_Info[0].PosY, mouseX - vDir.x - p_Info[0].PosX) / PIE;
+        p_Info[0].angle = -180.f * atan2(mouseY - vDir[0].y - p_Info[0].PosY, mouseX - vDir[0].x - p_Info[0].PosX) / PIE;
     }
     else if (playerID == 2) 
     {
-        p_Info[1].angle = -180.f * atan2(mouseY - vDir.y - p_Info[1].PosY, mouseX - vDir.x - p_Info[1].PosX) / PIE;
+        p_Info[1].angle = -180.f * atan2(mouseY - vDir[1].y - p_Info[1].PosY, mouseX - vDir[1].x - p_Info[1].PosX) / PIE;
     }
 
 }
@@ -406,6 +445,7 @@ void MovePlayer(Key keycode)
 
 void PlayerShoot(Key keycode)
 {
+	bool IsBulCreate = false;
 	if (keycode.Mouse_L_Press)
 	{
 		if (keycode.playerID == 1)
@@ -414,9 +454,41 @@ void PlayerShoot(Key keycode)
 			{
 				p_Info[0].CurBulletNum -= 1;
 			}
-			p_Info[0].PosX;//등으로 불렛 구조체의 위치를 초기화해줌
-			//위치가 나오면 range를 계산
-			
+			for (int i = 0; i < MAX_BULLETS; ++i)
+			{
+				if (p_Info[0].bullets[i].IsDead)
+				{
+					p_Info[0].bullets[i].IsDead = false;
+					p_Info[0].bullets[i].PosX = p_Info[0].PosX;
+					p_Info[0].bullets[i].PosY = p_Info[0].PosY;
+					p_Info[0].bullets[i].DirX = p_Info[0].DirX;
+					p_Info[0].bullets[i].DirY = p_Info[0].DirY;
+
+					if (p_Info[0].weaponID == 1) // RIFLE
+					{
+						p_Info[0].bullets[i].speed = 2.f;
+						p_Info[0].bullets[i].range = 230.f;
+						p_Info[0].bullets[i].damage = 10;
+					}
+					else if (p_Info[0].weaponID == 2) // SMG
+					{
+						p_Info[0].bullets[i].speed = 3.f;
+						p_Info[0].bullets[i].range = 150.f;
+						p_Info[0].bullets[i].damage = 3;
+					}
+					else if (p_Info[0].weaponID == 3) // SHOTGUN
+					{
+						p_Info[0].bullets[i].speed = 4.f;
+						p_Info[0].bullets[i].range = 100.f;
+						p_Info[0].bullets[i].damage = 15;
+					}
+					IsBulCreate = true;
+				}
+				if (IsBulCreate)
+					break;
+				//위치가 나오면 range를 계산
+			}
+	
 		}
 		else if (keycode.playerID == 2)
 		{
@@ -424,8 +496,44 @@ void PlayerShoot(Key keycode)
 			{
 				p_Info[1].CurBulletNum -= 1;
 			}
+			for (int i = 0; i < MAX_BULLETS; ++i)
+			{
+				if (p_Info[1].bullets[i].IsDead)
+				{		   
+					p_Info[1].bullets[i].IsDead = false;
+					p_Info[1].bullets[i].PosX = p_Info[1].PosX;
+					p_Info[1].bullets[i].PosY = p_Info[1].PosY;
+					p_Info[1].bullets[i].DirX = p_Info[1].DirX;
+					p_Info[1].bullets[i].DirY = p_Info[1].DirY;
+
+					if (p_Info[1].weaponID == 1) // RIFLE
+					{		   
+						p_Info[1].bullets[i].speed = 2.f;
+						p_Info[1].bullets[i].range = 230.f;
+						p_Info[1].bullets[i].damage = 10;
+					}
+					else if (p_Info[1].weaponID == 2) // SMG
+					{
+						p_Info[1].bullets[i].speed = 3.f;
+						p_Info[1].bullets[i].range = 150.f;
+						p_Info[1].bullets[i].damage = 3;
+					}
+					else if (p_Info[1].weaponID == 3) // SHOTGUN
+					{
+						p_Info[1].bullets[i].speed = 4.f;
+						p_Info[1].bullets[i].range = 100.f;
+						p_Info[1].bullets[i].damage = 15;
+					}
+					IsBulCreate = true;
+				}
+				if (IsBulCreate)
+					break;
+				//위치가 나오면 range를 계산
+			}
 		}
 	}
+
+	
 }
 
 int recvn(SOCKET s, char* buf, int len, int flags);
@@ -658,11 +766,16 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 
 			if (currentThreadId == threadId[0]) 
 			{
+				UpdateBullet(p_Info[0].bullets);
 				UpdatePlayerRect(p_cols[0], p_Info[0]);
+				CalcDirVec(0, p_Info[0].PosX, p_Info[0].PosY, tempKey.mouseX, tempKey.mouseY);
 			}
 			else if (currentThreadId == threadId[1])
 			{
+				UpdateBullet(p_Info[1].bullets);
 				UpdatePlayerRect(p_cols[1], p_Info[1]);
+				CalcDirVec(1, p_Info[1].PosX, p_Info[1].PosY, tempKey.mouseX, tempKey.mouseY);
+
 			}
           
 			CollisionRectEx(objarr, p_cols);

@@ -286,7 +286,7 @@ void CPlayer::KeyCheck()
 				m_eCurState = STANCE::ATTACK;
 				m_wstrStateKey = L"Attack";
 				m_tFrame.fMax = 2.f;
-				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, RIFLE));
+				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
 				CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;
 				break;
@@ -294,7 +294,7 @@ void CPlayer::KeyCheck()
 				m_eCurState = STANCE::ATTACK;
 				m_wstrStateKey = L"Attack";
 				m_tFrame.fMax = 2.f;
-				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, SMG));
+				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), SMG));
 				CSoundMgr::GetInstance()->PlaySound(L"sndUzi.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;
 				break;
@@ -316,7 +316,7 @@ void CPlayer::KeyCheck()
 					D3DXVec3TransformNormal(&tInfo_sg.vDir, &tInfo_sg.vLook, &tInfo_sg.matWorld);
 
 					//m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, SHOTGUN));
-					m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, tInfo_sg.vDir, SHOTGUN));
+					m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), SHOTGUN));
 				}
 				CSoundMgr::GetInstance()->PlaySound(L"sndShotgun.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;

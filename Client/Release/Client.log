@@ -1,7 +1,8 @@
 ﻿  stdafx.cpp
-f:\kpu\3-2 networkgameprogramming\termproject\headers\struct.h(113): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerInfo' 왼쪽은 무시됩니다.
-f:\kpu\3-2 networkgameprogramming\termproject\headers\struct.h(130): warning C4091: 'typedef ': 변수를 선언하지 않으면 'KeyInput' 왼쪽은 무시됩니다.
-f:\kpu\3-2 networkgameprogramming\termproject\headers\struct.h(138): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerNumCheck' 왼쪽은 무시됩니다.
+f:\kpu\3-2 networkgameprogramming\termproject\headers\struct.h(113): warning C4091: 'typedef ': 변수를 선언하지 않으면 'BulletInfo' 왼쪽은 무시됩니다.
+f:\kpu\3-2 networkgameprogramming\termproject\headers\struct.h(131): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerInfo' 왼쪽은 무시됩니다.
+f:\kpu\3-2 networkgameprogramming\termproject\headers\struct.h(148): warning C4091: 'typedef ': 변수를 선언하지 않으면 'KeyInput' 왼쪽은 무시됩니다.
+f:\kpu\3-2 networkgameprogramming\termproject\headers\struct.h(156): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerNumCheck' 왼쪽은 무시됩니다.
   Client.cpp
   CollisionMgr.cpp
 f:\kpu\3-2 networkgameprogramming\termproject\client\collisionmgr.cpp(170): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -33,8 +34,8 @@ f:\kpu\3-2 networkgameprogramming\termproject\client\collisionmgr.cpp(170): warn
 f:\kpu\3-2 networkgameprogramming\termproject\client\weapon.cpp(23): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 LINK : warning LNK4075: '/INCREMENTAL'이(가) '/LTCG' 사양으로 인해 무시됩니다.
   코드를 생성하고 있습니다.
-  1 of 1342 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  3 of 1342 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    15 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   Client.vcxproj -> F:\KPU\3-2 NetworkGameProgramming\TermProject\Release\Client.exe

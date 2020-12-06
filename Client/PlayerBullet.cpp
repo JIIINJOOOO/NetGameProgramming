@@ -65,6 +65,7 @@ int CPlayerBullet::Update()
 
 	float fTime = CTimeMgr::GetInstance()->GetTime();
 	D3DXVec3Normalize(&m_tInfo.vDir, &m_tInfo.vDir);
+
 	m_tInfo.vPos += m_tInfo.vDir * m_fSpeed /** fTime*/;
 	D3DXMATRIX matScale, matRotZ, matTrans;
 	D3DXVECTOR2 vScroll = m_tInfo.vPos + CScrollMgr::GetScroll();
