@@ -25,8 +25,8 @@ float fTimer = 0.f;
 
 float timer = 0;//
 using namespace std;
-
-
+int startTime;
+int nowTime;
 CRITICAL_SECTION cs;
 
 
@@ -50,7 +50,7 @@ struct Key
 #pragma pack(pop)
 
 Key key;
-
+Key tempKey;
 #pragma pack(push,1)
 typedef struct BulletInfo
 {
@@ -353,16 +353,16 @@ void RotatePlayer(float mouseX, float mouseY, int playerID)
 
 void MovePlayer(Key keycode) 
 {
-	float fSpeed = 0.1f;
+	float fSpeed = 1.0f;
     if (keycode.key_W_Press)
     {
         if (keycode.playerID == 1)
         {
-            p_Info[0].PosY -= fSpeed * fTimer;
+            p_Info[0].PosY -= fSpeed ;
         }
         else if (keycode.playerID == 2)
         {
-            p_Info[1].PosY -= fSpeed *fTimer;
+            p_Info[1].PosY -= fSpeed ;
         }
        
     }
@@ -371,20 +371,20 @@ void MovePlayer(Key keycode)
     {
         if (keycode.playerID == 1) 
         {
-            p_Info[0].PosX -= fSpeed *fTimer;
+            p_Info[0].PosX -= fSpeed ;
         }
         else if (keycode.playerID == 2) 
         {
-            p_Info[1].PosX -= fSpeed *fTimer;
+            p_Info[1].PosX -= fSpeed;
         }
     }
 
     if (keycode.key_S_Press) 
     {
         if (keycode.playerID == 1)
-            p_Info[0].PosY += fSpeed * fTimer;
+            p_Info[0].PosY += fSpeed;
         else if (keycode.playerID == 2)
-            p_Info[1].PosY += fSpeed * fTimer;
+            p_Info[1].PosY += fSpeed;
     }
 
        
@@ -392,13 +392,13 @@ void MovePlayer(Key keycode)
 
         if (keycode.playerID == 1)
         {
-            p_Info[0].PosX += fSpeed * fTimer;
+            p_Info[0].PosX += fSpeed;
          
         }
 
         else if (keycode.playerID == 2)
         {
-            p_Info[1].PosX += fSpeed * fTimer;
+            p_Info[1].PosX += fSpeed;
         }
     }
    
@@ -435,11 +435,14 @@ int recvn(SOCKET s, char* buf, int len, int flags);
 
 int main(int argc, char* argv[])
 {
+
+   
+
 	ZeroMemory(&objarr, sizeof(objarr));
 	ZeroMemory(&weaponarr, sizeof(weaponarr));
 
     InitializeCriticalSection(&cs); // 임계영역 초기화
-
+    
 	// objarr 받아옴
 	FILE* f;
 	f = fopen("objdata.txt", "r");
@@ -623,18 +626,13 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
         SetEvent(waitPlayerEnterEvent);
 	}
 	
-
+   
+    
 	while (true) {
 
         if (playernum.enterPlayerNum > 1) {
             
-			EnterCriticalSection(&cs);
-			fTimer++;
-			cout << "frame : "<<fTimer/FPS << endl;
-			if (fTimer > FPS) {
-				fTimer =0;
-			}
-			LeaveCriticalSection(&cs);
+			
             retval = recv(client_sock, (char*)&key, sizeof(Key), 0);
             if (retval == SOCKET_ERROR) {
                 err_display("recv()");
@@ -645,11 +643,18 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
                 return 0;
             }
 
-            //std::cout << key.ckey << std::endl;
             EnterCriticalSection(&cs);
-            MovePlayer(key);
-            RotatePlayer(key.mouseX, key.mouseY, key.playerID);
-			PlayerShoot(key);//불릿 초기화를 여기서 진행
+            tempKey = key;
+            LeaveCriticalSection(&cs);
+
+			startTime = GetTickCount64();
+            while (GetTickCount64() - startTime < 1.f);
+            
+            
+            //std::cout << key.ckey << std::endl;
+            MovePlayer(tempKey);
+            RotatePlayer(tempKey.mouseX, tempKey.mouseY, tempKey.playerID);
+			PlayerShoot(tempKey);//불릿 초기화를 여기서 진행
 
 			if (currentThreadId == threadId[0]) 
 			{
@@ -661,8 +666,8 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 			}
           
 			CollisionRectEx(objarr, p_cols);
-			CollisionRectWeapon(weaponarr, p_cols, key.key_E_Press);
-			LeaveCriticalSection(&cs);
+			CollisionRectWeapon(weaponarr, p_cols, tempKey.key_E_Press);
+            
 
             //std::cout << p_Info[0].PosX << "," << p_Info[0].PosY << std::endl;
            
@@ -685,7 +690,7 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
                 return 0;
             }
 
-           
+
 
         }
 
