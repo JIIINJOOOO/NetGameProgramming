@@ -286,7 +286,7 @@ void CPlayer::KeyCheck()
 				m_eCurState = STANCE::ATTACK;
 				m_wstrStateKey = L"Attack";
 				m_tFrame.fMax = 2.f;
-				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
+				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
 				CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;
 				break;
