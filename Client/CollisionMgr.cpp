@@ -46,7 +46,6 @@ void CCollisionMgr::CollisionRectPlayerBul(OBJLIST& dstLst, OBJLIST& srcLst)
 
 			if (IntersectRect(&rc, &dstRect, &srcRect))
 			{
-				cout << "플레이어 ID:" << pDst->GetPlayerID() << "총알 ID:" << pSrc->GetPlayerID() << endl;
 				//pDst->IsDead();
 				if (pDst->GetPlayerID() == 1 && pSrc->GetPlayerID() == 2)
 				{

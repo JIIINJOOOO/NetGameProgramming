@@ -35,7 +35,6 @@ float fTimer = 0.f;
 
 float timer = 0;//
 using namespace std;
-int startTime;
 int nowTime;
 CRITICAL_SECTION cs;
 
@@ -485,7 +484,7 @@ void RotatePlayer(float mouseX, float mouseY, int playerID)
 
 void MovePlayer(Key keycode) 
 {
-	float fSpeed = 1.0f;
+	float fSpeed = 2.0f;
     if (keycode.key_W_Press)
     {
         if (keycode.playerID == 1)
@@ -655,8 +654,7 @@ int recvn(SOCKET s, char* buf, int len, int flags);
 int main(int argc, char* argv[])
 {
 
-   
-
+	
 	ZeroMemory(&objarr, sizeof(objarr));
 	ZeroMemory(&weaponarr, sizeof(weaponarr));
 	ZeroMemory(&bulletarr_1, sizeof(bulletarr_1));
@@ -849,7 +847,8 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 	}
 	
    
-    
+	unsigned long startTime = GetTickCount64();
+
 	while (true) {
 
         if (playernum.enterPlayerNum > 1) {
@@ -869,66 +868,65 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
             tempKey = key;
             LeaveCriticalSection(&cs);
 
-			startTime = GetTickCount64();
-            while (GetTickCount64() - startTime < 1.f);
-            
-            
-            //std::cout << key.ckey << std::endl;
-            MovePlayer(tempKey);
-            RotatePlayer(tempKey.mouseX, tempKey.mouseY, tempKey.playerID);
-			PlayerShoot(tempKey);//불릿 초기화를 여기서 진행
+			
+			
 
-			if (currentThreadId == threadId[0]) 
+
+
+
+				//std::cout << key.ckey << std::endl;
+				
+				PlayerShoot(tempKey);//불릿 초기화를 여기서 진행
+			if (GetTickCount64() >= startTime + 4)
 			{
-				UpdateBullet(p_Info[0].bullets);
-				UpdatePlayerRect(p_cols[0], p_Info[0]);
-				UpdateBulletRect(bulletarr_1, p_Info[0].bullets);
-				EnterCriticalSection(&cs);
-				CalcDirVec(0, p_Info[0].PosX, p_Info[0].PosY, tempKey.mouseX, tempKey.mouseY);
-				LeaveCriticalSection(&cs);
+				MovePlayer(tempKey);
+				RotatePlayer(tempKey.mouseX, tempKey.mouseY, tempKey.playerID);
+				startTime = GetTickCount64();
+				if (currentThreadId == threadId[0])
+				{
+					UpdateBullet(p_Info[0].bullets);
+					UpdatePlayerRect(p_cols[0], p_Info[0]);
+					UpdateBulletRect(bulletarr_1, p_Info[0].bullets);
+					CalcDirVec(0, p_Info[0].PosX, p_Info[0].PosY, tempKey.mouseX, tempKey.mouseY);
 
+				}
+				else if (currentThreadId == threadId[1])
+				{
+					UpdateBullet(p_Info[1].bullets);
+					UpdatePlayerRect(p_cols[1], p_Info[1]);
+					UpdateBulletRect(bulletarr_2, p_Info[1].bullets);
+					CalcDirVec(1, p_Info[1].PosX, p_Info[1].PosY, tempKey.mouseX, tempKey.mouseY);
+
+				}
 			}
-			else if (currentThreadId == threadId[1])
+				CollisionRectEx(objarr, p_cols);
+				CollisionRectWeapon(weaponarr, p_cols, tempKey.key_E_Press);
+				CollisionRect(objarr, bulletarr_1, p_Info[0].bullets);
+				CollisionRect(objarr, bulletarr_2, p_Info[1].bullets);
+				CollisionRectPlayerBul(p_cols[0], bulletarr_2, p_Info[1].bullets, &p_Info[0]);
+				CollisionRectPlayerBul(p_cols[1], bulletarr_1, p_Info[0].bullets, &p_Info[1]);
+			
+			
+			//std::cout << p_Info[0].PosX << "," << p_Info[0].PosY << std::endl;
+
+			retval = send(client_sock, (char*)&p_Info[0], sizeof(PlayerInfo), 0);
+			if (retval == SOCKET_ERROR) {
+				err_display("send()");
+				return 0;
+			}
+			else if (retval == 0)
 			{
-				UpdateBullet(p_Info[1].bullets);
-				UpdatePlayerRect(p_cols[1], p_Info[1]);
-				UpdateBulletRect(bulletarr_2, p_Info[1].bullets);
-				EnterCriticalSection(&cs);
-				CalcDirVec(1, p_Info[1].PosX, p_Info[1].PosY, tempKey.mouseX, tempKey.mouseY);
-				LeaveCriticalSection(&cs);
-
+				return 0;
 			}
-          
-			EnterCriticalSection(&cs);
-			CollisionRectEx(objarr, p_cols);
-			CollisionRectWeapon(weaponarr, p_cols, tempKey.key_E_Press);
-			CollisionRect(objarr, bulletarr_1, p_Info[0].bullets);
-			CollisionRect(objarr, bulletarr_2, p_Info[1].bullets);
-			CollisionRectPlayerBul(p_cols[0], bulletarr_2, p_Info[1].bullets, &p_Info[0]);
-			CollisionRectPlayerBul(p_cols[1], bulletarr_1, p_Info[0].bullets, &p_Info[1]);
-			LeaveCriticalSection(&cs);
-
-
-            //std::cout << p_Info[0].PosX << "," << p_Info[0].PosY << std::endl;
-           
-            retval = send(client_sock, (char*)&p_Info[0], sizeof(PlayerInfo), 0);
-            if (retval == SOCKET_ERROR) {
-                err_display("send()");
-                return 0;
-            }
-            else if (retval == 0)
-            {
-                return 0;
-            }
-            retval = send(client_sock, (char*)&p_Info[1], sizeof(PlayerInfo), 0);
-            if (retval == SOCKET_ERROR) {
-                err_display("send()");
-                return 0;
-            }
-            else if (retval == 0)
-            {
-                return 0;
-            }
+			retval = send(client_sock, (char*)&p_Info[1], sizeof(PlayerInfo), 0);
+			if (retval == SOCKET_ERROR) {
+				err_display("send()");
+				return 0;
+			}
+			else if (retval == 0)
+			{
+				return 0;
+			}
 
 
 

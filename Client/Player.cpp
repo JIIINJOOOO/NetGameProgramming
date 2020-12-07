@@ -75,16 +75,20 @@ int CPlayer::Update()
 	{
 		m_iHP = playerInfo_1.HP;
 		m_iMoney = playerInfo_1.money;
-		m_bIsDead = playerInfo_1.IsDead;
+		//m_bIsDead = playerInfo_1.IsDead;
 	}
 	else if (m_iPlayerID == 2)
 	{
 		m_iHP = playerInfo_2.HP;
 		m_iMoney = playerInfo_2.money;
-		m_bIsDead = playerInfo_2.IsDead;
+		//m_bIsDead = playerInfo_2.IsDead;
 	}
-	if (m_bIsDead)
+	if (m_iHP <= 0) 
+	{
+		m_bIsDead = true;
 		return DEAD_OBJ;
+
+	}
 
 	KeyCheck();
 
