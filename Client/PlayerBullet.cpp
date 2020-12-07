@@ -56,6 +56,7 @@ void CPlayerBullet::LateInit()
 int CPlayerBullet::Update()
 {
 	CObj::LateInit();
+
 	if (m_bIsDead)
 	{
 		cout << "ÃÑ¾Ë µØÁü" << endl;
