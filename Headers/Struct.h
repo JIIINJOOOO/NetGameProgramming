@@ -118,6 +118,7 @@ typedef struct BulletInfo
 #pragma pack(push,1)
 typedef struct PlayerInfo
 {
+	bool IsDead;
 	float PosX;
 	float PosY;
 	float DirX;

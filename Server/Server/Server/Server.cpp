@@ -77,6 +77,7 @@ typedef struct BulletInfo
 #pragma pack(push,1)
 typedef struct PlayerInfo
 {
+	bool IsDead;
 	float PosX;
 	float PosY;
 	float DirX;
@@ -216,10 +217,45 @@ void CollisionRect(COLOBJ objArr[]/*장애물 배열*/, COLOBJ bulArr[]/*총알구조체 �
 			const RECT dstRect = pDst->GetCollRect();
 			const RECT srcRect = pSrc->GetCollRect();*/
 			//if (IntersectRect(&rc, &dstRect, &srcRect))
-			if (CheckRect(objArr[i], bulArr[j], &fMoveX, &fMoveY))
+			if (!bullets[j].IsDead)
+			{
+				if (CheckRect(objArr[i], bulArr[j], &fMoveX, &fMoveY))
+				{
+					/*pDst->IsDead();
+					pSrc->IsDead();*/
+					cout << "bullet dead" << endl;
+					bullets[j].IsDead = true;
+				}
+			}
+		}
+	}
+}
+
+// 서버 내 플레이어-총알 충돌
+void CollisionRectPlayerBul(COLOBJ playerArr/*플레이어*/, COLOBJ bulArr[]/*총알구조체 배열*/, BulletInfo bullets[], PlayerInfo* p_pInfo)
+{
+	float fMoveX = 0.f, fMoveY = 0.f;
+	for (int i = 0; i < OBJ_NUM; ++i)
+	{
+		for (int j = 0; j < MAX_BULLETS; ++j)
+		{
+			/*RECT rc = {};
+
+			const RECT dstRect = pDst->GetCollRect();
+			const RECT srcRect = pSrc->GetCollRect();*/
+			//if (IntersectRect(&rc, &dstRect, &srcRect))
+			if (CheckRect(playerArr, bulArr[j], &fMoveX, &fMoveY))
 			{
 				/*pDst->IsDead();
 				pSrc->IsDead();*/
+				if (p_pInfo->HP > 0)
+				{
+					p_pInfo->HP -= bullets[j].damage;
+				}
+				else
+				{
+					p_pInfo->IsDead = true;
+				}
 				bullets[j].IsDead = true;
 			}
 		}
@@ -404,7 +440,7 @@ void initPlayerInfo(PlayerInfo* pInfo, int playerNum)
     }
 
     pInfo->HP = 100;
-    pInfo->money = 1000;
+    pInfo->money = 3000;
     pInfo->angle = 0.0f;
 	pInfo->CurBulletNum = 0;
 	pInfo->MaxBulletNum = 0;
@@ -827,20 +863,26 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 			{
 				UpdateBullet(p_Info[0].bullets);
 				UpdatePlayerRect(p_cols[0], p_Info[0]);
+				UpdateBulletRect(bulletarr_1, p_Info[0].bullets);
 				CalcDirVec(0, p_Info[0].PosX, p_Info[0].PosY, tempKey.mouseX, tempKey.mouseY);
 			}
 			else if (currentThreadId == threadId[1])
 			{
 				UpdateBullet(p_Info[1].bullets);
 				UpdatePlayerRect(p_cols[1], p_Info[1]);
+				UpdateBulletRect(bulletarr_2, p_Info[1].bullets);
 				CalcDirVec(1, p_Info[1].PosX, p_Info[1].PosY, tempKey.mouseX, tempKey.mouseY);
 
 			}
           
+
 			CollisionRectEx(objarr, p_cols);
 			CollisionRectWeapon(weaponarr, p_cols, tempKey.key_E_Press);
 			CollisionRect(objarr, bulletarr_1, p_Info[0].bullets);
 			CollisionRect(objarr, bulletarr_2, p_Info[1].bullets);
+			CollisionRectPlayerBul(p_cols[0], bulletarr_2, p_Info[1].bullets, &p_Info[0]);
+			CollisionRectPlayerBul(p_cols[1], bulletarr_1, p_Info[0].bullets, &p_Info[1]);
+
 
 
             //std::cout << p_Info[0].PosX << "," << p_Info[0].PosY << std::endl;

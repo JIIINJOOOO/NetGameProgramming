@@ -72,6 +72,17 @@ int CPlayer::Update()
 	CObj::LateInit();
 	//PlayerInfo playerinfo;
 
+	if (m_iPlayerID == 1)
+	{
+		m_bIsDead = playerInfo_1.IsDead;
+	}
+	else if (m_iPlayerID == 2)
+	{
+		m_bIsDead = playerInfo_2.IsDead;
+	}
+	if (m_bIsDead)
+		return DEAD_OBJ;
+
 	KeyCheck();
 
 
@@ -212,7 +223,6 @@ int CPlayer::Update()
 			else
 			{
 				p2_isBulletInit[i] = false;
-
 			}
 		}
 
