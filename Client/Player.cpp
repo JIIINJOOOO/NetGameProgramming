@@ -50,8 +50,8 @@ HRESULT CPlayer::Initialize()
 	// 프레임 최적화 -> 이거 하면 무기변경 애니메이션이 안됨
 	//m_vecTexture = CTextureMgr::GetInstance()->GetTexVector(m_wstrObjKey.c_str(), m_wstrStateKey.c_str());
 	m_pBulletLst = CObjMgr::GetInstance()->GetPlayerBulletLst();
-	m_iHP = 100;
-	m_iMoney = 1000;
+	m_iHP = 0;
+	m_iMoney = 0;
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -74,11 +74,13 @@ int CPlayer::Update()
 	if (m_iPlayerID == 1)
 	{
 		m_iHP = playerInfo_1.HP;
+		m_iMoney = playerInfo_1.money;
 		m_bIsDead = playerInfo_1.IsDead;
 	}
 	else if (m_iPlayerID == 2)
 	{
 		m_iHP = playerInfo_2.HP;
+		m_iMoney = playerInfo_2.money;
 		m_bIsDead = playerInfo_2.IsDead;
 	}
 	if (m_bIsDead)
@@ -292,7 +294,10 @@ void CPlayer::Render()
 	wchar_t strState[256];
 	/*if (m_iCurBulletNum < 0)
 	   m_iUIBulletNum = 0;*/
-	wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n", m_iHP, m_iCurBulletNum);
+	if (m_iPlayerID == 1)
+		wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n [MONEY]: %d\n", m_iHP, m_iCurBulletNum, m_iMoney);
+	if (m_iPlayerID == 2)
+		wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n [MONEY]: %d\n", m_iHP, m_iCurBulletNum, m_iMoney);
 
 	CDevice::GetInstance()->GetFont()->DrawText(NULL, strState, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 }
