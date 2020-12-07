@@ -1,8 +1,14 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS // 최신 VC++ 컴파일 시 경고 방지
 #pragma comment(lib, "ws2_32")
 #define PIE ((FLOAT) 3.141592654f)
-#define PLAYERRECTWIDTH 13
-#define	PLAYERRECTHEIGHT 24
+#define PLAYER_RECT_WIDTH 13
+#define	PLAYER_RECT_HEIGHT 24
+#define SHOTGUN_RECT_HEIGHT 2
+#define SHOTGUN_RECT_WIDTH 5
+#define RIFLE_RECT_HEIGHT 1
+#define RIFLE_RECT_WIDTH 3
+#define SMG_RECT_HEIGHT 1
+#define SMG_RECT_WIDTH 2
 #define SERVERPORT 9000
 #define BUFSIZE    5
 #define OBJ_NUM 1113
@@ -56,6 +62,8 @@ Key tempKey;
 typedef struct BulletInfo
 {
 	bool IsDead;
+	float StartPosX;
+	float StartPosY;
 	float PosX;
 	float PosY;
 	float DirX;
@@ -104,6 +112,8 @@ typedef struct CollisionObj
 COLOBJ objarr[OBJ_NUM];
 COLOBJ p_cols[2];
 COLOBJ weaponarr[WEAPON_NUM];
+COLOBJ bulletarr_1[MAX_BULLETS];
+COLOBJ bulletarr_2[MAX_BULLETS];
 
 
 
@@ -145,33 +155,28 @@ void UpdatePlayerRect(COLOBJ& rect, PlayerInfo p_info)
 {
 	rect.PosX = p_info.PosX;
 	rect.PosY = p_info.PosY;
-	rect.left = LONG(p_info.PosX - PLAYERRECTWIDTH * 0.5f);
-	rect.top = LONG(p_info.PosY - PLAYERRECTHEIGHT * 0.5f);
-	rect.right = LONG(p_info.PosX + PLAYERRECTWIDTH * 0.5f);
-	rect.bottom = LONG(p_info.PosY + PLAYERRECTHEIGHT * 0.5f);
+	rect.left = LONG(p_info.PosX - PLAYER_RECT_WIDTH * 0.5f);
+	rect.top = LONG(p_info.PosY - PLAYER_RECT_HEIGHT * 0.5f);
+	rect.right = LONG(p_info.PosX + PLAYER_RECT_WIDTH * 0.5f);
+	rect.bottom = LONG(p_info.PosY + PLAYER_RECT_HEIGHT * 0.5f);
 }
 
-// 서버 내 충돌 처리 코드
-//void CollisionRect(COLOBJ objArr[]/*장애물 배열*/, COLOBJ bulArr[]/*총알구조체 배열*/)
-//{
-//	for (int i = 0; i < OBJ_NUM; ++i)
-//	{
-//		for (COLOBJ* pSrc : srcLst)
-//		{
-//			RECT rc = {};
-//
-//			const RECT dstRect = pDst->GetCollRect();
-//			const RECT srcRect = pSrc->GetCollRect();
-//
-//			if (IntersectRect(&rc, &dstRect, &srcRect))
-//			{
-//				pDst->IsDead();
-//				pSrc->IsDead();
-//			}
-//		}
-//	}
-//}
+void UpdateBulletRect(COLOBJ bulletrects[], BulletInfo bullets[])
+{
+	for (int i = 0; i < MAX_BULLETS; ++i)
+	{
+		bulletrects[i].PosX = bullets[i].PosX;
+		bulletrects[i].PosY = bullets[i].PosY;
+		bulletrects[i].left = LONG(bullets[i].PosX - PLAYER_RECT_WIDTH * 0.5f);
+		bulletrects[i].top = LONG(bullets[i].PosY - PLAYER_RECT_HEIGHT * 0.5f);
+		bulletrects[i].right = LONG(bullets[i].PosX + PLAYER_RECT_WIDTH * 0.5f);
+		bulletrects[i].bottom = LONG(bullets[i].PosY + PLAYER_RECT_HEIGHT * 0.5f);
+	}
+}
 
+
+
+// 서버 내 충돌 처리 코드
 bool CheckRect(COLOBJ pDst, COLOBJ pSrc, float * pMoveX, float * pMoveY)
 {
 	// 두 사각형의 가로, 세로 축 반지름의 합을 구한다.
@@ -197,6 +202,28 @@ bool CheckRect(COLOBJ pDst, COLOBJ pSrc, float * pMoveX, float * pMoveY)
 	}
 
 	return false;
+}
+// 서버 내 총알 충돌 처리 코드
+void CollisionRect(COLOBJ objArr[]/*장애물 배열*/, COLOBJ bulArr[]/*총알구조체 배열*/, BulletInfo bullets[])
+{
+	float fMoveX = 0.f, fMoveY = 0.f;
+	for (int i = 0; i < OBJ_NUM; ++i)
+	{
+		for (int j = 0; j < MAX_BULLETS; ++j)
+		{
+			/*RECT rc = {};
+
+			const RECT dstRect = pDst->GetCollRect();
+			const RECT srcRect = pSrc->GetCollRect();*/
+			//if (IntersectRect(&rc, &dstRect, &srcRect))
+			if (CheckRect(objArr[i], bulArr[j], &fMoveX, &fMoveY))
+			{
+				/*pDst->IsDead();
+				pSrc->IsDead();*/
+				bullets[j].IsDead = true;
+			}
+		}
+	}
 }
 
 // 서버 내 벽 충돌 알고리즘
@@ -311,10 +338,21 @@ void UpdateBullet(BulletInfo bullets[])
 		{
 			bullets[i].PosX += bullets[i].DirX*bullets[i].speed;
 			bullets[i].PosY += bullets[i].DirY*bullets[i].speed;
-
 		}
-		
+	
+		float fX = fabs(bullets[i].StartPosX - bullets[i].PosX);
+		float fY = fabs(bullets[i].StartPosY - bullets[i].PosY);
+
+		double dist = sqrt((fX * fX) + (fY * fY));
+
+		if (dist >= bullets[i].range) 
+		{
+			bullets[i].IsDead = true;
+		}
+
+
 	}
+
 }
 
 
@@ -459,6 +497,8 @@ void PlayerShoot(Key keycode)
 				if (p_Info[0].bullets[i].IsDead)
 				{
 					p_Info[0].bullets[i].IsDead = false;
+					p_Info[0].bullets[i].StartPosX = p_Info[0].PosX;
+					p_Info[0].bullets[i].StartPosY = p_Info[0].PosY;
 					p_Info[0].bullets[i].PosX = p_Info[0].PosX;
 					p_Info[0].bullets[i].PosY = p_Info[0].PosY;
 					p_Info[0].bullets[i].DirX = p_Info[0].DirX;
@@ -501,6 +541,8 @@ void PlayerShoot(Key keycode)
 				if (p_Info[1].bullets[i].IsDead)
 				{		   
 					p_Info[1].bullets[i].IsDead = false;
+					p_Info[1].bullets[i].StartPosX = p_Info[1].PosX;
+					p_Info[1].bullets[i].StartPosY = p_Info[1].PosY;
 					p_Info[1].bullets[i].PosX = p_Info[1].PosX;
 					p_Info[1].bullets[i].PosY = p_Info[1].PosY;
 					p_Info[1].bullets[i].DirX = p_Info[1].DirX;
@@ -533,7 +575,19 @@ void PlayerShoot(Key keycode)
 		}
 	}
 
-	
+	if (keycode.key_R_Press)
+	{
+		if (keycode.playerID == 1)
+		{
+			p_Info[0].CurBulletNum = p_Info[0].MaxBulletNum;
+
+		}
+
+		else if (keycode.playerID == 2)
+		{
+			p_Info[1].CurBulletNum = p_Info[1].MaxBulletNum;
+		}
+	}
 }
 
 int recvn(SOCKET s, char* buf, int len, int flags);
@@ -548,6 +602,9 @@ int main(int argc, char* argv[])
 
 	ZeroMemory(&objarr, sizeof(objarr));
 	ZeroMemory(&weaponarr, sizeof(weaponarr));
+	ZeroMemory(&bulletarr_1, sizeof(bulletarr_1));
+	ZeroMemory(&bulletarr_2, sizeof(bulletarr_2));
+
 
     InitializeCriticalSection(&cs); // 임계영역 초기화
     
@@ -780,7 +837,9 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
           
 			CollisionRectEx(objarr, p_cols);
 			CollisionRectWeapon(weaponarr, p_cols, tempKey.key_E_Press);
-            
+			CollisionRect(objarr, bulletarr_1, p_Info[0].bullets);
+			CollisionRect(objarr, bulletarr_2, p_Info[1].bullets);
+
 
             //std::cout << p_Info[0].PosX << "," << p_Info[0].PosY << std::endl;
            

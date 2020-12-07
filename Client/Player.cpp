@@ -128,6 +128,10 @@ int CPlayer::Update()
 					//set pos가 들어가도 되고 안들어가도될듯?
 				}
 			}
+			else
+			{
+				p1_isBulletInit[i] = false;
+			}
 
 			if (!playerInfo_2.bullets[i].IsDead)
 			{
@@ -143,6 +147,11 @@ int CPlayer::Update()
 				{
 					//set pos가 들어가도 되고 안들어가도될듯?
 				}
+			}
+			else
+			{
+				p2_isBulletInit[i] = false;
+
 			}
 		}
 

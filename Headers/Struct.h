@@ -103,6 +103,8 @@ typedef struct tagFrame
 typedef struct BulletInfo
 {
 	bool IsDead;
+	float StartPosX;
+	float StartPosY;
 	float PosX;
 	float PosY;
 	float DirX;

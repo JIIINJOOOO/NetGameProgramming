@@ -112,7 +112,7 @@ void CPlayerBullet::Render()
 
 	// 충돌박스 생성 추가
 	CObj::UpdateCollRect(pTexInfo);
-
+	
 	float fCenterX = pTexInfo->tImgInfo.Width * 0.5f;
 	float fCenterY = pTexInfo->tImgInfo.Height * 0.5f;
 
