@@ -137,7 +137,7 @@ int CPlayer::Update()
 					{
 						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_2.DirX, playerInfo_2.DirY, 0), RIFLE));
 					}
-					p1_isBulletInit[i] = true;
+					p2_isBulletInit[i] = true;
 				}
 				else
 				{
