@@ -98,5 +98,9 @@ protected:
 
 	PlayerInfo playerInfo_1;
 	PlayerInfo playerInfo_2;
+
+	bool p1_isBulletInit[10];
+	bool p2_isBulletInit[10];
+
 };
 

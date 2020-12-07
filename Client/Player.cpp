@@ -53,6 +53,12 @@ HRESULT CPlayer::Initialize()
 	m_iHP = 100;
 	m_iMoney = 1000;
 
+	for (int i = 0; i < 10; ++i)
+	{
+		p1_isBulletInit[i] = false;
+		p2_isBulletInit[i] = false;
+	}
+
 	return S_OK;
 }
 
@@ -103,6 +109,44 @@ int CPlayer::Update()
 		}
 		m_iMaxBulletNum = playerInfo_1.MaxBulletNum;
 		m_iCurBulletNum = playerInfo_1.CurBulletNum;
+
+
+		for (int i = 0; i < 10; ++i) 
+		{
+			if (!playerInfo_1.bullets[i].IsDead) 
+			{
+				if (!p1_isBulletInit[i]) 
+				{
+					if (playerInfo_1.weaponID == 1) 
+					{
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
+					}
+					p1_isBulletInit[i] = true;
+				}
+				else
+				{
+					//set pos가 들어가도 되고 안들어가도될듯?
+				}
+			}
+
+			if (!playerInfo_2.bullets[i].IsDead)
+			{
+				if (!p2_isBulletInit[i])
+				{
+					if (playerInfo_2.weaponID == 1)
+					{
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_2.DirX, playerInfo_2.DirY, 0), RIFLE));
+					}
+					p1_isBulletInit[i] = true;
+				}
+				else
+				{
+					//set pos가 들어가도 되고 안들어가도될듯?
+				}
+			}
+		}
+
+
 	}
 
 	if (m_iPlayerID == 2)
@@ -286,7 +330,8 @@ void CPlayer::KeyCheck()
 				m_eCurState = STANCE::ATTACK;
 				m_wstrStateKey = L"Attack";
 				m_tFrame.fMax = 2.f;
-				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
+				if(m_iPlayerID == 1)
+					m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
 				CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;
 				break;
