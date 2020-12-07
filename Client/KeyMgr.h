@@ -14,10 +14,11 @@ public:
 	bool KeyDown(DWORD dwKey);
 	bool KeyCombine(DWORD dwFirstKey, DWORD dwSecondKey);
 	bool KeyPressing(DWORD dwKey);
-
+	const KeyInput& GetKeyInput() { return key; }
 private:
 	DWORD m_dwKey;
 	DWORD m_dwKeyPressed;
 	DWORD m_dwKeyDown;
+	KeyInput key;
 };
 

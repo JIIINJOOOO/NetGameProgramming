@@ -29,7 +29,7 @@ extern PlayerNumCheck playercheck;
 void CKeyMgr::KeyCheck()
 {
 	m_dwKey = 0;	// 0000
-	KeyInput key = {false, false,false,false,false,false,false,false,playercheck.playerID ,CMouse::GetMousePos().x , CMouse::GetMousePos().y };
+	key = {false, false,false,false,false,false,false,false,playercheck.playerID ,CMouse::GetMousePos().x , CMouse::GetMousePos().y };
 	
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)

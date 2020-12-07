@@ -266,7 +266,7 @@ void CPlayer::KeyCheck()
 	INFO tInfo_sg = m_tInfo;
 	
 
-	if (CKeyMgr::GetInstance()->KeyPressing(KEY_LBUTTON)) // 무기 별 총알 생성
+	if (CKeyMgr::GetInstance()->GetKeyInput().Mouse_L_Press/*CKeyMgr::GetInstance()->KeyDown(KEY_LBUTTON)*/) // 무기 별 총알 생성
 	{		
 		//std::cout << playerInfo_1.DirX << "," << playerInfo_1.DirY << endl;
 

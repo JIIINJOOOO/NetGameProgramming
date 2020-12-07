@@ -112,7 +112,7 @@ void CObjMgr::Update()
 						++i;
 					}
 				}
-				else if ((*iter_begin)->GetPlayerID() == 2)
+				if ((*iter_begin)->GetPlayerID() == 2)
 				{
 					if (objLst == m_ObjLst[OBJ_PLAYERBULLET] && !(*iter_begin)->bulletInfo_2[i].IsDead)
 					{
