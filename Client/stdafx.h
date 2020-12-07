@@ -73,7 +73,7 @@ using namespace std;
 #define _WINSOCK_DEPRECATED_NO_WARNINGS // 최신 VC++ 컴파일 시 경고 방지
 #pragma comment(lib, "ws2_32")
 #include <winsock2.h>
-#define SERVERIP  "192.168.35.199"/*"192.168.35.227" *//*"127.0.0.1"*//*"10.20.11.33"*//*"192.168.10.88"*/
+#define SERVERIP /* "192.168.35.199"*/"192.168.35.227" /*"127.0.0.1"*//*"10.20.11.33"*//*"192.168.10.88"*/
 #define SERVERPORT 9000
 
 #pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")//콘솔창출력

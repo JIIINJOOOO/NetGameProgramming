@@ -179,6 +179,7 @@ int CPlayer::Update()
 				{
 					if (playerInfo_2.weaponID == 1)
 					{
+						std::cout << vDir.x <<" : "<<vDir.y << std::endl;
 						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), RIFLE));
 					}
 					p2_isBulletInit[i] = true;

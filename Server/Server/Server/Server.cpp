@@ -491,42 +491,43 @@ void PlayerShoot(Key keycode)
 			if (p_Info[0].CurBulletNum > 0)
 			{
 				p_Info[0].CurBulletNum -= 1;
-			}
-			for (int i = 0; i < MAX_BULLETS; ++i)
-			{
-				if (p_Info[0].bullets[i].IsDead)
-				{
-					p_Info[0].bullets[i].IsDead = false;
-					p_Info[0].bullets[i].StartPosX = p_Info[0].PosX;
-					p_Info[0].bullets[i].StartPosY = p_Info[0].PosY;
-					p_Info[0].bullets[i].PosX = p_Info[0].PosX;
-					p_Info[0].bullets[i].PosY = p_Info[0].PosY;
-					p_Info[0].bullets[i].DirX = p_Info[0].DirX;
-					p_Info[0].bullets[i].DirY = p_Info[0].DirY;
 
-					if (p_Info[0].weaponID == 1) // RIFLE
+				for (int i = 0; i < MAX_BULLETS; ++i)
+				{
+					if (p_Info[0].bullets[i].IsDead)
 					{
-						p_Info[0].bullets[i].speed = 2.f;
-						p_Info[0].bullets[i].range = 230.f;
-						p_Info[0].bullets[i].damage = 10;
+						p_Info[0].bullets[i].IsDead = false;
+						p_Info[0].bullets[i].StartPosX = p_Info[0].PosX;
+						p_Info[0].bullets[i].StartPosY = p_Info[0].PosY;
+						p_Info[0].bullets[i].PosX = p_Info[0].PosX;
+						p_Info[0].bullets[i].PosY = p_Info[0].PosY;
+						p_Info[0].bullets[i].DirX = p_Info[0].DirX;
+						p_Info[0].bullets[i].DirY = p_Info[0].DirY;
+
+						if (p_Info[0].weaponID == 1) // RIFLE
+						{
+							p_Info[0].bullets[i].speed = 2.f;
+							p_Info[0].bullets[i].range = 230.f;
+							p_Info[0].bullets[i].damage = 10;
+						}
+						else if (p_Info[0].weaponID == 2) // SMG
+						{
+							p_Info[0].bullets[i].speed = 3.f;
+							p_Info[0].bullets[i].range = 150.f;
+							p_Info[0].bullets[i].damage = 3;
+						}
+						else if (p_Info[0].weaponID == 3) // SHOTGUN
+						{
+							p_Info[0].bullets[i].speed = 4.f;
+							p_Info[0].bullets[i].range = 100.f;
+							p_Info[0].bullets[i].damage = 15;
+						}
+						IsBulCreate = true;
 					}
-					else if (p_Info[0].weaponID == 2) // SMG
-					{
-						p_Info[0].bullets[i].speed = 3.f;
-						p_Info[0].bullets[i].range = 150.f;
-						p_Info[0].bullets[i].damage = 3;
-					}
-					else if (p_Info[0].weaponID == 3) // SHOTGUN
-					{
-						p_Info[0].bullets[i].speed = 4.f;
-						p_Info[0].bullets[i].range = 100.f;
-						p_Info[0].bullets[i].damage = 15;
-					}
-					IsBulCreate = true;
+					if (IsBulCreate)
+						break;
+					//위치가 나오면 range를 계산
 				}
-				if (IsBulCreate)
-					break;
-				//위치가 나오면 range를 계산
 			}
 	
 		}
@@ -535,42 +536,43 @@ void PlayerShoot(Key keycode)
 			if (p_Info[1].CurBulletNum > 0)
 			{
 				p_Info[1].CurBulletNum -= 1;
-			}
-			for (int i = 0; i < MAX_BULLETS; ++i)
-			{
-				if (p_Info[1].bullets[i].IsDead)
-				{		   
-					p_Info[1].bullets[i].IsDead = false;
-					p_Info[1].bullets[i].StartPosX = p_Info[1].PosX;
-					p_Info[1].bullets[i].StartPosY = p_Info[1].PosY;
-					p_Info[1].bullets[i].PosX = p_Info[1].PosX;
-					p_Info[1].bullets[i].PosY = p_Info[1].PosY;
-					p_Info[1].bullets[i].DirX = p_Info[1].DirX;
-					p_Info[1].bullets[i].DirY = p_Info[1].DirY;
 
-					if (p_Info[1].weaponID == 1) // RIFLE
-					{		   
-						p_Info[1].bullets[i].speed = 2.f;
-						p_Info[1].bullets[i].range = 230.f;
-						p_Info[1].bullets[i].damage = 10;
-					}
-					else if (p_Info[1].weaponID == 2) // SMG
+				for (int i = 0; i < MAX_BULLETS; ++i)
+				{
+					if (p_Info[1].bullets[i].IsDead)
 					{
-						p_Info[1].bullets[i].speed = 3.f;
-						p_Info[1].bullets[i].range = 150.f;
-						p_Info[1].bullets[i].damage = 3;
+						p_Info[1].bullets[i].IsDead = false;
+						p_Info[1].bullets[i].StartPosX = p_Info[1].PosX;
+						p_Info[1].bullets[i].StartPosY = p_Info[1].PosY;
+						p_Info[1].bullets[i].PosX = p_Info[1].PosX;
+						p_Info[1].bullets[i].PosY = p_Info[1].PosY;
+						p_Info[1].bullets[i].DirX = p_Info[1].DirX;
+						p_Info[1].bullets[i].DirY = p_Info[1].DirY;
+
+						if (p_Info[1].weaponID == 1) // RIFLE
+						{
+							p_Info[1].bullets[i].speed = 2.f;
+							p_Info[1].bullets[i].range = 230.f;
+							p_Info[1].bullets[i].damage = 10;
+						}
+						else if (p_Info[1].weaponID == 2) // SMG
+						{
+							p_Info[1].bullets[i].speed = 3.f;
+							p_Info[1].bullets[i].range = 150.f;
+							p_Info[1].bullets[i].damage = 3;
+						}
+						else if (p_Info[1].weaponID == 3) // SHOTGUN
+						{
+							p_Info[1].bullets[i].speed = 4.f;
+							p_Info[1].bullets[i].range = 100.f;
+							p_Info[1].bullets[i].damage = 15;
+						}
+						IsBulCreate = true;
 					}
-					else if (p_Info[1].weaponID == 3) // SHOTGUN
-					{
-						p_Info[1].bullets[i].speed = 4.f;
-						p_Info[1].bullets[i].range = 100.f;
-						p_Info[1].bullets[i].damage = 15;
-					}
-					IsBulCreate = true;
+					if (IsBulCreate)
+						break;
+					//위치가 나오면 range를 계산
 				}
-				if (IsBulCreate)
-					break;
-				//위치가 나오면 range를 계산
 			}
 		}
 	}
