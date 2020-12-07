@@ -103,7 +103,7 @@ void CDevice::Render_Begin()
 
 	// 1. 후면 버퍼를 비운다.
 	m_pDevice->Clear(0, nullptr, D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET,
-		D3DCOLOR_ARGB(255, 0, 0, 255), 1.f, 0);
+		D3DCOLOR_ARGB(0, 153, 102, 051), 1.f, 0);
 
 	// 2. 후면버퍼에 그린다
 	// 여기서부터 출력할 씬(장면)의 시작 점이다.

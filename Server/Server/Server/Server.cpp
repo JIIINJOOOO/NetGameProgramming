@@ -11,8 +11,8 @@
 #define SMG_RECT_WIDTH 2
 #define SERVERPORT 9000
 #define BUFSIZE    5
-#define OBJ_NUM 1113
-#define WEAPON_NUM 3
+#define OBJ_NUM 1138
+#define WEAPON_NUM 6
 #define RIFLE_PRICE 1000
 #define SMG_PRICE 500
 #define SHOTGUN_PRICE 1500
@@ -666,7 +666,7 @@ int main(int argc, char* argv[])
 	// objarr ¹Þ¾Æ¿È
 	FILE* f;
 	f = fopen("objdata.txt", "r");
-	for (int i = 0; i < 1113; ++i)
+	for (int i = 0; i < OBJ_NUM; ++i)
 	{
 		fscanf(f, "%d %ld %ld %ld %ld %f %f", &objarr[i].objID, &objarr[i].bottom, &objarr[i].left, &objarr[i].top, &objarr[i].right, &objarr[i].PosX, &objarr[i].PosY);
 	}
