@@ -47,7 +47,7 @@ void CPlayerBullet::LateInit()
 		break;
 	}
 	D3DXVECTOR2 vScroll = m_tInfo.vPos + CScrollMgr::GetScroll();
-	m_fAngle = -180.f * atan2(CMouse::GetMousePos().y - m_tInfo.vDir.y - vScroll.y, CMouse::GetMousePos().x - m_tInfo.vDir.x - vScroll.x) / D3DX_PI;
+	//m_fAngle = -180.f * atan2(CMouse::GetMousePos().y - m_tInfo.vDir.y - vScroll.y, CMouse::GetMousePos().x - m_tInfo.vDir.x - vScroll.x) / D3DX_PI;
 
 	m_fPlayerPos = m_tInfo.vPos; // 발사된 위치
 }

@@ -134,15 +134,17 @@ int CPlayer::Update()
 				{
 					if (playerInfo_1.weaponID == 1) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), RIFLE));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0),m_fAngle ,RIFLE));
+						CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
+
 					}
 					if (playerInfo_1.weaponID == 2) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), SMG));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, SMG));
 					}
 					if (playerInfo_1.weaponID == 3) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0), D3DXVECTOR3(vDir.x, vDir.y, 0), SHOTGUN));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0), D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, SHOTGUN));
 
 					}
 
@@ -204,16 +206,18 @@ int CPlayer::Update()
 				{
 					if (playerInfo_2.weaponID == 1)
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), RIFLE));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, RIFLE));
+						CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
+
 					}
 					if (playerInfo_2.weaponID == 2) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), SMG));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, SMG));
 
 					}
 					if (playerInfo_2.weaponID == 3)
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0), D3DXVECTOR3(vDir.x, vDir.y, 0), SHOTGUN));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0), D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, SHOTGUN));
 
 					}
 					p2_isBulletInit[i] = true;
@@ -391,14 +395,14 @@ void CPlayer::KeyCheck()
 				m_tFrame.fMax = 2.f;
 				//if(m_iPlayerID == 1)
 				//	m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
-				CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
+				//CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;
 				break;
 			case SMG:
 				m_eCurState = STANCE::ATTACK;
 				m_wstrStateKey = L"Attack";
 				m_tFrame.fMax = 2.f;
-				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), SMG));
+				//m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), SMG));
 				CSoundMgr::GetInstance()->PlaySound(L"sndUzi.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;
 				break;
@@ -406,22 +410,22 @@ void CPlayer::KeyCheck()
 				m_eCurState = STANCE::ATTACK;
 				m_wstrStateKey = L"Attack";
 				m_tFrame.fMax = 12.f;
-				for (int j = -20; j < 20; j += 10)
-				{
-					D3DXMATRIX matRotZ;
-					D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle + j));
-					//m_tInfo.matWorld = matRotZ;
-					tInfo_sg.matWorld = matRotZ;
+				//for (int j = -20; j < 20; j += 10)
+				//{
+				//	D3DXMATRIX matRotZ;
+				//	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle + j));
+				//	//m_tInfo.matWorld = matRotZ;
+				//	tInfo_sg.matWorld = matRotZ;
 
-					/*회전 된 위치 마다 위치벡터, 방향벡터 갱신.*/
-					/*D3DXVec3TransformCoord(&m_tInfo.vPos, &m_tInfo.vLook, &m_tInfo.matWorld);
-					D3DXVec3TransformNormal(&m_tInfo.vDir, &m_tInfo.vLook, &m_tInfo.matWorld);*/
-					D3DXVec3TransformCoord(&tInfo_sg.vPos, &tInfo_sg.vLook, &tInfo_sg.matWorld);
-					D3DXVec3TransformNormal(&tInfo_sg.vDir, &tInfo_sg.vLook, &tInfo_sg.matWorld);
+				//	/*회전 된 위치 마다 위치벡터, 방향벡터 갱신.*/
+				//	/*D3DXVec3TransformCoord(&m_tInfo.vPos, &m_tInfo.vLook, &m_tInfo.matWorld);
+				//	D3DXVec3TransformNormal(&m_tInfo.vDir, &m_tInfo.vLook, &m_tInfo.matWorld);*/
+				//	D3DXVec3TransformCoord(&tInfo_sg.vPos, &tInfo_sg.vLook, &tInfo_sg.matWorld);
+				//	D3DXVec3TransformNormal(&tInfo_sg.vDir, &tInfo_sg.vLook, &tInfo_sg.matWorld);
 
-					//m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, SHOTGUN));
-					m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), SHOTGUN));
-				}
+				//	//m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, m_tInfo.vDir, SHOTGUN));
+				//	m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(m_tInfo.vPos, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), SHOTGUN));
+				//}
 				CSoundMgr::GetInstance()->PlaySound(L"sndShotgun.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;
 				break;

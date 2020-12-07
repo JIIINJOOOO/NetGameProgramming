@@ -28,6 +28,9 @@
 #include <iostream>
 #include <math.h>
 
+
+bool p1_isBuy = false;
+bool p2_isBuy = false;
 float fTimer = 0.f;
 
 float timer = 0;//
@@ -223,7 +226,6 @@ void CollisionRect(COLOBJ objArr[]/*장애물 배열*/, COLOBJ bulArr[]/*총알구조체 �
 				{
 					/*pDst->IsDead();
 					pSrc->IsDead();*/
-					cout << "bullet dead" << endl;
 					bullets[j].IsDead = true;
 				}
 			}
@@ -253,6 +255,7 @@ void CollisionRectPlayerBul(COLOBJ playerArr/*플레이어*/, COLOBJ bulArr[]/*총알�
 					if (p_pInfo->HP > 0)
 					{
 						p_pInfo->HP -= bullets[j].damage;
+						
 					}
 					else
 					{
@@ -350,7 +353,7 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 					iPrice = SHOTGUN_PRICE;
 					iMaxBulletNum = SHOTGUN_BULLET;
 				}
-				if (bIsEpressed && (p_Info[j].money >= iPrice))
+				if (bIsEpressed && (p_Info[j].money >= iPrice)&&!p1_isBuy&&j==0)
 				{
                     //cout << j << "buy Weapon" <<i << endl;
 					//pSrc->SetWeaponID(pDst->GetWeaponID());
@@ -360,7 +363,20 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 					p_Info[j].MaxBulletNum = iMaxBulletNum;
 					p_Info[j].CurBulletNum = iMaxBulletNum;
 					p_Info[j].money -= iPrice;
-					
+					p1_isBuy = true;
+				}
+				if (bIsEpressed && (p_Info[j].money >= iPrice)&&!p2_isBuy && j == 1)
+				{
+					//cout << j << "buy Weapon" <<i << endl;
+					//pSrc->SetWeaponID(pDst->GetWeaponID());
+					p_Info[j].weaponID = iWeaponType;
+					/*pSrc->SetWeaponMaxBul(pDst->GetWeaponMaxBul());
+					pSrc->SetWeaponCurBul(pDst->GetWeaponMaxBul());*/
+					p_Info[j].MaxBulletNum = iMaxBulletNum;
+					p_Info[j].CurBulletNum = iMaxBulletNum;
+					p_Info[j].money -= iPrice;
+					p2_isBuy = true;
+
 				}
 				// 201123 최대 총알 set 함수 추가
 				//pDst->IsDead();

@@ -37,6 +37,7 @@ public:
 	void SetPlayerID(int iID) { m_iPlayerID = iID; }
 	// 201130 플레이어구조체 set
 	void SetPlayerInfo(PlayerInfo pInfo);
+	void SetAngle(float fAngle) { m_fAngle = fAngle; }
 
 
 public:

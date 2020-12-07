@@ -35,7 +35,7 @@ public:
 	}
 
 	// 총알 생성할 때 WEAPONID에 따라 스피드 다르게 -> 생성 속도는 플레이어에서 제어
-	static CObj* CreateObj(D3DXVECTOR3 vPos, D3DXVECTOR3 vDir, WEAPONID eID)
+	static CObj* CreateObj(D3DXVECTOR3 vPos, D3DXVECTOR3 vDir, float fAngle, WEAPONID eID)
 	{
 		CObj* pObj = new T;
 		pObj->Initialize();
@@ -43,7 +43,7 @@ public:
 		pObj->SetPos(vPos);
 		pObj->SetDir(vDir);
 		pObj->SetWeaponID(eID);
-
+		pObj->SetAngle(fAngle);
 
 		return pObj;
 	}
