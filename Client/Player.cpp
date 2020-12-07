@@ -78,7 +78,7 @@ int CPlayer::Update()
 	D3DXMATRIX matScale, matRotZ, matTrans;
 	D3DXVECTOR2 vPos = m_tInfo.vPos /*+ CScrollMgr::GetScroll()*/;
 	//m_fAngle = -180.f * atan2(m_pMouse->GetInfo().vPos.y - m_tInfo.vDir.y - vScroll.y, m_pMouse->GetInfo().vPos.x - m_tInfo.vDir.x - vScroll.x) / D3DX_PI;
-
+	D3DXVECTOR2 vDir = m_tInfo.vDir;
 
 	
 
@@ -109,7 +109,8 @@ int CPlayer::Update()
 		}
 		m_iMaxBulletNum = playerInfo_1.MaxBulletNum;
 		m_iCurBulletNum = playerInfo_1.CurBulletNum;
-
+		vDir.x = playerInfo_1.DirX;
+		vDir.y = playerInfo_1.DirY;
 
 		for (int i = 0; i < 10; ++i) 
 		{
@@ -119,7 +120,7 @@ int CPlayer::Update()
 				{
 					if (playerInfo_1.weaponID == 1) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), RIFLE));
 					}
 					p1_isBulletInit[i] = true;
 				}
@@ -133,26 +134,7 @@ int CPlayer::Update()
 				p1_isBulletInit[i] = false;
 			}
 
-			if (!playerInfo_2.bullets[i].IsDead)
-			{
-				if (!p2_isBulletInit[i])
-				{
-					if (playerInfo_2.weaponID == 1)
-					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_2.DirX, playerInfo_2.DirY, 0), RIFLE));
-					}
-					p2_isBulletInit[i] = true;
-				}
-				else
-				{
-					//set pos가 들어가도 되고 안들어가도될듯?
-				}
-			}
-			else
-			{
-				p2_isBulletInit[i] = false;
-
-			}
+			
 		}
 
 
@@ -185,6 +167,34 @@ int CPlayer::Update()
 		}
 		m_iMaxBulletNum = playerInfo_2.MaxBulletNum;
 		m_iCurBulletNum = playerInfo_2.CurBulletNum;
+		vDir.x = playerInfo_2.DirX;
+		vDir.y = playerInfo_2.DirY;
+
+		for (int i = 0; i < 10; ++i) 
+		{
+
+			if (!playerInfo_2.bullets[i].IsDead)
+			{
+				if (!p2_isBulletInit[i])
+				{
+					if (playerInfo_2.weaponID == 1)
+					{
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), RIFLE));
+					}
+					p2_isBulletInit[i] = true;
+				}
+				else
+				{
+					//set pos가 들어가도 되고 안들어가도될듯?
+				}
+			}
+			else
+			{
+				p2_isBulletInit[i] = false;
+
+			}
+		}
+
 	}
 	
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
@@ -339,8 +349,8 @@ void CPlayer::KeyCheck()
 				m_eCurState = STANCE::ATTACK;
 				m_wstrStateKey = L"Attack";
 				m_tFrame.fMax = 2.f;
-				if(m_iPlayerID == 1)
-					m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
+				//if(m_iPlayerID == 1)
+				//	m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
 				CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;
 				break;
