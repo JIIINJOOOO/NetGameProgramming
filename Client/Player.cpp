@@ -120,9 +120,20 @@ int CPlayer::Update()
 				{
 					if (playerInfo_1.weaponID == 1) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), RIFLE));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), RIFLE));
 					}
+					if (playerInfo_1.weaponID == 2) 
+					{
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), SMG));
+					}
+					if (playerInfo_1.weaponID == 3) 
+					{
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0), D3DXVECTOR3(vDir.x, vDir.y, 0), SHOTGUN));
+
+					}
+
 					p1_isBulletInit[i] = true;
+
 				}
 				else
 				{
@@ -179,8 +190,17 @@ int CPlayer::Update()
 				{
 					if (playerInfo_2.weaponID == 1)
 					{
-						std::cout << vDir.x <<" : "<<vDir.y << std::endl;
 						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), RIFLE));
+					}
+					if (playerInfo_2.weaponID == 2) 
+					{
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), SMG));
+
+					}
+					if (playerInfo_2.weaponID == 3)
+					{
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0), D3DXVECTOR3(vDir.x, vDir.y, 0), SHOTGUN));
+
 					}
 					p2_isBulletInit[i] = true;
 				}
