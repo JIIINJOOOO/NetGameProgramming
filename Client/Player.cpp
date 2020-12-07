@@ -71,13 +71,14 @@ int CPlayer::Update()
 {
 	CObj::LateInit();
 	//PlayerInfo playerinfo;
-
 	if (m_iPlayerID == 1)
 	{
+		m_iHP = playerInfo_1.HP;
 		m_bIsDead = playerInfo_1.IsDead;
 	}
 	else if (m_iPlayerID == 2)
 	{
+		m_iHP = playerInfo_2.HP;
 		m_bIsDead = playerInfo_2.IsDead;
 	}
 	if (m_bIsDead)

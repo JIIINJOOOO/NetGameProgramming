@@ -244,19 +244,22 @@ void CollisionRectPlayerBul(COLOBJ playerArr/*플레이어*/, COLOBJ bulArr[]/*총알�
 			const RECT dstRect = pDst->GetCollRect();
 			const RECT srcRect = pSrc->GetCollRect();*/
 			//if (IntersectRect(&rc, &dstRect, &srcRect))
-			if (CheckRect(playerArr, bulArr[j], &fMoveX, &fMoveY))
+			if (!bullets[j].IsDead)
 			{
-				/*pDst->IsDead();
-				pSrc->IsDead();*/
-				if (p_pInfo->HP > 0)
+				if (CheckRect(playerArr, bulArr[j], &fMoveX, &fMoveY))
 				{
-					p_pInfo->HP -= bullets[j].damage;
+					/*pDst->IsDead();
+					pSrc->IsDead();*/
+					if (p_pInfo->HP > 0)
+					{
+						p_pInfo->HP -= bullets[j].damage;
+					}
+					else
+					{
+						p_pInfo->IsDead = true;
+					}
+					bullets[j].IsDead = true;
 				}
-				else
-				{
-					p_pInfo->IsDead = true;
-				}
-				bullets[j].IsDead = true;
 			}
 		}
 	}
