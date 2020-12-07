@@ -52,7 +52,7 @@ HRESULT CPlayer::Initialize()
 	m_pBulletLst = CObjMgr::GetInstance()->GetPlayerBulletLst();
 	m_iHP = 0;
 	m_iMoney = 0;
-
+	m_bIsUIRender = false;
 	for (int i = 0; i < 10; ++i)
 	{
 		p1_isBulletInit[i] = false;
@@ -292,13 +292,16 @@ void CPlayer::Render()
 	RECT rect;
 	SetRect(&rect, 0, 0, 800, 600); // À§Ä¡
 	wchar_t strState[256];
-	/*if (m_iCurBulletNum < 0)
-	   m_iUIBulletNum = 0;*/
-	if (m_iPlayerID == 1)
-		wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n [MONEY]: %d\n", m_iHP, m_iCurBulletNum, m_iMoney);
-	if (m_iPlayerID == 2)
-		wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n [MONEY]: %d\n", m_iHP, m_iCurBulletNum, m_iMoney);
-
+	if (playercheck.playerID == 1)
+	{
+		/*if (m_iCurBulletNum < 0)
+		   m_iUIBulletNum = 0;*/
+		wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n [MONEY]: %d\n", playerInfo_1.HP/*m_iHP*/, playerInfo_1.CurBulletNum/*m_iCurBulletNum*/, playerInfo_1.money);
+	}
+	else if (playercheck.playerID == 2)
+	{
+		wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n [MONEY]: %d\n", playerInfo_2.HP, playerInfo_2.CurBulletNum, playerInfo_2.money/*m_iHP, m_iCurBulletNum, m_iMoney*/);
+	}
 	CDevice::GetInstance()->GetFont()->DrawText(NULL, strState, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 }
 
