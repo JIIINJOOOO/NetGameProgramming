@@ -4,9 +4,9 @@
 #define PLAYER_RECT_WIDTH 13
 #define	PLAYER_RECT_HEIGHT 24
 #define SHOTGUN_RECT_HEIGHT 2
-#define SHOTGUN_RECT_WIDTH 5
+#define SHOTGUN_RECT_WIDTH 4
 #define RIFLE_RECT_HEIGHT 1
-#define RIFLE_RECT_WIDTH 3
+#define RIFLE_RECT_WIDTH 4
 #define SMG_RECT_HEIGHT 1
 #define SMG_RECT_WIDTH 2
 #define SERVERPORT 9000
@@ -883,25 +883,30 @@ DWORD WINAPI RecvFromClient(LPVOID arg)
 				UpdateBullet(p_Info[0].bullets);
 				UpdatePlayerRect(p_cols[0], p_Info[0]);
 				UpdateBulletRect(bulletarr_1, p_Info[0].bullets);
+				EnterCriticalSection(&cs);
 				CalcDirVec(0, p_Info[0].PosX, p_Info[0].PosY, tempKey.mouseX, tempKey.mouseY);
+				LeaveCriticalSection(&cs);
+
 			}
 			else if (currentThreadId == threadId[1])
 			{
 				UpdateBullet(p_Info[1].bullets);
 				UpdatePlayerRect(p_cols[1], p_Info[1]);
 				UpdateBulletRect(bulletarr_2, p_Info[1].bullets);
+				EnterCriticalSection(&cs);
 				CalcDirVec(1, p_Info[1].PosX, p_Info[1].PosY, tempKey.mouseX, tempKey.mouseY);
+				LeaveCriticalSection(&cs);
 
 			}
           
-
+			EnterCriticalSection(&cs);
 			CollisionRectEx(objarr, p_cols);
 			CollisionRectWeapon(weaponarr, p_cols, tempKey.key_E_Press);
 			CollisionRect(objarr, bulletarr_1, p_Info[0].bullets);
 			CollisionRect(objarr, bulletarr_2, p_Info[1].bullets);
 			CollisionRectPlayerBul(p_cols[0], bulletarr_2, p_Info[1].bullets, &p_Info[0]);
 			CollisionRectPlayerBul(p_cols[1], bulletarr_1, p_Info[0].bullets, &p_Info[1]);
-
+			LeaveCriticalSection(&cs);
 
 
             //std::cout << p_Info[0].PosX << "," << p_Info[0].PosY << std::endl;

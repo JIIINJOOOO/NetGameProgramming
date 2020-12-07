@@ -55,6 +55,7 @@ void CPlayerBullet::LateInit()
 int CPlayerBullet::Update()
 {
 	CObj::LateInit();
+
 	if (m_bIsDead)
 		return DEAD_OBJ;
 

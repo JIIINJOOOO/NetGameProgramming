@@ -91,7 +91,7 @@ void CObjMgr::LateUpdate()
 	//CCollisionMgr::CollisionRectEx(m_ObjLst[OBJID::OBJ_OBSTACLE], m_ObjLst[OBJID::OBJ_PLAYER]);
 	//CCollisionMgr::CollisionRectWeapon(m_ObjLst[OBJID::OBJ_WEAPON], m_ObjLst[OBJID::OBJ_PLAYER]);
 	// 적이랑 플레이어 총알 충돌처리
-	//CCollisionMgr::CollisionRect(m_ObjLst[OBJID::OBJ_ENEMY], m_ObjLst[OBJID::OBJ_PLAYERBULLET]);
+	//CCollisionMgr::CollisionRect(m_ObjLst[OBJID::OBJ_PLAYER], m_ObjLst[OBJID::OBJ_PLAYERBULLET]);
 	// 장애물이랑 총알 충돌처리
 	CCollisionMgr::CollisionRect(m_ObjLst[OBJID::OBJ_OBSTACLE], m_ObjLst[OBJID::OBJ_PLAYERBULLET]);
 	// 적이랑 근접무기 들고있는 플레이어 충돌처리
