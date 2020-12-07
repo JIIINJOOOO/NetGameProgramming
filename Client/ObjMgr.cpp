@@ -48,7 +48,7 @@ void CObjMgr::Update()
 		}
 	}
 
-	for (OBJLIST& objLst : m_ObjLst)
+	for (OBJLIST& objLst : m_ObjLst) // 플레이어
 	{
 		OBJITER iter_begin = objLst.begin();
 		OBJITER iter_end = objLst.end();
@@ -75,6 +75,68 @@ void CObjMgr::Update()
 			}
 			else
 				++iter_begin;
+		}
+	}
+
+
+	for (OBJLIST& objLst : m_ObjLst) // 총알
+	{
+		if (objLst == m_ObjLst[OBJ_PLAYERBULLET] && !m_ObjLst[OBJ_PLAYERBULLET].empty())
+		{
+			OBJITER iter_begin = objLst.begin();
+			OBJITER iter_end = objLst.end();
+			int i = 0;
+			for (; iter_begin != iter_end;)
+			{
+				if ((*iter_begin)->GetPlayerID() == 1)
+				{
+					if (!(*iter_begin)->bulletInfo_1[i].IsDead)
+					{
+						(*iter_begin)->SetPos(D3DXVECTOR3((*iter_begin)->bulletInfo_1[i].PosX, (*iter_begin)->bulletInfo_1[i].PosY, 0));
+						(*iter_begin)->SetDir(D3DXVECTOR3((*iter_begin)->bulletInfo_1[i].DirX, (*iter_begin)->bulletInfo_1[i].DirY, 0));
+					}
+
+					int iEvent = (*iter_begin)->Update();
+
+					if (objLst.empty())
+						break;
+
+					if (DEAD_OBJ == iEvent)
+					{
+						SafeDelete(*iter_begin);
+						iter_begin = objLst.erase(iter_begin);
+					}
+					else
+					{
+						++iter_begin;
+						++i;
+					}
+				}
+				else if ((*iter_begin)->GetPlayerID() == 2)
+				{
+					if (objLst == m_ObjLst[OBJ_PLAYERBULLET] && !(*iter_begin)->bulletInfo_2[i].IsDead)
+					{
+						(*iter_begin)->SetPos(D3DXVECTOR3((*iter_begin)->bulletInfo_2[i].PosX, (*iter_begin)->bulletInfo_2[i].PosY, 0));
+						(*iter_begin)->SetDir(D3DXVECTOR3((*iter_begin)->bulletInfo_2[i].DirX, (*iter_begin)->bulletInfo_2[i].DirY, 0));
+					}
+
+					int iEvent = (*iter_begin)->Update();
+
+					if (objLst.empty())
+						break;
+
+					if (DEAD_OBJ == iEvent)
+					{
+						SafeDelete(*iter_begin);
+						iter_begin = objLst.erase(iter_begin);
+					}
+					else
+					{
+						++iter_begin;
+						++i;
+					}
+				}
+			}
 		}
 	}
 }

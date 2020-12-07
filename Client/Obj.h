@@ -21,6 +21,9 @@ public:
 	const int& GetMoney() { return m_iMoney; } // 추가
 	// 201129 플레이어의 id get
 	const int& GetPlayerID() { return m_iPlayerID; } // 추가
+	const bool& GetIsDead() { return m_bIsDead; } // 추가
+
+	
 
 public:
 	void SetPos(D3DXVECTOR3 vPos) { m_tInfo.vPos = vPos; } // 추가
@@ -98,5 +101,9 @@ protected:
 
 	PlayerInfo playerInfo_1;
 	PlayerInfo playerInfo_2;
+public:
+	// 총알 관리
+	BulletInfo bulletInfo_1[10];
+	BulletInfo bulletInfo_2[10];
 };
 

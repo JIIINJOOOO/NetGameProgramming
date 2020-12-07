@@ -532,7 +532,19 @@ void PlayerShoot(Key keycode)
 			}
 		}
 	}
+	if (keycode.key_R_Press)
+	{
+		if (keycode.playerID == 1)
+		{
+			p_Info[0].CurBulletNum = p_Info[0].MaxBulletNum;
 
+		}
+
+		else if (keycode.playerID == 2)
+		{
+			p_Info[1].CurBulletNum = p_Info[1].MaxBulletNum;
+		}
+	}
 	
 }
 

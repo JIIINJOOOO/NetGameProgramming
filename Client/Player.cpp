@@ -266,13 +266,15 @@ void CPlayer::KeyCheck()
 	INFO tInfo_sg = m_tInfo;
 	
 
-	if (CKeyMgr::GetInstance()->KeyDown(KEY_LBUTTON)) // 무기 별 총알 생성
+	if (CKeyMgr::GetInstance()->KeyPressing(KEY_LBUTTON)) // 무기 별 총알 생성
 	{		
+		//std::cout << playerInfo_1.DirX << "," << playerInfo_1.DirY << endl;
+
 		/*--m_iCurBulletNum;
 		if (m_iCurBulletNum >= 0) */// 201123
-		--m_iCurBulletNum;
+		/*--m_iCurBulletNum;
 		if (m_iCurBulletNum >= 0) 
-		{
+		{*/
 			switch (m_eWeapon)
 			{
 			case NO_WEAPON:
@@ -286,7 +288,14 @@ void CPlayer::KeyCheck()
 				m_eCurState = STANCE::ATTACK;
 				m_wstrStateKey = L"Attack";
 				m_tFrame.fMax = 2.f;
-				m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
+				if (m_iPlayerID == 1) 
+				{
+					m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_1.PosX, playerInfo_1.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_1.DirX, playerInfo_1.DirY, 0), RIFLE));
+				}
+				else if (m_iPlayerID == 2)
+				{
+					m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(playerInfo_2.DirX, playerInfo_2.DirY, 0), RIFLE));
+				}
 				CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
 				m_ePreState = m_eCurState;
 				break;
@@ -350,7 +359,7 @@ void CPlayer::KeyCheck()
 			default:
 				break;
 			}
-		}
+		//}
 		
 		
 	}
