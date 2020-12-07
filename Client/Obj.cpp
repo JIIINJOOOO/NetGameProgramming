@@ -3,7 +3,7 @@
 
 
 CObj::CObj()
-	: m_bIsInit(false),m_bIsDead(false),m_fAngle(0.f),m_fSpeed(0.f),m_fRange(0.f),m_iDmg(0),m_iHP(0)
+	: m_bIsInit(false),m_bIsDead(false),m_fAngle(0.f),m_fSpeed(0.f),m_fRange(0.f),m_iDmg(0),m_iHP(0),m_iPlayerID(0)
 {
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tCollRect, sizeof(RECT));

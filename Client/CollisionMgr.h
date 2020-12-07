@@ -8,6 +8,8 @@ public:
 public:
 	// 사각형 충돌
 	static void CollisionRect(OBJLIST& dstLst, OBJLIST& srcLst);
+	// 201208 플레이어-총알 충돌
+	static void CollisionRectPlayerBul(OBJLIST& dstLst, OBJLIST& srcLst);
 	// 벽 충돌
 	static void CollisionRectEx(OBJLIST& dstLst, OBJLIST& srcLst);
 	// 원 충돌

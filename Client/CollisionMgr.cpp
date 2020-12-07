@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CollisionMgr.h"
 #include "Obj.h"
+#include <iostream>
 
 
 CCollisionMgr::CCollisionMgr()
@@ -27,6 +28,34 @@ void CCollisionMgr::CollisionRect(OBJLIST & dstLst, OBJLIST & srcLst)
 			{
 				pDst->IsDead();
 				pSrc->IsDead();
+			}
+		}
+	}
+}
+
+void CCollisionMgr::CollisionRectPlayerBul(OBJLIST& dstLst, OBJLIST& srcLst)
+{
+	for (CObj* pDst : dstLst)
+	{
+		for (CObj* pSrc : srcLst)
+		{
+			RECT rc = {};
+
+			const RECT dstRect = pDst->GetCollRect();
+			const RECT srcRect = pSrc->GetCollRect();
+
+			if (IntersectRect(&rc, &dstRect, &srcRect))
+			{
+				cout << "플레이어 ID:" << pDst->GetPlayerID() << "총알 ID:" << pSrc->GetPlayerID() << endl;
+				//pDst->IsDead();
+				if (pDst->GetPlayerID() == 1 && pSrc->GetPlayerID() == 2)
+				{
+					pSrc->IsDead();
+				}
+				else if (pDst->GetPlayerID() == 2 && pSrc->GetPlayerID() == 1)
+				{
+					pSrc->IsDead();
+				}
 			}
 		}
 	}

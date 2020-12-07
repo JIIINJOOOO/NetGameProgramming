@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerBullet.h"
 #include "Mouse.h"
+#include <iostream>
 
 CPlayerBullet::CPlayerBullet()
 {
@@ -56,7 +57,11 @@ int CPlayerBullet::Update()
 {
 	CObj::LateInit();
 	if (m_bIsDead)
+	{
+		cout << "ÃÑ¾Ë µØÁü" << endl;
 		return DEAD_OBJ;
+	}
+	cout << "ÃÑ¾Ë id:" << m_iPlayerID << "ÃÑ¾Ë angle:" << m_fAngle << endl;
 
 	// 201117 ÃÑ »ç°Å¸®
 	float fX = fabs(m_fPlayerPos.x - m_tInfo.vPos.x);

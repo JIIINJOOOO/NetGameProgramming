@@ -90,9 +90,9 @@ int CPlayer::Update()
 
 
 	D3DXMATRIX matScale, matRotZ, matTrans;
-	D3DXVECTOR2 vPos = m_tInfo.vPos /*+ CScrollMgr::GetScroll()*/;
+	//D3DXVECTOR2 vPos = m_tInfo.vPos /*+ CScrollMgr::GetScroll()*/;
 	//m_fAngle = -180.f * atan2(m_pMouse->GetInfo().vPos.y - m_tInfo.vDir.y - vScroll.y, m_pMouse->GetInfo().vPos.x - m_tInfo.vDir.x - vScroll.x) / D3DX_PI;
-	D3DXVECTOR2 vDir = m_tInfo.vDir;
+	//D3DXVECTOR2 vDir = m_tInfo.vDir;
 
 	
 
@@ -105,9 +105,13 @@ int CPlayer::Update()
 		/*vPos.x = playerinfo.PosX;
 		vPos.y = playerinfo.PosY;*/
 		// 201129 수정한 서버 움직임 변경
-		vPos.x = playerInfo_1.PosX;
-		vPos.y = playerInfo_1.PosY;
-		
+		/*vPos.x = playerInfo_1.PosX;
+		vPos.y = playerInfo_1.PosY;*/
+		m_tInfo.vPos.x = playerInfo_1.PosX;
+		m_tInfo.vPos.y = playerInfo_1.PosY;
+
+
+
 		m_fAngle = playerInfo_1.angle;
 
 		if (playerInfo_1.weaponID == 1)
@@ -123,8 +127,10 @@ int CPlayer::Update()
 		}
 		m_iMaxBulletNum = playerInfo_1.MaxBulletNum;
 		m_iCurBulletNum = playerInfo_1.CurBulletNum;
-		vDir.x = playerInfo_1.DirX;
-		vDir.y = playerInfo_1.DirY;
+		/*vDir.x = playerInfo_1.DirX;
+		vDir.y = playerInfo_1.DirY;*/
+		m_tInfo.vDir.x = playerInfo_1.DirX;
+		m_tInfo.vDir.y = playerInfo_1.DirY;
 
 		for (int i = 0; i < 10; ++i) 
 		{
@@ -134,17 +140,17 @@ int CPlayer::Update()
 				{
 					if (playerInfo_1.weaponID == 1) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0),m_fAngle ,RIFLE));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(/*D3DXVECTOR3(vPos.x, vPos.y, 0)*/m_tInfo.vPos, /*D3DXVECTOR3(vDir.x, vDir.y, 0)*/m_tInfo.vDir, m_fAngle, m_iPlayerID, RIFLE));
 						CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
 
 					}
 					if (playerInfo_1.weaponID == 2) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, SMG));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(/*D3DXVECTOR3(vPos.x, vPos.y, 0)*/m_tInfo.vPos, /*D3DXVECTOR3(vDir.x, vDir.y, 0)*/m_tInfo.vDir, m_fAngle, m_iPlayerID, SMG));
 					}
 					if (playerInfo_1.weaponID == 3) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0), D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, SHOTGUN));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(/*D3DXVECTOR3(vPos.x, vPos.y, 0)*/m_tInfo.vPos, /*D3DXVECTOR3(vDir.x, vDir.y, 0)*/m_tInfo.vDir, m_fAngle, m_iPlayerID, SHOTGUN));
 
 					}
 
@@ -175,8 +181,10 @@ int CPlayer::Update()
 		/*vPos.x = playerinfo.PosX;
 		vPos.y = playerinfo.PosY;*/
 		// 201129 수정한 서버 움직임 변경
-		vPos.x = playerInfo_2.PosX;
-		vPos.y = playerInfo_2.PosY;
+		/*vPos.x = playerInfo_2.PosX;
+		vPos.y = playerInfo_2.PosY;*/
+		m_tInfo.vPos.x = playerInfo_2.PosX;
+		m_tInfo.vPos.y = playerInfo_2.PosY;
 
 		m_fAngle = playerInfo_2.angle;
 
@@ -194,8 +202,10 @@ int CPlayer::Update()
 		}
 		m_iMaxBulletNum = playerInfo_2.MaxBulletNum;
 		m_iCurBulletNum = playerInfo_2.CurBulletNum;
-		vDir.x = playerInfo_2.DirX;
-		vDir.y = playerInfo_2.DirY;
+		/*vDir.x = playerInfo_2.DirX;
+		vDir.y = playerInfo_2.DirY;*/
+		m_tInfo.vDir.x = playerInfo_2.DirX;
+		m_tInfo.vDir.y = playerInfo_2.DirY;
 
 		for (int i = 0; i < 10; ++i) 
 		{
@@ -206,18 +216,18 @@ int CPlayer::Update()
 				{
 					if (playerInfo_2.weaponID == 1)
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, RIFLE));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(/*D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)*/m_tInfo.vPos, /*D3DXVECTOR3(vDir.x, vDir.y, 0)*/m_tInfo.vDir, m_fAngle, m_iPlayerID, RIFLE));
 						CSoundMgr::GetInstance()->PlaySound(L"sndM16.wav", CSoundMgr::EFFECT);
 
 					}
 					if (playerInfo_2.weaponID == 2) 
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)/*m_tInfo.vPos*/, D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, SMG));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(/*D3DXVECTOR3(playerInfo_2.PosX, playerInfo_2.PosY, 0)*/m_tInfo.vPos, /*D3DXVECTOR3(vDir.x, vDir.y, 0)*/m_tInfo.vDir, m_fAngle, m_iPlayerID, SMG));
 
 					}
 					if (playerInfo_2.weaponID == 3)
 					{
-						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(D3DXVECTOR3(vPos.x, vPos.y, 0), D3DXVECTOR3(vDir.x, vDir.y, 0), m_fAngle, SHOTGUN));
+						m_pBulletLst->push_back(CAbstractFactory<CPlayerBullet>::CreateObj(/*D3DXVECTOR3(vPos.x, vPos.y, 0)*/m_tInfo.vPos,/* D3DXVECTOR3(vDir.x, vDir.y, 0)*/m_tInfo.vDir, m_fAngle, m_iPlayerID, SHOTGUN));
 
 					}
 					p2_isBulletInit[i] = true;
@@ -237,7 +247,7 @@ int CPlayer::Update()
 	
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
 	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));
-	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, 0.f);
+	D3DXMatrixTranslation(&matTrans, m_tInfo.vPos.x/*vPos.x*/, m_tInfo.vPos.y/*vPos.y*/, 0.f);
 
 
 	// 스 자 이 공 부 
@@ -285,6 +295,7 @@ void CPlayer::Render()
 
 	// 충돌박스 생성 추가
 	CObj::UpdateCollRect(pTexInfo);
+
 
 	float fCenterX = pTexInfo->tImgInfo.Width * 0.5f;
 	float fCenterY = pTexInfo->tImgInfo.Height * 0.5f;
