@@ -363,6 +363,9 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 					p_Info[j].CurBulletNum = iMaxBulletNum;
 					p_Info[j].money -= iPrice;
 					p1_isBuy = true;
+					p_Info[j].PosX = 200;
+					p_Info[j].PosY = 350;
+
 				}
 				if (bIsEpressed && (p_Info[j].money >= iPrice)&&!p2_isBuy && j == 1)
 				{
@@ -375,7 +378,8 @@ void CollisionRectWeapon(COLOBJ weaponArr[]/*weapon 배열*/, COLOBJ playerArr[]/*
 					p_Info[j].CurBulletNum = iMaxBulletNum;
 					p_Info[j].money -= iPrice;
 					p2_isBuy = true;
-
+					p_Info[j].PosX = 1100;
+					p_Info[j].PosY = 350;
 				}
 				// 201123 최대 총알 set 함수 추가
 				//pDst->IsDead();
@@ -447,14 +451,14 @@ void initPlayerInfo(PlayerInfo* pInfo, int playerNum)
     if (playerNum == 1)
     {
         pInfo->playerID = 1;
-        pInfo->PosX = 200;
-        pInfo->PosY = 350;
+        pInfo->PosX = 800;//200 350
+        pInfo->PosY = 650;
     }
     else 
     {
         pInfo->playerID = 2;
         pInfo->PosX = 850;
-        pInfo->PosY = 350;
+        pInfo->PosY = 650;
     }
 
     pInfo->HP = 100;
@@ -574,7 +578,7 @@ void PlayerShoot(Key keycode)
 						{
 							p_Info[0].bullets[i].speed = 4.f;
 							p_Info[0].bullets[i].range = 100.f;
-							p_Info[0].bullets[i].damage = 15;
+							p_Info[0].bullets[i].damage = 25;
 						}
 						IsBulCreate = true;
 					}
@@ -613,13 +617,13 @@ void PlayerShoot(Key keycode)
 						{
 							p_Info[1].bullets[i].speed = 3.f;
 							p_Info[1].bullets[i].range = 150.f;
-							p_Info[1].bullets[i].damage = 3;
+							p_Info[1].bullets[i].damage = 4;
 						}
 						else if (p_Info[1].weaponID == 3) // SHOTGUN
 						{
 							p_Info[1].bullets[i].speed = 4.f;
 							p_Info[1].bullets[i].range = 100.f;
-							p_Info[1].bullets[i].damage = 15;
+							p_Info[1].bullets[i].damage = 25;
 						}
 						IsBulCreate = true;
 					}

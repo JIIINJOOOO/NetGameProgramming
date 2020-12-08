@@ -1,5 +1,2 @@
-﻿  CollisionMgr.cpp
-C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Client\CollisionMgr.cpp(198,16): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  PlayerBullet.cpp
-  코드를 생성하고 있습니다...
+﻿  Player.cpp
   Client.vcxproj -> C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Debug\Client.exe

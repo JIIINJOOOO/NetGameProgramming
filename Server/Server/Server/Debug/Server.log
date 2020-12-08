@@ -3,16 +3,16 @@ C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Se
 C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(128,2): warning C4091: 'typedef ': 변수를 선언하지 않으면 'PlayerNumCheck' 왼쪽은 무시됩니다.
 C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(150,31): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(151,31): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(668,1): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(672,1): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\stdio.h(208): message : 'fopen' 선언을 참조하십시오.
-C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(671,1): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(675,1): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\stdio.h(1197): message : 'fscanf' 선언을 참조하십시오.
-C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(681,1): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(685,1): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\stdio.h(208): message : 'fopen' 선언을 참조하십시오.
-C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(684,1): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(688,1): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\stdio.h(1197): message : 'fscanf' 선언을 참조하십시오.
-C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(730,10): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
-C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(850,26): warning C4244: '초기화 중': 'ULONGLONG'에서 'unsigned long'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(884,31): warning C4244: '=': 'ULONGLONG'에서 'unsigned long'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(799,10): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(734,10): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(854,26): warning C4244: '초기화 중': 'ULONGLONG'에서 'unsigned long'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(888,31): warning C4244: '=': 'ULONGLONG'에서 'unsigned long'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Server\Server.cpp(803,10): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
   Server.vcxproj -> C:\Users\bong1\OneDrive\바탕 화면\2학기텀프\NetGameProgramming\Server\Server\Debug\Server.exe

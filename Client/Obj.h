@@ -89,7 +89,7 @@ protected:
 
 	bool	m_bIsInit;
 	bool	m_bIsDead;
-
+	bool	m_bIsWin;
 	wstring	m_wstrObjKey;
 
 	OBJLIST*	m_pBulletLst;	/*ÃÑ¾Ë ¸®½ºÆ®.*/

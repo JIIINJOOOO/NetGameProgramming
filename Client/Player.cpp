@@ -53,6 +53,7 @@ HRESULT CPlayer::Initialize()
 	m_iHP = 0;
 	m_iMoney = 0;
 	m_bIsUIRender = false;
+	m_bIsWin = false;
 	for (int i = 0; i < 10; ++i)
 	{
 		p1_isBulletInit[i] = false;
@@ -75,21 +76,23 @@ int CPlayer::Update()
 	{
 		m_iHP = playerInfo_1.HP;
 		m_iMoney = playerInfo_1.money;
-		//m_bIsDead = playerInfo_1.IsDead;
+		
 	}
 	else if (m_iPlayerID == 2)
 	{
 		m_iHP = playerInfo_2.HP;
 		m_iMoney = playerInfo_2.money;
-		//m_bIsDead = playerInfo_2.IsDead;
+		
 	}
 	if (m_iHP <= 0) 
 	{
+		
+		
 		m_bIsDead = true;
 		return DEAD_OBJ;
 
 	}
-
+	
 	KeyCheck();
 
 
@@ -315,13 +318,35 @@ void CPlayer::Render()
 	{
 		/*if (m_iCurBulletNum < 0)
 		   m_iUIBulletNum = 0;*/
-		wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n [MONEY]: %d\n", playerInfo_1.HP/*m_iHP*/, playerInfo_1.CurBulletNum/*m_iCurBulletNum*/, playerInfo_1.money);
+		if (playerInfo_1.IsDead)
+		{
+			wsprintfW(strState, L"DEAD!!!!");
+		}
+		else if (playerInfo_2.IsDead)
+		{
+			wsprintfW(strState, L"WIN!!!!");
+		}
+		else {
+			wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n[MONEY]: %d\n", playerInfo_1.HP/*m_iHP*/, playerInfo_1.CurBulletNum/*m_iCurBulletNum*/, playerInfo_1.money);
+		}
 	}
 	else if (playercheck.playerID == 2)
 	{
-		wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n [MONEY]: %d\n", playerInfo_2.HP, playerInfo_2.CurBulletNum, playerInfo_2.money/*m_iHP, m_iCurBulletNum, m_iMoney*/);
+		if (playerInfo_2.IsDead)
+		{
+			wsprintfW(strState,L"DEAD!!!!");
+		}
+		else if (playerInfo_1.IsDead)
+		{
+			wsprintfW(strState, L"WIN!!!!");
+		}
+		else 
+		{
+			wsprintfW(strState, L"[HP]: %d\n[AMMO]: %d\n[MONEY]: %d\n", playerInfo_2.HP, playerInfo_2.CurBulletNum, playerInfo_2.money/*m_iHP, m_iCurBulletNum, m_iMoney*/);
+		}
 	}
 	CDevice::GetInstance()->GetFont()->DrawText(NULL, strState, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
+
 }
 
 void CPlayer::Release()
